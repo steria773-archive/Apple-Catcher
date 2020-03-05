@@ -1,7 +1,6 @@
 //Created By Rabia Alhaffar In 5/March/2020
 //A Game About Catching Apples With Basket LOL
 //This Will Be The Tutorial For Cake
-CreateCanvas(600,600,"white","3px black solid");
 Initialize();
 var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64;
 var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36;
