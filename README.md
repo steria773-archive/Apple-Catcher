@@ -5,4 +5,4 @@
 <h2>Game Controls</h2>
 <p>Keyboard: <kbd>A</kbd> And <kbd>D</kbd> Or <kbd>Left Arrow</kbd> And <kbd>Right Arrow</kbd></p><br>
 <p>Or</p>
-<p>Mouse: Move Player With Mouse</p><br>
+<p>Mouse: Move Player With Mouse</p><br><br>
