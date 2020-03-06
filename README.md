@@ -10,10 +10,7 @@
 3. Playing Audio With `PlayAudio()`
 4. Levels And Splashscreen
 5. Buttons Creation With `Button()` Component
-
-<h2>Upcoming</h2>
-
-1. Saving Highscores
+6. Saving Highscores
 
 <h2>Game Controls</h2>
 <p>Keyboard: <kbd>A</kbd> And <kbd>D</kbd> Or <kbd>Left Arrow</kbd> And <kbd>Right Arrow</kbd></p>
