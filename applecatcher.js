@@ -86,9 +86,10 @@ var Game = new Level(() =>
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
     DrawTexture("basket.png",basket_x,basket_y,64,64);
-    DrawTexture("apple.png",0,0,64,64);
+    DrawTexture("apple.png",0,5,64,64);
     SetFont("40px Jura");
     DrawText(80,55,score,RandomColor(),RandomColor());
+    DrawText(340,55,"Highscore: " + localStorage.highscore,RandomColor(),RandomColor())
     DrawTexture("apple.png",apple_x,apple_y,64,64);
     if (basket_x >= 560) basket_x = 530;
     if (basket_x < 0) basket_x = 0;
@@ -101,6 +102,7 @@ var Game = new Level(() =>
         score = 0;
         apple_y = 36;
         apple_x = Math.floor(Math.random() * 17) * 30;
+        if(score > localStorage.highscore) localStorage.highscore = Number(score);
     }
 
 
@@ -110,6 +112,7 @@ var Game = new Level(() =>
         apple_y = 36;
         apple_x = Math.floor(Math.random() * 17) * 30;
         if(WAV()) PlayAudio("collect_apple.wav");
+        if(score > localStorage.highscore) localStorage.highscore = Number(score);
     }
     
     //Game Difficulty Options
