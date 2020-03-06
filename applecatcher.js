@@ -123,16 +123,6 @@ document.addEventListener("keydown",(e) =>
     if(e.keyCode == 37 || e.key == "a") basket_x -= 60;
 });
 
-document.addEventListener("touchstart",(e) =>
-{
-    basket_x = e.clientX || e.pageX;
-});
-
-document.addEventListener("touchmove",(e) =>
-{
-    basket_x = e.clientX || e.pageX;
-});
-
 document.addEventListener("mousemove",(e) =>
 {
     basket_x = e.clientX;
