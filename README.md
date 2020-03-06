@@ -3,6 +3,6 @@
 <h2>Screenshot</h2>
 <img src="https://github.com/Rabios/Apple-Catcher/blob/master/Screenshot_2020-03-05%20Apple%20Catcher.png">
 <h2>Game Controls</h2>
-<p>Keyboard: <kbd>A</kbd> And <kbd>D</kbd> Or <kbd>Left Arrow</kbd> And <kbd>Right Arrow</kbd></p><br>
+<p>Keyboard: <kbd>A</kbd> And <kbd>D</kbd> Or <kbd>Left Arrow</kbd> And <kbd>Right Arrow</kbd></p>
 <p>Or</p>
 <p>Mouse: Move Player With Mouse</p><br><br>
