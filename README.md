@@ -1,8 +1,20 @@
 <h1>Apple Catcher</h1>
 <p>A Game About Collecting Apples Made With Cake,Run <a href="https://rabios.github.io/Apple-Catcher/applecatcher.html">Here</a></p>
-<p>NOTES: This Game Needs To Load So Wait Minutes,If Not Work Properly Download This Repository And Run <code>applecatcher.html</code> After Extracting</p>
+<p>NOTES: This Game Needs To Load So Wait Minutes(Or May Long Time,The Game Faces This Issue),If Not Work Properly Download This Repository And Run <code>applecatcher.html</code> After Extracting</p>
 <h2>Screenshot</h2>
 <img src="https://github.com/Rabios/Apple-Catcher/blob/master/Screenshot_2020-03-05%20Apple%20Catcher.png">
+<h2>Features Demonstrated</h2>
+
+1. Background Images Setting With `SetCanvasBackgroundImage()`
+2. Drawing Images With `DrawTexture()`
+3. Playing Audio With `PlayAudio()`
+4. Levels And Splashscreen
+5. Buttons Creation With `Button()` Component
+
+<h2>Upcoming</h2>
+
+1. Saving Highscores
+
 <h2>Game Controls</h2>
 <p>Keyboard: <kbd>A</kbd> And <kbd>D</kbd> Or <kbd>Left Arrow</kbd> And <kbd>Right Arrow</kbd></p>
 <p>Or</p>
