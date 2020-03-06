@@ -2,7 +2,7 @@
 <p>A Game About Collecting Apples Made With Cake,Run <a href="https://rabios.github.io/Apple-Catcher/applecatcher.html">Here</a></p>
 <p>NOTES: This Game Needs To Load So Wait Minutes(Or May Long Time,The Game Faces This Issue),If Not Work Properly Download This Repository And Run <code>applecatcher.html</code> After Extracting</p>
 <h2>Screenshot</h2>
-<img src="https://github.com/Rabios/Apple-Catcher/blob/master/Screenshot_2020-03-05%20Apple%20Catcher.png">
+<img src="https://github.com/Rabios/Apple-Catcher/blob/master/game6.png">
 <h2>Features Demonstrated</h2>
 
 1. Background Images Setting With `SetCanvasBackgroundImage()`
