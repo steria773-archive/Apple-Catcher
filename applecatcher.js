@@ -159,7 +159,7 @@ var PlayGameMusic = () =>
 {
     setInterval(() =>
     {
-        if(WAV() && sound_playing) PlayAudio("470122__sheyvan__apple-hits.wav");
+        if(WAV() && sound_playing) document.getElementById("game_song").play();
     },1000);
 };
 Startup.Start();
