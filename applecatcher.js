@@ -1,13 +1,14 @@
 //Created By Rabia Alhaffar In 5/March/2020
+//Music By Haeder Bellau
 //A Game About Catching Apples With Basket LOL
 //This Will Be The Tutorial For Cake
 CreateCanvas(600,600,"white","3px black solid");
 Initialize();
 var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64;
 var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36;
-var score = 0,logo_alpha = 1;
+var score = 0,logo_alpha = 1,apple_speed = 5;
+var background_source = "backskies.png",sound_playing = true;
 SetDrawingMode("fill");
-SetCanvasBackgroundImage("backskies.png");
 var StartButton = new Button(200,300,200,75,"START",
 {
  'default': { top: "purple" , bottom: "violet" },
@@ -15,7 +16,8 @@ var StartButton = new Button(200,300,200,75,"START",
  'active': { top: "purple" , bottom: "violet" }
 },() =>
 {
-Menu.Switch(Game);
+    PlayAudio("button_click.wav");
+    Menu.Switch(Game);
 });
 var AboutButton = new Button(200,425,200,75,"ABOUT",
 {
@@ -24,21 +26,24 @@ var AboutButton = new Button(200,425,200,75,"ABOUT",
  'active': { top: "purple" , bottom: "violet" }
 },() =>
 {
-Menu.Switch(About);
+    PlayAudio("button_click.wav");
+    Menu.Switch(About);
 });
-var BackButton = new Button(200,475,200,75,"BACK",
+var BackButton = new Button(200,350,200,75,"BACK",
 {
  'default': { top: "purple" , bottom: "violet" },
  'hover': { top: "purple" , bottom: "violet" },
  'active': { top: "purple" , bottom: "violet" }
 },() =>
 {
-About.Switch(Menu);
+    PlayAudio("button_click.wav");
+    About.Switch(Menu);
 });
 
 var Startup = new Level(() =>
 {
     ClearCanvas();
+    SetCanvasBackgroundImage(background_source);
     DrawRect(0,0,CanvasWidth,CanvasHeight,RGB(34,44,55));
     SetFont("40px Jura");
     DrawText(180,200,"MADE WITH","white","white","left",logo_alpha);
@@ -53,6 +58,7 @@ var Startup = new Level(() =>
         setTimeout(() =>
         {
             Startup.Switch(Menu);
+            StartAudio();
         },0.01);
     }
 },10);
@@ -61,8 +67,9 @@ var Menu = new Level(() =>
 {
 
     ClearCanvas();
+    SetCanvasBackgroundImage(background_source);
     SetFont("40px Jura");
-    DrawText(160,100,"APPLE CATCHER",RandomColor(),RandomColor());
+    DrawText(150,100,"APPLE CATCHER",RandomColor(),RandomColor());
     StartButton.Update();
     AboutButton.Update();
 
@@ -70,8 +77,9 @@ var Menu = new Level(() =>
 
 var Game = new Level(() =>
 {
-
+    sound_playing = false;
     ClearCanvas();
+    SetCanvasBackgroundImage(background_source);
     DrawTexture("basket.png",basket_x,basket_y,64,64);
     DrawTexture("apple.png",0,0,64,64);
     SetFont("40px Jura");
@@ -79,7 +87,7 @@ var Game = new Level(() =>
     DrawTexture("apple.png",apple_x,apple_y,64,64);
     if (basket_x >= 560) basket_x = 530;
     if (basket_x < 0) basket_x = 0;
-    apple_y += 5;
+    apple_y += apple_speed;
 
 
     if(apple_y > CanvasHeight) 
@@ -98,20 +106,34 @@ var Game = new Level(() =>
         apple_x = Math.floor(Math.random() * 17) * 30;
         if(WAV()) PlayAudio("collect_apple.wav");
     }
-
+    
+    //Game Difficulty Options
+    if(score > 10) apple_speed = 6;
+    if(score > 20) apple_speed = 7;
+    if(score > 30) apple_speed = 8;
+    if(score > 40) apple_speed = 9,background_source = "backskies_night.png";
+    if(score > 50) apple_speed = 10;
+    if(score > 60) apple_speed = 11;    
+    if(score > 70) apple_speed = 12;
+    if(score > 80) apple_speed = 13;
+    if(score > 90) apple_speed = 14;
+    if(score > 100) apple_speed = 15;
+        
 },1000);
 
 var About = new Level(() =>
 {
-
+    
+    var txtcolor = "black";
+    if(background_source == "backskies_night.png") txtcolor = "white";
     ClearCanvas();
     SetFont("40px Jura");
-    DrawText(160,100,"APPLE CATCHER",RandomColor(),RandomColor());
-    SetFont("30px Jura");
-    DrawText(100,200,"CREATED BY RABIA ALHAFFAR","black");
-    DrawText(80,300,"POWERED BY CAKE GAME ENGINE","black");
+    DrawText(150,100,"APPLE CATCHER",RandomColor(),RandomColor());
+    SetFont("20px Jura");
+    DrawText(50,200,"CREATED BY RABIA ALHAFFAR AND HAEDER BELLAU",txtcolor);
+    DrawText(130,250,"POWERED BY CAKE GAME ENGINE",txtcolor);
     SetFont("20px monospace");
-    DrawText(120,380,"https://github.com/Rabios/Cake");
+    DrawText(120,300,"https://github.com/Rabios/Cake");
     SetFont("40px Jura");
     BackButton.Update();
 
@@ -127,5 +149,13 @@ document.addEventListener("mousemove",(e) =>
 {
     basket_x = e.clientX;
 });
+
+var StartAudio = () =>
+{
+    setInterval(() =>
+    {
+       if(WAV() && sound_playing) PlayAudio("apple_catcher_title.wav");
+    },1900);
+};
 
 Startup.Start();
