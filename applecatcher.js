@@ -1,5 +1,9 @@
 //Created By Rabia Alhaffar In 5/March/2020
-//Music By Haeder Bellau
+/*
+Music By Sheyvan At freesound.org (https://freesound.org/people/Sheyvan/)
+https://freesound.org/s/470122/
+This work is licensed under the Creative Commons 0 License.
+*/
 //A Game About Catching Apples With Basket LOL
 //This Will Be The Tutorial For Cake
 CreateCanvas(600,600,"white","3px black solid");
@@ -29,7 +33,7 @@ var AboutButton = new Button(200,425,200,75,"ABOUT",
     PlayAudio("button_click.wav");
     Menu.Switch(About);
 });
-var BackButton = new Button(200,350,200,75,"BACK",
+var BackButton = new Button(200,360,200,75,"BACK",
 {
  'default': { top: "purple" , bottom: "violet" },
  'hover': { top: "purple" , bottom: "violet" },
@@ -42,6 +46,7 @@ var BackButton = new Button(200,350,200,75,"BACK",
 
 var Startup = new Level(() =>
 {
+    sound_playing = false;
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
     DrawRect(0,0,CanvasWidth,CanvasHeight,RGB(34,44,55));
@@ -58,14 +63,14 @@ var Startup = new Level(() =>
         setTimeout(() =>
         {
             Startup.Switch(Menu);
-            StartAudio();
+            PlayGameMusic();
         },0.01);
     }
 },10);
 
 var Menu = new Level(() =>
 {
-
+    sound_playing = true;
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
     SetFont("40px Jura");
@@ -123,17 +128,17 @@ var Game = new Level(() =>
 
 var About = new Level(() =>
 {
-    
+    sound_playing = true;
     var txtcolor = "black";
     if(background_source == "backskies_night.png") txtcolor = "white";
     ClearCanvas();
     SetFont("40px Jura");
     DrawText(150,100,"APPLE CATCHER",RandomColor(),RandomColor());
     SetFont("20px Jura");
-    DrawText(50,200,"CREATED BY RABIA ALHAFFAR AND HAEDER BELLAU",txtcolor);
-    DrawText(130,250,"POWERED BY CAKE GAME ENGINE",txtcolor);
+    DrawText(60,210,"CREATED BY RABIA ALHAFFAR AND HAEDER BELLAU",txtcolor);
+    DrawText(140,260,"POWERED BY CAKE GAME ENGINE",txtcolor);
     SetFont("20px monospace");
-    DrawText(120,300,"https://github.com/Rabios/Cake");
+    DrawText(120,310,"https://github.com/Rabios/Cake",txtcolor);
     SetFont("40px Jura");
     BackButton.Update();
 
@@ -150,12 +155,11 @@ document.addEventListener("mousemove",(e) =>
     basket_x = e.clientX;
 });
 
-var StartAudio = () =>
+var PlayGameMusic = () =>
 {
     setInterval(() =>
     {
-       if(WAV() && sound_playing) PlayAudio("apple_catcher_title.wav");
-    },1900);
+        if(WAV() && sound_playing) PlayAudio("470122__sheyvan__apple-hits.wav");
+    },1000);
 };
-
 Startup.Start();
