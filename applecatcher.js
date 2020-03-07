@@ -10,7 +10,7 @@ CreateCanvas(600,600,"white","3px black solid");
 Initialize();
 var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64;
 var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36;
-var score = 0,logo_alpha = 1,apple_speed = 5;
+var score = 0,logo_alpha = 1,apple_speed = 4;
 var background_source = "backskies.png",sound_playing = true;
 SetDrawingMode("fill");
 var StartButton = new Button(200,300,200,75,"START",
@@ -85,11 +85,11 @@ var Game = new Level(() =>
     sound_playing = false;
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
-    DrawTexture("basket.png",basket_x,basket_y,64,64);
+    DrawTexture("basket.png",basket_x,basket_y,100,64);
     DrawTexture("apple.png",0,5,64,64);
     SetFont("40px Jura");
     DrawText(80,55,score,RandomColor(),RandomColor());
-    DrawText(340,55,"Highscore: " + localStorage.highscore,RandomColor(),RandomColor())
+    DrawText(330,55,"Highscore: " + localStorage.highscore,RandomColor(),RandomColor())
     DrawTexture("apple.png",apple_x,apple_y,64,64);
     if (basket_x >= 560) basket_x = 530;
     if (basket_x < 0) basket_x = 0;
@@ -116,16 +116,17 @@ var Game = new Level(() =>
     }
     
     //Game Difficulty Options
-    if(score > 10) apple_speed = 6;
-    if(score > 20) apple_speed = 7;
-    if(score > 30) apple_speed = 8;
-    if(score > 40) apple_speed = 9,background_source = "backskies_night.png";
-    if(score > 50) apple_speed = 10;
-    if(score > 60) apple_speed = 11;    
-    if(score > 70) apple_speed = 12;
-    if(score > 80) apple_speed = 13;
-    if(score > 90) apple_speed = 14;
-    if(score > 100) apple_speed = 15;
+    if(score > 10) apple_speed = 5;
+    if(score > 20) apple_speed = 6;
+    if(score > 30) apple_speed = 7;
+    if(score > 40) apple_speed = 8,background_source = "backskies_night.png";
+    if(score > 50) apple_speed = 9;
+    if(score > 60) apple_speed = 10;    
+    if(score > 70) apple_speed = 11;
+    if(score > 80) apple_speed = 12;
+    if(score > 90) apple_speed = 13;
+    if(score > 100) apple_speed = 14;
+    if(score > 200) apple_speed = 15;
         
 },1000);
 
