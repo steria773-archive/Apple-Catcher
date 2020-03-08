@@ -3,6 +3,18 @@
 <p>NOTES: This Game Needs To Load So Wait Minutes(Or May Long Time,The Game Faces This Issue),If Not Work Properly Download This Repository And Run <code>applecatcher.html</code> After Extracting</p>
 <h2>Screenshot</h2>
 <img src="https://github.com/Rabios/Apple-Catcher/blob/master/game6.png">
+<h2>Game Updates</h2>
+<h3>Update 1</h3>
+<p>Added:</p>
+<ol>
+  <li>Game Settings(Clearing Data,Muting Game Sounds)</li>
+  <li>Touch And Gamepad Controls</li>
+  <li>Fresh New Sounds Than The Old Sounds</li>
+</ol>
+<p>Removed:</p>
+<ol>
+  <li>Some Old Sounds</li>
+</ol>
 <h2>Features Demonstrated</h2>
 
 1. Background Images Setting With `SetCanvasBackgroundImage()`
