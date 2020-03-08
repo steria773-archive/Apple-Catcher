@@ -21,5 +21,3 @@
 <p>Rabia Alhaffar</p>
 <h3>Game Tester</h3>
 <p>Haeder Bellau</p>
-<h3>Special Thanks</h3>
-<p>Sheyvan At <a href="https://freesound.org/people/Sheyvan/">freesound.org</a>,For Using <a href="https://freesound.org/people/Sheyvan/sounds/470122/">This Sound</a></p>
