@@ -1,52 +1,66 @@
 //Created By Rabia Alhaffar In 5/March/2020
-/*
-Music By Sheyvan At freesound.org (https://freesound.org/people/Sheyvan/)
-https://freesound.org/s/470122/
-This work is licensed under the Creative Commons 0 License.
-*/
 //A Game About Catching Apples With Basket LOL
 //This Will Be The Tutorial For Cake
 CreateCanvas(600,600,"white","3px black solid");
 Initialize();
+
+//Basket Position
 var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64;
-var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36;
-var score = 0,logo_alpha = 1,apple_speed = 4;
-var background_source = "backskies.png",sound_playing = true;
+//Apple Position And Speed
+var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36,apple_speed = 4;
+
+//Score,Splashscreen Alpha,And Sound Options
+var score = 0,logo_alpha = 1,sound_enabled = true,background_source = "backskies.png";
+
+var button_colors = 
+{
+    'default': { top: "purple" , bottom: "violet" },
+    'hover': { top: "purple" , bottom: "violet" },
+    'active': { top: "purple" , bottom: "violet" }
+};
+ 
 SetDrawingMode("fill");
-var StartButton = new Button(200,300,200,75,"START",
+var StartButton = new Button(180,200,250,75,"START",button_colors,() =>
 {
- 'default': { top: "purple" , bottom: "violet" },
- 'hover': { top: "purple" , bottom: "violet" },
- 'active': { top: "purple" , bottom: "violet" }
-},() =>
-{
-    PlayAudio("button_click.wav");
+    if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     Menu.Switch(Game);
 });
-var AboutButton = new Button(200,425,200,75,"ABOUT",
+var SettingsButton = new Button(180,325,250,75,"SETTINGS",button_colors,() =>
 {
- 'default': { top: "purple" , bottom: "violet" },
- 'hover': { top: "purple" , bottom: "violet" },
- 'active': { top: "purple" , bottom: "violet" }
-},() =>
+    if(WAV() && sound_enabled) PlayAudio("button_click.wav");
+    Menu.Switch(Settings);
+});
+var AboutButton = new Button(180,450,250,75,"ABOUT",button_colors,() =>
 {
-    PlayAudio("button_click.wav");
+    if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     Menu.Switch(About);
 });
-var BackButton = new Button(200,360,200,75,"BACK",
+var ClearDataButton = new Button(180,235,250,75,"CLEAR DATA",button_colors,() =>
 {
- 'default': { top: "purple" , bottom: "violet" },
- 'hover': { top: "purple" , bottom: "violet" },
- 'active': { top: "purple" , bottom: "violet" }
-},() =>
+    if(WAV() && sound_enabled) PlayAudio("button_click.wav");
+    if (confirm("Clear Game Data?")) 
+    {
+        localStorage.highscore = Number(0);
+        alert("Game Data Cleared Successfully!!!")
+    }
+});
+var SoundsButton = new Button(180,360,250,75,"MUTE",button_colors,() =>
 {
-    PlayAudio("button_click.wav");
-    About.Switch(Menu);
+    if(WAV() && sound_enabled) PlayAudio("button_click.wav");
+    if(sound_enabled) sound_enabled = false;
+    alert("Game Sounds Muted!!!");
+});
+var BackButton = new Button(180,485,250,75,"BACK",button_colors,() =>
+{
+    if(WAV() && sound_enabled) PlayAudio("button_click.wav");
+    //Check Level/Scene To Go Back (We Don't Want Multiple Buttons)
+    if(About.played) About.Switch(Menu);
+    if(Settings.played) Settings.Switch(Menu);
 });
 
 var Startup = new Level(() =>
 {
-    sound_playing = false;
+
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
     DrawRect(0,0,CanvasWidth,CanvasHeight,RGB(34,44,55));
@@ -63,26 +77,26 @@ var Startup = new Level(() =>
         setTimeout(() =>
         {
             Startup.Switch(Menu);
-            PlayGameMusic();
         },0.01);
     }
 },10);
 
 var Menu = new Level(() =>
 {
-    sound_playing = true;
+
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
     SetFont("40px Jura");
     DrawText(150,100,"APPLE CATCHER",RandomColor(),RandomColor());
     StartButton.Update();
+    SettingsButton.Update();
     AboutButton.Update();
 
 },10);
 
 var Game = new Level(() =>
 {
-    sound_playing = false;
+
     ClearCanvas();
     SetCanvasBackgroundImage(background_source);
     DrawTexture("basket.png",basket_x,basket_y,100,64);
@@ -99,9 +113,7 @@ var Game = new Level(() =>
     if(apple_y > CanvasHeight) 
     {
         Game.Switch(Menu);
-        score = 0;
-        apple_y = 36;
-        apple_x = Math.floor(Math.random() * 17) * 30;
+        apple_speed = 4,score = 0,apple_y = 36,apple_x = Math.floor(Math.random() * 17) * 30;
         if(score > localStorage.highscore) localStorage.highscore = Number(score);
     }
 
@@ -109,41 +121,44 @@ var Game = new Level(() =>
     if(CheckCollisionRectAdvanced(apple_x,apple_y,64,64,basket_x,basket_y,64,64)) 
     {
         score++;
-        apple_y = 36;
-        apple_x = Math.floor(Math.random() * 17) * 30;
-        if(WAV()) PlayAudio("collect_apple.wav");
+        apple_y = 36,apple_x = Math.floor(Math.random() * 17) * 30;
+        if(MP3() && sound_enabled) PlayAudio("munch.mp3");
         if(score > localStorage.highscore) localStorage.highscore = Number(score);
     }
     
     //Game Difficulty Options
-    if(score > 10) apple_speed = 5;
-    if(score > 20) apple_speed = 6;
-    if(score > 30) apple_speed = 7;
-    if(score > 40) apple_speed = 8,background_source = "backskies_night.png";
-    if(score > 50) apple_speed = 9;
-    if(score > 60) apple_speed = 10;    
-    if(score > 70) apple_speed = 11;
-    if(score > 80) apple_speed = 12;
-    if(score > 90) apple_speed = 13;
-    if(score > 100) apple_speed = 14;
-    if(score > 200) apple_speed = 15;
-        
+    apple_speed += 0.002;
+    //Game Backgrounds
+    if(score > 40) background_source = "backskies_night.png";
+
 },1000);
 
 var About = new Level(() =>
 {
-    sound_playing = true;
+    
     var txtcolor = "black";
     if(background_source == "backskies_night.png") txtcolor = "white";
     ClearCanvas();
     SetFont("40px Jura");
     DrawText(150,100,"APPLE CATCHER",RandomColor(),RandomColor());
     SetFont("20px Jura");
-    DrawText(60,210,"CREATED BY RABIA ALHAFFAR AND HAEDER BELLAU",txtcolor);
+    DrawText(50,210,"CREATED BY RABIA ALHAFFAR AND HAEDER BELLAU",txtcolor);
     DrawText(140,260,"POWERED BY CAKE GAME ENGINE",txtcolor);
     SetFont("20px monospace");
     DrawText(120,310,"https://github.com/Rabios/Cake",txtcolor);
     SetFont("40px Jura");
+    BackButton.Update();
+
+},10);
+
+var Settings = new Level(() =>
+{
+
+    ClearCanvas();
+    SetFont("40px Jura");
+    DrawText(150,100,"APPLE CATCHER",RandomColor(),RandomColor());
+    SoundsButton.Update();
+    ClearDataButton.Update();
     BackButton.Update();
 
 },10);
@@ -154,16 +169,10 @@ document.addEventListener("keydown",(e) =>
     if(e.keyCode == 37 || e.key == "a") basket_x -= 60;
 });
 
-document.addEventListener("mousemove",(e) =>
-{
-    basket_x = e.clientX;
-});
+document.addEventListener("mousemove",(e) => { basket_x = e.clientX; });
+document.addEventListener("touchmove",(e) => { basket_x = e.clientX; });
+document.addEventListener("touchstart",(e) => { basket_x = e.clientX; });
+if (Chrome && GamepadConnected(0) && GamepadButtonPressed(0,XBKey.Left)) basket_x -= 60;
+if (Chrome && GamepadConnected(0) && GamepadButtonPressed(0,XBKey.Right)) basket_x += 60;
 
-var PlayGameMusic = () =>
-{
-    setInterval(() =>
-    {
-        if(WAV() && sound_playing) PlayAudio("470122__sheyvan__apple-hits.wav");
-    },1000);
-};
 Startup.Start();
