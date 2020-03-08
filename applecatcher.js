@@ -20,22 +20,22 @@ var button_colors =
 };
  
 SetDrawingMode("fill");
-var StartButton = new Button(180,200,250,75,"START",button_colors,() =>
+var StartButton = new Button(170,200,250,75,"START",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     Menu.Switch(Game);
 });
-var SettingsButton = new Button(180,325,250,75,"SETTINGS",button_colors,() =>
+var SettingsButton = new Button(170,325,250,75,"SETTINGS",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     Menu.Switch(Settings);
 });
-var AboutButton = new Button(180,450,250,75,"ABOUT",button_colors,() =>
+var AboutButton = new Button(170,450,250,75,"ABOUT",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     Menu.Switch(About);
 });
-var ClearDataButton = new Button(180,235,250,75,"CLEAR DATA",button_colors,() =>
+var ClearDataButton = new Button(170,235,250,75,"CLEAR DATA",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     if (confirm("Clear Game Data?")) 
@@ -44,13 +44,13 @@ var ClearDataButton = new Button(180,235,250,75,"CLEAR DATA",button_colors,() =>
         alert("Game Data Cleared Successfully!!!")
     }
 });
-var SoundsButton = new Button(180,360,250,75,"MUTE",button_colors,() =>
+var SoundsButton = new Button(170,360,250,75,"MUTE",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     if(sound_enabled) sound_enabled = false;
     alert("Game Sounds Muted!!!");
 });
-var BackButton = new Button(180,485,250,75,"BACK",button_colors,() =>
+var BackButton = new Button(170,485,250,75,"BACK",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
     //Check Level/Scene To Go Back (We Don't Want Multiple Buttons)
