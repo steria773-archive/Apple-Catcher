@@ -6,12 +6,20 @@ Initialize();
 
 //Basket Position
 var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64;
+
 //Apple Position And Speed
 var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36,apple_speed = 4;
+
+//Browser Compatibility
+if(Chrome || Opera || Safari) apple_speed = 1;
 
 //Score,Splashscreen Alpha,And Sound Options
 var score = 0,logo_alpha = 1,sound_enabled = true,background_source = "backskies.png";
 
+//Controls Improved!!!
+var leftPressed = false,rightPressed = false;
+
+//Button Colors (Default,When Hover,When Clicked)
 var button_colors = 
 {
     'default': { top: "purple" , bottom: "violet" },
@@ -20,6 +28,8 @@ var button_colors =
 };
  
 SetDrawingMode("fill");
+
+//Buttons
 var StartButton = new Button(170,200,250,75,"START",button_colors,() =>
 {
     if(WAV() && sound_enabled) PlayAudio("button_click.wav");
@@ -41,7 +51,7 @@ var ClearDataButton = new Button(170,235,250,75,"CLEAR DATA",button_colors,() =>
     if (confirm("Clear Game Data?")) 
     {
         localStorage.highscore = Number(0);
-        alert("Game Data Cleared Successfully!!!")
+        alert("Game Data Cleared Successfully!!!");
     }
 });
 var SoundsButton = new Button(170,360,250,75,"MUTE",button_colors,() =>
@@ -67,6 +77,8 @@ var Startup = new Level(() =>
     SetFont("40px Jura");
     DrawText(180,200,"MADE WITH","white","white","left",logo_alpha);
     DrawTexture("CAKE_APP_ICON.png",191,240,191,199,logo_alpha);
+    
+    //Splashscreen Alpha
     setTimeout(() =>
     {
         logo_alpha -= 0.1;
@@ -79,6 +91,7 @@ var Startup = new Level(() =>
             Startup.Switch(Menu);
         },0.01);
     }
+    
 },10);
 
 var Menu = new Level(() =>
@@ -103,7 +116,7 @@ var Game = new Level(() =>
     DrawTexture("apple.png",0,5,64,64);
     SetFont("40px Jura");
     DrawText(80,55,score,RandomColor(),RandomColor());
-    DrawText(330,55,"Highscore: " + localStorage.highscore,RandomColor(),RandomColor())
+    DrawText(330,55,"Highscore: " + localStorage.highscore,RandomColor(),RandomColor());
     DrawTexture("apple.png",apple_x,apple_y,64,64);
     if (basket_x >= 560) basket_x = 530;
     if (basket_x < 0) basket_x = 0;
@@ -114,6 +127,7 @@ var Game = new Level(() =>
     {
         Game.Switch(Menu);
         apple_speed = 4,score = 0,apple_y = 36,apple_x = Math.floor(Math.random() * 17) * 30;
+        if(Chrome || Opera || Safari) apple_speed = 1;
         if(score > localStorage.highscore) localStorage.highscore = Number(score);
     }
 
@@ -127,9 +141,14 @@ var Game = new Level(() =>
     }
     
     //Game Difficulty Options
-    apple_speed += 0.002;
+    if(Chrome || Opera || Safari) apple_speed += 0.00000002;
+    if(Firefox) apple_speed += 0.002;
+
     //Game Backgrounds
     if(score > 40) background_source = "backskies_night.png";
+
+    if(leftPressed) basket_x -= 6;
+    if(rightPressed) basket_x += 6;
 
 },1000);
 
@@ -150,7 +169,6 @@ var About = new Level(() =>
     BackButton.Update();
 
 },10);
-
 var Settings = new Level(() =>
 {
 
@@ -163,16 +181,31 @@ var Settings = new Level(() =>
 
 },10);
 
-document.addEventListener("keydown",(e) =>
-{
-    if(e.keyCode == 39 || e.key == "d") basket_x += 60;
-    if(e.keyCode == 37 || e.key == "a") basket_x -= 60;
-});
-
 document.addEventListener("mousemove",(e) => { basket_x = e.clientX; });
 document.addEventListener("touchmove",(e) => { basket_x = e.clientX; });
 document.addEventListener("touchstart",(e) => { basket_x = e.clientX; });
+document.addEventListener("keydown", keydown, false);
+document.addEventListener("keyup", keyup, false);
 if (Chrome && GamepadConnected(0) && GamepadButtonPressed(0,XBKey.Left)) basket_x -= 60;
 if (Chrome && GamepadConnected(0) && GamepadButtonPressed(0,XBKey.Right)) basket_x += 60;
+
+//Controls Library
+function keydown(e) 
+{
+    if (e.key == "Right" || e.key == "ArrowRight" || e.keyCode == 39) rightPressed = true;
+    if (e.key == "d") rightPressed = true;   
+    if (e.key == "Left" || e.key == "ArrowLeft" || e.keyCode == 37) leftPressed = true;
+    if (e.key == "a") leftPressed = true;
+}
+
+function keyup(e) 
+{
+    if (e.key == "Right" || e.key == "ArrowRight" || e.keyCode == 39) rightPressed = false;
+    if (e.key == "d") rightPressed = false;
+    if (e.key == "Left" || e.key == "ArrowLeft" || e.keyCode == 37) leftPressed = false;
+    if (e.key == "a") leftPressed = false;
+}
+
+if(Chrome || Opera || Safari) Game.fps /= 20;
 
 Startup.Start();
