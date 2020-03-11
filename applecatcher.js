@@ -186,10 +186,8 @@ document.addEventListener("touchmove",(e) => { basket_x = e.clientX; });
 document.addEventListener("touchstart",(e) => { basket_x = e.clientX; });
 document.addEventListener("keydown", keydown, false);
 document.addEventListener("keyup", keyup, false);
-if (Chrome && GamepadConnected(0) && GamepadButtonPressed(0,XBKey.Left)) basket_x -= 60;
-if (Chrome && GamepadConnected(0) && GamepadButtonPressed(0,XBKey.Right)) basket_x += 60;
 
-//Controls Library
+//Controls Part
 function keydown(e) 
 {
     if (e.key == "Right" || e.key == "ArrowRight" || e.keyCode == 39) rightPressed = true;
