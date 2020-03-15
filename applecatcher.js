@@ -5,7 +5,7 @@ CreateCanvas(600,600,"white","3px black solid");
 Initialize();
 
 //Basket Position
-var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64;
+var basket_x = CanvasWidth / 3,basket_y = CanvasHeight - 64,basket_speed = 6;
 
 //Apple Position And Speed
 var apple_x = Math.floor(Math.random() * 17) * 30,apple_y = 36,apple_speed = 4;
@@ -126,7 +126,7 @@ var Game = new Level(() =>
     if(apple_y > CanvasHeight) 
     {
         Game.Switch(Menu);
-        apple_speed = 4,score = 0,apple_y = 36,apple_x = Math.floor(Math.random() * 17) * 30;
+        basket_speed = 5,apple_speed = 4,score = 0,apple_y = 36,apple_x = Math.floor(Math.random() * 17) * 30;
         if(Chrome || Opera || Safari) apple_speed = 1;
         if(score > localStorage.highscore) localStorage.highscore = Number(score);
     }
@@ -141,14 +141,14 @@ var Game = new Level(() =>
     }
     
     //Game Difficulty Options
-    if(Chrome || Opera || Safari) apple_speed += 0.00000002;
-    if(Firefox) apple_speed += 0.002;
+    if(Chrome || Opera || Safari) apple_speed += 0.00000002,basket_speed += 0.00000002;
+    if(Firefox) apple_speed += 0.002,basket_speed += 0.002;
 
     //Game Backgrounds
     if(score > 40) background_source = "backskies_night.png";
 
-    if(leftPressed) basket_x -= 6;
-    if(rightPressed) basket_x += 6;
+    if(leftPressed) basket_x -= basket_speed;
+    if(rightPressed) basket_x += basket_speed;
 
 },1000);
 
