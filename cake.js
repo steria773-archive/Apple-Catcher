@@ -1,6 +1,6 @@
 //Copyright (c)2019-Present Rabia Alhaffar,All Rights Reserved!!!
 //Cake Canvas (2D And 3D) And WebGL(2D And 3D) HTML5 Game Framework!!!
-//Date: 10/March/2020
+//Date: 17/March/2020
 //The Engine/Framework Code Starts Here!!!
 //Variables:
 var Opera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0,
@@ -237,7 +237,7 @@ var TrackWebGL = () =>
 		ext = gl.getExtension("WEBGL_debug_renderer_info");
 	console.info(`WebGL Properties:\nWebGL Version: ${gl.getParameter(gl.VERSION)}\nWebGL GLSL Version: ${gl.getParameter(gl.SHADING_LANGUAGE_VERSION)}\nWebGL Vendor/Provider: ${gl.getParameter(gl.VENDOR)}\nWebGL GPU Vendor: ${gl.getParameter(ext.UNMASKED_VENDOR_WEBGL)}\nPC GPU: ${gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)}\n`);
 };
-var TrackDevice = () => console.info(`Device Info:\n Device OS: ${window.navigator.userAgent}\nDevice Browser OS: ${navigator.platform}\nDevice Language: ${navigator.language}\nJava Enabled: ${navigator.javaEnabled()}\nIs The Device Online: ${navigator.onLine}\nDevice RAM: ${navigator.deviceMemory} GB\nOperating System Real Name: ${window.navigator.oscpu}\nDevice Location: ${navigator.geolocation}\nLanguages List: ${navigator.languages}\n`);
+var TrackDevice = () => console.info(`Device Info:\nDevice OS: ${window.navigator.userAgent}\nDevice Browser OS: ${navigator.platform}\nDevice Language: ${navigator.language}\nJava Enabled: ${navigator.javaEnabled()}\nIs The Device Online: ${navigator.onLine}\nDevice RAM: ${navigator.deviceMemory} GB\nOperating System Real Name: ${window.navigator.oscpu}\nDevice Location: ${navigator.geolocation}\nLanguages List: ${navigator.languages}\n`);
 var TrackCanvas = () => console.info(`Game Canvas Info:\nCanvas Height: ${cakecanvas.height}\nCanvas Width: ${cakecanvas.width}\n`);
 
 //Module: Physics
@@ -255,7 +255,7 @@ var CheckCollisionCircleRect = (c1,r1) =>
 {
 	if (Math.abs(c1.x - r1.x - r1.width / 2) > (r1.width / 2 + c1.radius) || Math.abs(c1.y - r1.y - r1.height / 2) > (r1.height / 2 + c1.radius)) { return false; }
 	if (Math.abs(c1.x - r1.x - r1.width / 2) <= (r1.width / 2) || Math.abs(c1.y - r1.y - r1.height / 2) <= (r1.height / 2)) { return true; }
-	return (Math.abs(c1.x - r1.x - r1.width / 2) - r1.width / 2 * Math.abs(c1.x - r1.x - r1.width / 2) - r1.width / 2 + Math.abs(c1.y - r1.y - r1.height / 2) - r1.height / 2 * Math.abs(c1.y - r1.y - r1.height / 2) - r1.height / 2 <= (c1.radius * c1.radius) && c1.collidable && c2.collidable);
+	return (Math.abs(c1.x - r1.x - r1.width / 2) - r1.width / 2 * Math.abs(c1.x - r1.x - r1.width / 2) - r1.width / 2 + Math.abs(c1.y - r1.y - r1.height / 2) - r1.height / 2 * Math.abs(c1.y - r1.y - r1.height / 2) - r1.height / 2 <= (c1.radius * c1.radius) && c1.collidable && r1.collidable);
 };
 var CheckCanvasCollisionLeft = (object) => { return(object.x <= object.width * 0.5); };
 var CheckCanvasCollisionLeftAdvanced = (o_x,o_w) => { return(o_x <= o_w * 0.5); };		
@@ -298,6 +298,7 @@ Position Could Be:
 
 //Module: Graphics(2D)
 //Cake 2D Graphics Library!!!
+//Cake Next Is Coming!!!
 //Always Needs More Additions And Updates!!!
 //If You Calling A Function With Undefined Values You Defined,Use u Instead Of undefined Or NaN
 //Defined Values
@@ -312,14 +313,14 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 			if(Unknown(text)) text = "";
 			if(Unknown(color)) color = "black";
 			if(Unknown(stroke_color)) stroke_color = color;
-			if(Unknown(textAlign)) textAlign = "";
+			if(Unknown(textAlign)) textAlign = "left";
 			if(Unknown(alpha)) alpha = 1;
 			cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color,cakepen.textAlign = textAlign;
 			if(mode == "fill") cakepen.fillText(text,x,y);
 			if(mode == "stroke") cakepen.strokeText(text,x,y);
 			if(mode == "custom") { cakepen.fillText(text,x,y); cakepen.strokeText(text,x,y); }	
 		};
-		var SetFont = (textfont) => { if(Unknown(textfont)) cakepen.font = "12px arial"; cakepen.font = textfont; };
+		var SetFont = (textfont) => { if(Unknown(textfont)) textfont = "20px arial"; cakepen.font = textfont; };
 		var SetShadowProperties = (shadowOffsetX,shadowOffsetY,shadowcolor,shadowblur) =>
 		{
 			if(Unknown(shadowOffsetX)) cakepen.shadowOffsetX = 0;
@@ -330,8 +331,8 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		};
 	    var SetLineProperties = (line_width,line_height) =>
 		{
-			if(Unknown(line_h)) line_height = 1;
-			if(Unknown(line_w)) line_width = 1;
+			if(Unknown(line_height)) line_height = 1;
+			if(Unknown(line_width)) line_width = 1;
 			cakepen.lineHeight = line_height,cakepen.lineWidth = line_width;
 		};
 		var DrawRect = (x,y,width,height,color,stroke_color,alpha) =>
@@ -340,12 +341,10 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 			if(Unknown(y)) y = 0;
 			if(Unknown(height)) height = 0;
 			if(Unknown(width)) width = 0;
-			if(!Unknown(color)) cakepen.fillStyle = color;
 			if(Unknown(color)) cakepen.fillStyle = "black";
-			if(!Unknown(stroke_color)) cakepen.strokeStyle = stroke_color;
 			if(Unknown(stroke_color)) cakepen.strokeStyle = color;
 			if(Unknown(alpha)) alpha = 1;
-			cakepen.globalAlpha = alpha;			
+			cakepen.fillStyle = color,cakepen.globalAlpha = alpha,cakepen.strokeStyle = stroke_color;			
 			if(mode == "fill") cakepen.fillRect(x,y,width,height);
 			if(mode == "stroke") cakepen.strokeRect(x,y,width,height);
 			if(mode == "custom") { cakepen.fillRect(x,y,width,height); cakepen.strokeRect(x,y,width,height); }
@@ -651,17 +650,17 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
         canvas.id = "cake-canvas",canvas.height = height,canvas.width = width,canvas.style.backgroundColor = bgcolor,canvas.style.border = border_style;
 		document.body.appendChild(canvas);
 		};
-		var CreateGame = (width,height,gametitle) =>
+		var CreateGame = (width,height,gametitle,context) =>
 		{
 			document.title = gametitle;
 			if(Unknown(height)) height = 150;
 			if(Unknown(width)) width = 150;
 			var gamecanvas = document.createElement("canvas");
-            gamecanvas.id = "cakegamecanvas",gamecanvas.height = height,canvas.width = width;
+			gamecanvas.id = gametitle.toString().toLowerCase() + "-game-canvas",gamecanvas.height = height,gamecanvas.width = width;
 			document.body.appendChild(gamecanvas);
-			var cakecanvas = document.getElementById("cakegamecanvas");
-		    var cakepen	= cakecanvas.getContext("2d");
-		    if(cakepen) console.info("CAKE GAME ENGINE INITIALIZED...");
+			var cakecanvas = document.getElementById(gametitle.toString().toLowerCase() + "-game-canvas");
+		    var cakepen	= cakecanvas.getContext(context);
+		    if(cakepen) console.info(context == "2d" ? "CAKE GAME ENGINE: INITIALIZING CanvasRenderingContext2D..." : "CAKE GAME ENGINE: INITIALIZING WebGLRenderingContext...");
 		    if(!cakepen) 
 		    {
 			RemoveCanvas();
@@ -681,44 +680,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
         if(mode == "fill") cakepen.fillRect(x,y,size,size);			
 		if(mode == "stroke") cakepen.strokeRect(x,y,size,size);	
 		if(mode == "custom") { cakepen.fillRect(x,y,size,size); cakepen.strokeRect(x,y,size,size); }
-		};
-
-		var DrawSnowflake = (x,y,length,color,stroke_color,m,alpha) =>
-		{
-		if(Unknown(x)) x = 0;
-		if(Unknown(y)) y = 0;
-		if(Unknown(length)) length = 0;
-		if(Unknown(color)) color = "black";
-		if(Unknown(stroke_color)) stroke_color = color;
-		if(Unknown(alpha)) alpha = 1;
-		cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
-		var deg = Math.PI / 180; 
-        cakepen.translate(x,y); 
-        cakepen.moveTo(x,y); 
-        Leg(m);
-        cakepen.rotate(-120 * deg);
-        Leg(m);
-        cakepen.rotate(-120 * deg);
-        Leg(m);
-        cakepen.closePath();
-		};
-		var Leg = (l) =>
-		{
-		var deg = Math.PI / 180;
-        if (l == 0) cakepen.lineTo(length, 0);
-        else 
-		{ 
-        cakepen.scale(1 / 3,1 / 3); 
-        Leg(l - 1); 
-        cakepen.rotate(60 * deg); 
-        Leg(l - 1);
-        cakepen.rotate(-120 * deg);
-        Leg(l - 1); 
-        cakepen.rotate(60 * deg); 
-        Leg(l - 1);
-        } 
-        cakepen.translate(length, 0);
-        };		
+		};	
 		var DrawRoundedRect = (x,y,width,height,radius,color,stroke_color,alpha) => 
 		{
 		if(Unknown(x)) x = 0;
@@ -751,7 +713,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		if(Unknown(c)) c = 0;
 		cakecanvas = document.getElementsByTagName("canvas")[c];
 		cakepen	= cakecanvas.getContext("2d");
-		if(cakepen) console.info("CAKE GAME ENGINE INITIALIZED...");
+		if(cakepen) console.info("CAKE GAME ENGINE: INITIALIZING CanvasRenderingContext2D...");
 		if(!cakepen) 
 		{
 			RemoveCanvas();
@@ -760,7 +722,8 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		}
 		CanvasHeight = cakecanvas.height,CanvasWidth = cakecanvas.width,HalfCanvasHeight = CanvasHeight * 0.5,HalfCanvasWidth = CanvasWidth * 0.5,RandomX = Math.floor(Math.random() * CanvasWidth),RandomY = Math.floor(Math.random() * CanvasHeight);
 		};
-		var ResizeCanvas = (canvas_width,canvas_height) => { cakecanvas.height = canvas_height,cakecanvas.width = canvas_width;	};
+		var ResizeCanvasFully = (canvas_width,canvas_height) => { cakecanvas.height = canvas_height,cakecanvas.width = canvas_width,cakecanvas.style.height = canvas_height,cakecanvas.style.width = canvas_width; };
+		var ResizeCanvas = (canvas_width,canvas_height) => { cakecanvas.height = canvas_height,cakecanvas.width = canvas_width; };
 		var SetResolution = (canvas_width,canvas_height) => { cakecanvas.style.height = canvas_height,cakecanvas.style.width = canvas_width; };
 		var SetAntialiasing = (enabled,quality) =>
 		{
@@ -1163,6 +1126,16 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		}
 		cakepen.globalAlpha = 1;
 	};
+	var FlipHorizontally = () => cakepen.scale(-1,1);
+	var FlipVertically = () => cakepen.scale(1,-1);
+	var FlipContent = () => cakepen.scale(-1,-1);
+	var ResetFlipping = () => cakepen.scale(1,1);
+	var Shear = (x,y) => 
+	{
+		if(Unknown(x)) x = 0;
+		if(Unknown(y)) y = 0;
+		cakepen.shear(x,y);
+	};
 //Module: Game
 //Cake Game Library!!!
 //Just For Closing Game Page As Exit Or Opening URL Or Even Restart Game!!!
@@ -1176,7 +1149,7 @@ var CrashGame = () =>
 var ViewSourceCode = (index) => window.open(document.scripts[index].src);
 var ViewGameSourceCode = () => window.open(document.scripts[2].src);
 var StartProcess = (dir) => window.open("file:///" + dir.toString);
-var UpdateCake = () => Import("https://cdn.jsdelivr.net/gh/Rabios/Cake/build/cake.js");
+var UpdateCake = () => Import("https://cdn.jsdelivr.net/gh/Cake-Engine/Cake@master/build/cake.js");
 var Destroy = (component) =>
 {
     if(!component.destroyed) component.Destroy();
@@ -2336,9 +2309,14 @@ this.Destroy = function(){ this.destroyed = true; };
 //Module: Input Tracking
 //Cake Keyboard Keys,Mouse Buttons,Touch Recording API
 //This Is For Recording
-var Keycode,MouseX,MouseY,MouseButton,MouseButtonName,TouchX,TouchY;
+var KeyCode,Key,MouseX,MouseY,MouseButton,MouseButtonName,TouchX,TouchY;
 var Log = (log) => console.log(log);
-var RecordKeyboard = (KeyboardKey) => console.info(`Key Pressed: ${KeyboardKey.key} , Key Code: ${KeyboardKey.keyCode}`);		
+var RecordKeyboard = (KeyboardKey) =>
+{
+	Key = KeyboardKey.key;
+	KeyCode = KeyboardKey.keyCode;
+	console.info(`Key Pressed: ${Key} , Key Code: ${KeyCode}`);	
+};		
 var RecordMouse = (event) =>
 {
 		MouseX = event.clientX,MouseY = event.clientY,MouseButton = event.button;
@@ -2389,26 +2367,27 @@ var SetCheatCode = (cheatcode) => cheat = cheatcode;
 //Module: Execution
 //Created By Rabia Alhaffar On 15/November/2019
 //An Library To Debug,Run Scripts In-Game
-var Execute = (code, l, time) =>
+var scripts_added = 0;
+var Execute = (code,l,time) =>
 {
-	if (Unknown(l)) l = 0;
-	if (Unknown(time)) time = 0;
-	if (l == 0) setTimeout(code, 0);
-	if (l == 1) setTimeout(code, time);
-	if (l == 2) setInterval(code, 0);
-	if (l == 3) setInterval(code, time);
+    if(Unknown(l)) l = 0;
+    if(Unknown(time)) time = 0;
+    if(l == 0) setTimeout(code,0);
+    if(l == 1) setTimeout(code,time);
+    if(l == 2) setInterval(code,0);
+    if(l == 3) setInterval(code,time);
 };
 
 var Import = (script_source) =>
 {
-
-	var script = document.createElement('script');
-	script.src = script_source;
-	script.type = 'text/javascript';
-	script.defer = true;
-	document.getElementsByTagName('head').appendChild(script);
-
+  var script = document.createElement('script'); 
+  script.src = script_source; 
+  script.type = 'text/javascript'; 
+  script.defer = true; 
+  document.getElementsByTagName('head')[scripts_added].appendChild(script); 
+  scripts_added++;
 };
+
 //Module: FPS And Levels
 //Created By Rabia Alhaffar On 16/November/2019
 //An Library For Timers,Frames Per Second
@@ -2535,115 +2514,65 @@ var UnlockPointer = () => document.exitPointerLock();
 //A Library To Change Cursor Shape To Image!!!
 var HideCursor = () => cakecanvas.style.cursor = "none";
 var ShowCursor = () => cakecanvas.style.cursor = "auto";
-var SetCursor = (img_src, type, cursor_size) =>
+var SetCursor = (img_src,type,cursor_size) =>
 {
-	var cursor_image;
-	if (Unknown(cursor_size)) cursor_size = 10;
-	if (type == "color")
-	{
-		cakepen.fillStyle = img_src;
-		//Part 1: Hide Mouse Cursor If Mouse Cursor Enters Game Canvas
-		cakecanvas.addEventListener("mouseenter", () =>
-		{
-			HideCursor();
-		});
-		cakecanvas.addEventListener("click", () =>
-		{
-			HideCursor();
-		});
-		//Part 2: Draw Mouse Cursor Shape As Circle
-		cakecanvas.addEventListener("mousemove", (e) =>
-		{
-			cakepen.arc(e.clientX, e.clientY, cursor_size, 90, 180 * Math.PI);
-			cakepen.fill();
-		});
-		cakecanvas.addEventListener("mouseover", (e) =>
-		{
-			cakepen.arc(e.clientX, e.clientY, cursor_size, 90, 180 * Math.PI);
-			cakepen.fill();
-		});
-		cakecanvas.addEventListener("mousedown", (e) =>
-		{
-			cakepen.arc(e.clientX, e.clientY, cursor_size, 90, 180 * Math.PI);
-			cakepen.fill();
-		});
-		cakecanvas.addEventListener("touchmove", (e) =>
-		{
-			cakepen.arc(e.pageX, e.pageY, cursor_size, 90, 180 * Math.PI);
-			cakepen.fill();
-		});
-		cakecanvas.addEventListener("touchstart", (e) =>
-		{
-			cakepen.arc(e.pageX, e.pageY, cursor_size, 90, 180 * Math.PI);
-			cakepen.fill();
-		});
-	}
-	if (type == "image")
-	{
-		//Part 1: Hide Mouse Cursor If Mouse Cursor Enters Game Canvas
-		cakecanvas.addEventListener("mouseenter", () =>
-		{
-			HideCursor();
-		});
-		cakecanvas.addEventListener("click", () =>
-		{
-			HideCursor();
-		});
-		//Part 2: Draw Mouse Cursor Shape/Icon From Image
-		cursor_image = new Image(), cursor_image.src = img_src, cursor_image.height = cursor_size, cursor_image.width = cursor_size;
-		cakecanvas.addEventListener("mousemove", (e) =>
-		{
-			cakepen.drawImage(cursor_image, e.clientX, e.clientY);
-		});
-		cakecanvas.addEventListener("mouseover", (e) =>
-		{
-			cakepen.drawImage(cursor_image, e.clientX, e.clientY);
-		});
-		cakecanvas.addEventListener("mousedown", (e) =>
-		{
-			cakepen.drawImage(cursor_image, e.clientX, e.clientY);
-		});
-		cakecanvas.addEventListener("touchmove", (e) =>
-		{
-			cakepen.drawImage(cursor_image, e.pageX, e.pageY);
-		});
-		cakecanvas.addEventListener("touchstart", (e) =>
-		{
-			cakepen.drawImage(cursor_image, e.pageX, e.pageY);
-		});
-
-	}
-	if (type == "icon") cakecanvas.style.cursor = img_src; //CSS Style,Your Call ;)
+var cursor_image;
+if(Unknown(cursor_size)) cursor_size = 10;
+if(type == "color") 
+{ 
+    cakepen.fillStyle = img_src; 
+    //Part 1: Hide Mouse Cursor If Mouse Cursor Enters Game Canvas
+    cakecanvas.addEventListener("mouseenter",() => { HideCursor(); });
+    cakecanvas.addEventListener("click",() => { HideCursor(); });
+    //Part 2: Draw Mouse Cursor Shape As Circle
+    cakecanvas.addEventListener("mousemove",(e) => { cakepen.arc(e.clientX, e.clientY, cursor_size, 90, 180 * Math.PI); cakepen.fill(); }); 
+    cakecanvas.addEventListener("mouseover",(e) => { cakepen.arc(e.clientX, e.clientY, cursor_size, 90, 180 * Math.PI); cakepen.fill(); }); 
+    cakecanvas.addEventListener("mousedown",(e) => { cakepen.arc(e.clientX, e.clientY, cursor_size, 90, 180 * Math.PI); cakepen.fill(); });
+    cakecanvas.addEventListener("touchmove",(e) => { cakepen.arc(e.clientX || e.pageX, e.clientY || e.pageY, cursor_size, 90, 180 * Math.PI); cakepen.fill(); });
+    cakecanvas.addEventListener("touchstart",(e) => { cakepen.arc(e.clientX || e.pageX, e.clientY || e.pageY, cursor_size, 90, 180 * Math.PI); cakepen.fill(); });  
+}
+if(type == "image")
+{
+    //Part 1: Hide Mouse Cursor If Mouse Cursor Enters Game Canvas
+    cakecanvas.addEventListener("mouseenter",() => { HideCursor(); }); 
+    cakecanvas.addEventListener("click",() => { HideCursor(); });
+    //Part 2: Draw Mouse Cursor Shape/Icon From Image
+    cursor_image = new Image(),cursor_image.src = img_src,cursor_image.height = cursor_size,cursor_image.width = cursor_size;
+    cakecanvas.addEventListener("mousemove",(e) => { cakepen.drawImage(cursor_image,e.clientX,e.clientY); }); 
+    cakecanvas.addEventListener("mouseover",(e) => { cakepen.drawImage(cursor_image,e.clientX,e.clientY); }); 
+    cakecanvas.addEventListener("mousedown",(e) => { cakepen.drawImage(cursor_image,e.clientX,e.clientY); });
+    cakecanvas.addEventListener("touchmove",(e) => { cakepen.drawImage(cursor_image,e.clientX || e.pageX,e.clientY || e.pageY); });
+    cakecanvas.addEventListener("touchstart",(e) => { cakepen.drawImage(cursor_image,e.clientX || e.pageX,e.clientY || e.pageY); });  
+       
+}
+if(type == "icon") cakecanvas.style.cursor = img_src; //CSS Style,Your Call ;)
 };
 
 //Module: Compiler Fixing For Values
 //Written By Rabia Alhaffar In 16/December/2019
-var FixValue = (x, type) =>
+var FixValue = (x,type) =>
 {
-	if ((type == undefined) || (type == NaN)) type = "bool";
-	if ((x == undefined) || (x == isNaN) && (type == "string")) x = "";
-	if ((x == undefined) || (x == NaN) && (type == "int")) x = 0;
-	if ((x == undefined) || (x == NaN) && (type == "bool")) x = false;
-	if ((x == undefined) || (x == NaN) && (type == "char")) x = '';
-	if ((x == undefined) || (x == NaN) && (type == "array")) x = [];
+if((type == undefined) || (type == NaN) || (type == null)) type = "bool";
+if((x == undefined) || (x == NaN) || (x == null) && (type == "string")) x = "";
+if((x == undefined) || (x == NaN) || (x == null) && (type == "int")) x = 0;
+if((x == undefined) || (x == NaN) || (x == null) && (type == "bool")) x = false;
+if((x == undefined) || (x == NaN) || (x == null) && (type == "char")) x = '';
+if((x == undefined) || (x == NaN) || (x == null) && (type == "array")) x = [];
 };
-var FixValuesFromArray = (values, type) =>
+var FixValuesFromArray = (values,type) =>
 {
-	for (x in values)
-	{
-		if ((type == undefined) || (type == NaN)) type = "bool";
-		if ((values[x] == undefined) || (values[x] == NaN) && type == "string") values[x] = "";
-		if ((values[x] == undefined) || (values[x] == NaN) && type == "int") values[x] = 0;
-		if ((values[x] == undefined) || (values[x] == NaN) && type == "bool") values[x] = false;
-		if ((values[x] == undefined) || (values[x] == NaN) && type == "char") values[x] = '';
-		if ((values[x] == undefined) || (values[x] == NaN) && type == "array") values[x] = [];
-	}
-};
-var Unknown = (x) => ((x == undefined) || (x == NaN));
-var Help = (f) =>
+for(x in values)
 {
-	if (typeof f == "function") console.log(f);
+if((type == undefined) || (type == NaN) || (type == null)) type = "bool";
+if((values[x] == undefined) || (values[x] == NaN) || (values[x] == null) && type == "string") values[x] = "";
+if((values[x] == undefined) || (values[x] == NaN) || (values[x] == null) && type == "int") values[x] = 0;
+if((values[x] == undefined) || (values[x] == NaN) || (values[x] == null) && type == "bool") values[x] = false;
+if((values[x] == undefined) || (values[x] == NaN) || (values[x] == null) && type == "char") values[x] = '';
+if((values[x] == undefined) || (values[x] == NaN) || (values[x] == null) && type == "array") values[x] = [];
+}		
 };
+var Unknown = (x) => ((x == undefined) || (x == NaN) || (x == null));
+var Help = (f) => { if(typeof f == "function") console.log(f); };
 var Do = (c) => eval(c);
 
 //Module: Support
@@ -3234,7 +3163,7 @@ var AddContent = (source, w, h) =>
 
 //Module: App Windows
 //Created By Rabia Alhaffar In 4/January/2020
-function Window(s, h, w, l, t)
+function Window(l,t,w,h,s)
 {
 	this.src = s;
 	this.h = h, this.w = w;
@@ -3263,17 +3192,17 @@ function Window(s, h, w, l, t)
 		if (Unknown(y)) y = 0;
 		this.Win.moveBy(x, y);
 	};
-	this.Resize = function (h, w)
+	this.Resize = function (w, h)
 	{
 		if (Unknown(h)) h = 0;
 		if (Unknown(w)) w = 0;
-		this.Win.resizeTo(h, w);
+		this.Win.resizeTo(w, h);
 	};
-	this.Scale = function (h, w)
+	this.Scale = function (w, h)
 	{
 		if (Unknown(h)) h = 0;
 		if (Unknown(w)) w = 0;
-		this.Win.resizeBy(h, w);
+		this.Win.resizeBy(w, h);
 	};
 	this.Close = function ()
 	{
@@ -3837,7 +3766,7 @@ function Bar(x, y, width, height, color)
 		cakepen.fillStyle = this.color;
 		if (this.destroyed) cakepen.globalAlpha = 0;
 		cakepen.fillRect(this.x, this.y, this.width, this.height);
-		cakepen.globalAlpha = this.globalAlpha;
+		cakepen.globalAlpha = this.alpha;
 	};
 	this.Destroy = function ()
 	{
@@ -3923,118 +3852,126 @@ var OpenXBOXGamePage = (game_name) => window.open("https://www.xbox.com/games/" 
 var SignOutFromXBOX = () => window.open("https://account.xbox.com/Account/Signout");
 
 //Module: WEBGL_NEXT
-///Created By Rabia Alhaffar In 11/February/2020
+//Created By Rabia Alhaffar In 11/February/2020
 //A WebGL Pure,No Libraries Or Extensions
 //WebGL Made From Scratch,But Still In Development Cause Contains Huge Content
 var cakecanvas,
-cakepen,
-cake_webgl_debugger,
-program_location,
-TRIANGLES,
-LINES,
-FAN,
-LINELOOP,
-POINTS,
-LINESTRIP,
-TRISTRIP,
-program,
-buffer,
-pos_buffer,
-color_buffer,
-shader_variable,
-shader,
-GPU,
-GLSL_VER,
-VENDOR,
-GL_VER,
-UNMASKED;
-var InitializeWebGL = () =>
-{
-cakecanvas = document.getElementsByName("canvas")[0];
-cakepen = cakecanvas.getContext('webgl');
-if(!cakepen) console.error("WEBGL NOT SUPPORTED!!!");
-TRIANGLES = cakepen.TRIANGLES;
-LINES = cakepen.LINES;
-POINTS = cakepen.POINTS;
-TRIFAN = cakepen.TRIANGLE_FAN;
-TRISTRIP = cakepen.TRIANGLE_STRIP;
-LINELOOP = cakepen.LINE_LOOP;
-LINESTRIP = cakepen.LINE_STRIP;
-GPU = cakepen.getParameter(cakepen_debugger.UNMASKED_VENDOR_WEBGL);
-GL_VER = cakepen.getExtension(cakepen.VERSION);
-GLSL_VER = cakepen.getParameter(cakepen.SHADING_LANGUAGE_VERSION);
-UNMASKED = cakepen.getParameter(cakepen_debugger.UNMASKED_RENDERER_WEBGL);
-VENDOR = cakepen.getParameter(cakepen.VENDOR);
-};
+    cakepen,
+    cake_webgl_debugger,
+    program_location,
+    TRIANGLES,
+    LINES,
+    FAN,
+    LINELOOP,
+    POINTS,
+    LINESTRIP,
+    VERTEX,
+    FRAGMENT,
+    TRISTRIP,
+    program,
+    buffer,
+    pos_buffer,
+    color_buffer,
+    shader_variable,
+    shader,
+    GPU,
+    GLSL_VER,
+    VENDOR,
+    GL_VER,
+    UNMASKED;
+    var InitializeWebGL = (c) =>
+    {
+    if(Unknown(c)) c = 0;
+    cakecanvas = document.getElementsByTagName("canvas")[c];
+    cakepen = cakecanvas.getContext('webgl2');
+    if(cakepen) console.info("CAKE GAME ENGINE: INITIALIZING WebGL2RenderingContext...");
+    if(!cakepen) console.error("WEBGL NOT SUPPORTED!!!");
+    EnableDebugger();
+    EnableScissor(true);
+    TRIANGLES = cakepen.TRIANGLES;
+    LINES = cakepen.LINES;
+    POINTS = cakepen.POINTS;
+    VERTEX = cakepen.VERTEX_SHADER;
+    FRAGMENT = cakepen.FRAGMENT_SHADER;
+    TRIFAN = cakepen.TRIANGLE_FAN;
+    TRISTRIP = cakepen.TRIANGLE_STRIP;
+    LINELOOP = cakepen.LINE_LOOP;
+    LINESTRIP = cakepen.LINE_STRIP;
+    GPU = cakepen.getParameter(cake_webgl_debugger.UNMASKED_VENDOR_WEBGL);
+    GL_VER = cakepen.getExtension(cakepen.VERSION);
+    GLSL_VER = cakepen.getParameter(cakepen.SHADING_LANGUAGE_VERSION);
+    UNMASKED = cakepen.getParameter(cake_webgl_debugger.UNMASKED_RENDERER_WEBGL);
+    VENDOR = cakepen.getParameter(cakepen.VENDOR);
+    };
 var GetWebGLFullInfo = () => console.info(`GPU: ${GPU}\nWEBGL VERSION: ${GL_VER}\nGLSL VERSION: ${GLSL_VER}\nVENDOR: ${VENDOR}\nUNMASKED RENDERER: ${UNMASKED}\n`);
 var GetWebGLErrors = () => cakepen.getError();
 var ClearCanvasFully = () =>
 {
-cakepen.clearColor(0,0,0,0);
-cakepen.clearDepth(1);
-cakepen.clear(cakepen.COLOR_BUFFER_BIT | cakepen.DEPTH_BUFFER_BIT);
+    cakepen.clearColor(0,0,0,0);
+    cakepen.clearDepth(1.0);
+    cakepen.clear(cakepen.COLOR_BUFFER_BIT | cakepen.DEPTH_BUFFER_BIT);
 };
 var WebGLClearCanvas = (r,g,b,a) =>
 {
-if(Unknown(r)) r = 0;
-if(Unknown(g)) g = 0;
-if(Unknown(b)) b = 0;
-if(Unknown(a)) a = 0;
-cakepen.clearColor(r,g,b,a);
-cakepen.clear(cakepen.COLOR_BUFFER_BIT);
+    if(Unknown(r)) r = 0;
+    if(Unknown(g)) g = 0;
+    if(Unknown(b)) b = 0;
+    if(Unknown(a)) a = 0;
+    cakepen.clearColor(r,g,b,a);
+    cakepen.clear(cakepen.COLOR_BUFFER_BIT);
 };
 var WebGLExtension = (ext) => cakepen.getExtension(ext);
 var WebGLParameter = (param) => cakepen.getParameter(param);
 var LoadGLID = () => cakepen.loadIdentity();
 var ShaderParameter = (shader,param) => cakepen.getShaderParameter(shader,param);
 var ProgramParameter = (program,param) => cakepen.getProgramParameter(program,param);
-var CreateShader = (shader_variable,type,src) =>
+var CreateShader = (shader,type,src) =>
 {
-shader_variable = cakepen.createShader(type);
-cakepen.shaderSource(shader_variable,src);
-cakepen.compileShader(shader_variable);
-console.info(cakepen.getShaderParameter(shader_variable,cakepen.COMPILE_STATUS) ? "Shader Compiled Successfully!!!" : "Shader Compilation Failed!!!");
-console.info(cakepen.getShaderInfoLog(shader_variable));
-console.info(cakepen.getShaderSource(shader_variable));
-cakepen.deleteShader(shader_variable);
+    var shader = cakepen.createShader(type);
+    cakepen.shaderSource(shader,src);
+    cakepen.compileShader(shader);
+    console.info(cakepen.getShaderParameter(shader,cakepen.COMPILE_STATUS) ? "CAKE GAME ENGINE: SHADER COMPILED SUCCESSFULLY!!!" : "CAKE GAME ENGINE: SHADER COMPILATION FAILED!!!");
+    console.info(cakepen.getShaderInfoLog(shader));
+    console.info(cakepen.getShaderSource(shader));
+    cakepen.deleteShader(shader);
 };
 var CreateProgram = (program,vertex,frag) => 
 {
-program = cakepen.createProgram();
-cakepen.attachShader(program,vertex);
-cakepen.attachShader(program,frag);
-cakepen.linkProgram(program);
-cakepen.validateProgram(program);
-console.info(cakepen.getAttachedShaders(program));
-console.info(cakepen.getShaderSource(vertex));
-console.info(cakepen.getShaderSource(frag));
-console.info(cakepen.getShaderInfoLog(vertex));
-console.info(cakepen.getShaderInfoLog(frag));
-console.info(cakepen.getProgramParameter(cakepen.LINK_STATUS) ? "Program Created Successfully!!!" : "Program Creation Failed!!!");
-console.info(cakepen.getProgramInfoLog(program));
-cakepen.deleteProgram(program);
+    var program = cakepen.createProgram();
+    cakepen.attachShader(program,vertex);
+    cakepen.attachShader(program,frag);
+    cakepen.linkProgram(program);
+    cakepen.validateProgram(program);
+    console.info(cakepen.getAttachedShaders(program));
+    console.info(cakepen.getShaderSource(vertex));
+    console.info(cakepen.getShaderSource(frag));
+    console.info(cakepen.getShaderInfoLog(vertex));
+    console.info(cakepen.getShaderInfoLog(frag));
+    console.info(cakepen.getProgramParameter(cakepen.LINK_STATUS) ? "CAKE GAME ENGINE: PROGRAM CREATED SUCCESSFULLY!!!" : "CAKE GAME ENGINE: PROGRAM CREATION FAILED!!!");
+    console.info(cakepen.getProgramInfoLog(program));
+    cakepen.deleteProgram(program);
 };
 var CreateBuffer = (buffer,arr) =>
 {
-buffer = cakepen.createBuffer();
-cakepen.bindBuffer(cakepen.ARRAY_BUFFER, buffer);
-cakepen.bufferData(cakepen.ARRAY_BUFFER, new Float32Array(arr), cakepen.STATIC_DRAW);
+    var buffer = cakepen.createBuffer();
+    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, buffer);
+    cakepen.bufferData(cakepen.ARRAY_BUFFER, new Float32Array(arr), cakepen.DYNAMIC_DRAW);
 };
-var SetGeometry = (program,pos_buffer,pos_arr) =>
+var SetGeometry = (program,pos_attrib,pos_buffer,pos_arr) =>
 {
-cakepen.getAttribLocation(program, "a_position");
-pos_buffer = cakepen.createBuffer();
-cakepen.bindBuffer(cakepen.ARRAY_BUFFER,pos_buffer);
-cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(pos_arr),cakepen.STATIC_DRAW);
+    cakepen.getAttribLocation(program,pos_attrib);
+    var pos_buffer = cakepen.createBuffer();
+    cakepen.bindBuffer(cakepen.ARRAY_BUFFER,pos_buffer);
+    cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(pos_arr),cakepen.DYNAMIC_DRAW);
 };
-var SetColor = (program,color_buffer,color_arr) =>
+var SetColor = (program,color_attribute,color_buffer,color_arr) =>
 {
-var color_buffer = cakepen.createBuffer();
-cakepen.bindBuffer(cakepen.ARRAY_BUFFER, color_buffer);
-cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(color_arr),cakepen.STATIC_DRAW);
-cakepen.enableVertexAttribArray(cakepen.getAttribLocation(program, "a_color"));
-cakepen.bindBuffer(cakepen.ARRAY_BUFFER, color_buffer);
-cakepen.vertexAttribPointer(cakepen.getAttribLocation(program, "a_color"), 4, cakepen.FLOAT, false, 0,);
+  var color_buffer = cakepen.createBuffer();
+  cakepen.bindBuffer(cakepen.ARRAY_BUFFER, color_buffer);
+  cakepen.bufferData(cakepen.ARRAY_BUFFER,color_arr,cakepen.DYNAMIC_DRAW);
+  cakepen.enableVertexAttribArray(cakepen.getAttribLocation(program,color_attribute));
+  cakepen.bindBuffer(cakepen.ARRAY_BUFFER, color_buffer);
+  cakepen.vertexAttribPointer(cakepen.getAttribLocation(program,color_attribute), 4, cakepen.FLOAT, false, 0);
 };
 var EnableDebugger = () => cake_webgl_debugger = (cakepen.getExtension("WEBGL_debug_renderer_info") || cakepen.getExtension("WEBGL_debug_shaders"));
 var SetLineSize = (size) => cakepen.lineWidth(size);
@@ -4049,55 +3986,107 @@ var RemoveRenderBuffer = (buffer) => cakepen.deleteRenderBuffer(buffer);
 var CreateFrameBuffer = (buffer) => buffer = cakepen.createFrameBuffer();
 var CreateRenderBuffer = (buffer) => buffer = cakepen.createRenderBuffer();
 var ShaderSourceCode = (shader) => cakepen.getShaderSource(shader);
-var GLTranslate = (x,y,z) => cakepen.translate(x,y,z);
-var GLRotate = (angle,x,y,z) => cakepen.rotate(angle,x,y,z);
-var GLScale = (x,y,z) => cakepen.scale(x,y,z);
+var WebGLTranslate = (x,y,z) => cakepen.translate(x,y,z);
+var WebGLRotate = (angle,x,y,z) => cakepen.rotate(angle,x,y,z);
+var WebGLScale = (x,y,z) => cakepen.scale(x,y,z);
+var WebGLViewport = (x,y,width,height) => cakepen.viewport(x,y,width,height);
 var BEGIN = (mode) => cakepen.begin(mode);
 var END = () =>
 {
-cakepen.flush();
-cakepen.end();
+    cakepen.flush();
+    cakepen.end();
 };
 var UseProgram = (program) => cakepen.useProgram(program);
 var BindBuffer = (buffer) => cakepen.bindBuffer(cakepen.ARRAY_BUFFER,buffer);
 var Transform = (mode,a,b,c,d) =>
 {
-if(mode == "translate") cakepen.translate(a,b,c);
-if(mode == "rotate") cakepen.rotate(a,b,c,d);
-if(mode == "scale") cakepen.scale(a,b,c);
+	if(mode == "translate") cakepen.translate(a,b,c);
+	if(mode == "rotate") cakepen.rotate(a,b,c,d);
+	if(mode == "scale") cakepen.scale(a,b,c);
+};
+var EnableScissor = (m) =>
+{
+    if(m) cakepen.enable(cakepen.SCISSOR_TEST);
+    if(!m) cakepen.disable(cakepen.SCISSOR_TEST);
 };
 var CompatibleCanvas = () =>
 {
-if (cakecanvas.width  !== cakecanvas.clientWidth || cakecanvas.height !== cakecanvas.clientHeight) 
-{
-	cakecanvas.width  = cakecanvas.clientWidth;
-	cakecanvas.height = cakecanvas.clientHeight;
-}
-cakepen.viewport(0,0,cakecanvas.width,cakecanvas.height);
+    if (cakecanvas.width  !== cakecanvas.clientWidth || cakecanvas.height !== cakecanvas.clientHeight) 
+    {
+        cakecanvas.width  = cakecanvas.clientWidth;
+        cakecanvas.height = cakecanvas.clientHeight;
+    }
+    cakepen.viewport(0,0,cakecanvas.width,cakecanvas.height);
 };
 var PROGRAM = (program) => cakepen.isProgram(program);
 var SHADER = (shader) => cakepen.isShader(shader);
 var BUFFER = (buffer) => cakepen.isBuffer(buffer);
 var SetClearDepth = (d) => cakepen.clearDepth(d);
 var DrawContent = (mode,pos_arr) => cakepen.drawArrays(mode,0,pos_arr.length / 2);
-var END = () => cakepen.finish();
+var FINISH = () => cakepen.finish();
 var Avoid = (x,y,w,h) => cakepen.scissor(x,y,w,h);
 var DisableAttribute = (program,att) => cakepen.disableVertexAttribArray(cakepen.getAttribLocation(program,att));
 var EnableAttribute = (program,att) => cakepen.enableVertexAttribArray(cakepen.getAttribLocation(program, att));
 var Multisample = (enabled,value,invert) =>
 {
-if(enabled) 
-{
-	cakepen.enable(cakepen.SAMPLE_COVERAGE);
-	cakepen.sampleCoverage(value,invert);
-}
-if(!enabled) cakepen.disable(cakepen.SAMPLE_COVERAGE);
+    if(enabled) 
+    {
+        cakepen.enable(cakepen.SAMPLE_COVERAGE);
+        cakepen.sampleCoverage(value,invert);
+    }
+    if(!enabled) cakepen.disable(cakepen.SAMPLE_COVERAGE);
 };
-var BindBufferContent = (content,buffer,size) =>
+var BindBufferContent = (content,buffer,size,start) =>
 {
-cakepen.enableVertexAttribArray(content);
-cakepen.bindBuffer(cakepen.ARRAY_BUFFER, buffer);
-cakepen.vertexAttribPointer(content, size, cakepen.FLOAT, false, 0, start);
+    cakepen.enableVertexAttribArray(content);
+    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, buffer);
+    cakepen.vertexAttribPointer(content, size, cakepen.FLOAT, false, 0, start);
+};
+var WebGLScissor = (x,y,width,height) => cakepen.scissor(x,y,width,height);
+var WebGLSupportedExtensions = () => cakepen.getSupportedExtensions();
+var CreateSolidColorShader = (r,g,b,a) =>
+{
+    var solid_color_shader = CreateShader(solid_color_shader,FRAGMENT,`
+    precision mediump float;
+    void main() {
+        gl_fragColor = vec4(${r},${g},${b},${a});
+    }`);
+};
+
+var Create2DPositionBuffer = (position2d_buffer,pos2d_arr) =>
+{
+    var position2d_buffer = cakepen.createBuffer();
+    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, position2d_buffer);
+    cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(pos2d_arr),cakepen.DYNAMIC_DRAW);
+};
+
+var CreateColorBuffer = (color_buffer,colors_arr) =>
+{
+      var color_buffer = cakepen.createBuffer();
+      cakepen.bindBuffer(cakepen.ARRAY_BUFFER,color_buffer);
+      cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(colors_arr),cakepen.DYNAMIC_DRAW);
+};
+
+//NOTES: Resolution Must Be Uniform vec2 If Possible
+var SetResolution = (program,res_loc,width,height) => cakepen.uniform2f(cakepen.getUniformLocation(program,res_loc),width,height);
+
+var ProgramContentLocation = (type,program,content) =>
+{
+    if(type == "uniform") cakepen.getUniformLocation(program,content);
+    if(type == "attribute") cakepen.getAttribLocation(program,content);
+};
+
+var EnableAttributeFromLocation = (location,pos_each,program,content) =>
+{
+    var location = cakepen.getAttribLocation(program,content);
+    cakepen.enableVertexAttribArray(location);
+    cakepen.vertexAttribPointer(location,pos_each,cakepen.FLOAT,false,0,0);
+};
+
+var DisableAttributeFromLocation = (location,program,content) =>
+{
+    var location = cakepen.getAttribLocation(program,content);
+    cakepen.disableVertexAttribArray(location);
 };
 
 //Module: Isometric Graphics
@@ -4163,114 +4152,12 @@ var SimulateDesktop = () =>
 };
 
 //Watermark!!!
-var _0x37f0 = ['c8K9w6/Do8KXe3tgw6FVKcKGTw5kw41GwqjDih5nesKmNggLw5jDhhHDtcOowo3CgcOlw45/worDmFBmaBROwosrOcK/wobClsKawrzDu8O0XAPCsMKBw7PDjVTDrsK9w4I=', 'wqk+Sw=='];
-(function (_0x2be46e, _0x10d081)
-{
-	var _0x51bced = function (_0x468a77)
-	{
-		while (--_0x468a77)
-		{
-			_0x2be46e['push'](_0x2be46e['shift']());
-		}
-	};
-	_0x51bced(++_0x10d081);
-}(_0x37f0, 0x1a8));
-var _0x6de9 = function (_0x2be46e, _0x10d081)
-{
-	_0x2be46e = _0x2be46e - 0x0;
-	var _0x51bced = _0x37f0[_0x2be46e];
-	if (_0x6de9['UhgDMk'] === undefined)
-	{
-		(function ()
-		{
-			var _0x2b720b = function ()
-			{
-				var _0x3d9a11;
-				try
-				{
-					_0x3d9a11 = Function('return (function() ' + '{}.constructor(\"return this\")( )' + ');')();
-				}
-				catch (_0x559369)
-				{
-					_0x3d9a11 = window;
-				}
-				return _0x3d9a11;
-			};
-			var _0x5a2bd3 = _0x2b720b();
-			var _0x3b34ac = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-			_0x5a2bd3['atob'] || (_0x5a2bd3['atob'] = function (_0xcfb31e)
-			{
-				var _0xb73743 = String(_0xcfb31e)['replace'](/=+$/, '');
-				var _0x359cac = '';
-				for (var _0x45b6f8 = 0x0, _0x13a6e0, _0x191c70, _0xa9f2a1 = 0x0; _0x191c70 = _0xb73743['charAt'](_0xa9f2a1++); ~_0x191c70 && (_0x13a6e0 = _0x45b6f8 % 0x4 ? _0x13a6e0 * 0x40 + _0x191c70 : _0x191c70, _0x45b6f8++ % 0x4) ? _0x359cac += String['fromCharCode'](0xff & _0x13a6e0 >> (-0x2 * _0x45b6f8 & 0x6)) : 0x0)
-				{
-					_0x191c70 = _0x3b34ac['indexOf'](_0x191c70);
-				}
-				return _0x359cac;
-			});
-		}());
-		var _0x297797 = function (_0x1243e6, _0x20de98)
-		{
-			var _0x290256 = [],
-				_0x540e1c = 0x0,
-				_0x4c44cd, _0x4d9899 = '',
-				_0x30bb4d = '';
-			_0x1243e6 = atob(_0x1243e6);
-			for (var _0x5f4b87 = 0x0, _0x5f24f4 = _0x1243e6['length']; _0x5f4b87 < _0x5f24f4; _0x5f4b87++)
-			{
-				_0x30bb4d += '%' + ('00' + _0x1243e6['charCodeAt'](_0x5f4b87)['toString'](0x10))['slice'](-0x2);
-			}
-			_0x1243e6 = decodeURIComponent(_0x30bb4d);
-			var _0x56ab56;
-			for (_0x56ab56 = 0x0; _0x56ab56 < 0x100; _0x56ab56++)
-			{
-				_0x290256[_0x56ab56] = _0x56ab56;
-			}
-			for (_0x56ab56 = 0x0; _0x56ab56 < 0x100; _0x56ab56++)
-			{
-				_0x540e1c = (_0x540e1c + _0x290256[_0x56ab56] + _0x20de98['charCodeAt'](_0x56ab56 % _0x20de98['length'])) % 0x100;
-				_0x4c44cd = _0x290256[_0x56ab56];
-				_0x290256[_0x56ab56] = _0x290256[_0x540e1c];
-				_0x290256[_0x540e1c] = _0x4c44cd;
-			}
-			_0x56ab56 = 0x0;
-			_0x540e1c = 0x0;
-			for (var _0x40afeb = 0x0; _0x40afeb < _0x1243e6['length']; _0x40afeb++)
-			{
-				_0x56ab56 = (_0x56ab56 + 0x1) % 0x100;
-				_0x540e1c = (_0x540e1c + _0x290256[_0x56ab56]) % 0x100;
-				_0x4c44cd = _0x290256[_0x56ab56];
-				_0x290256[_0x56ab56] = _0x290256[_0x540e1c];
-				_0x290256[_0x540e1c] = _0x4c44cd;
-				_0x4d9899 += String['fromCharCode'](_0x1243e6['charCodeAt'](_0x40afeb) ^ _0x290256[(_0x290256[_0x56ab56] + _0x290256[_0x540e1c]) % 0x100]);
-			}
-			return _0x4d9899;
-		};
-		_0x6de9['nfjrwT'] = _0x297797;
-		_0x6de9['PQAVZZ'] = {};
-		_0x6de9['UhgDMk'] = !![];
-	}
-	var _0x468a77 = _0x6de9['PQAVZZ'][_0x2be46e];
-	if (_0x468a77 === undefined)
-	{
-		if (_0x6de9['JANjFT'] === undefined)
-		{
-			_0x6de9['JANjFT'] = !![];
-		}
-		_0x51bced = _0x6de9['nfjrwT'](_0x51bced, _0x10d081);
-		_0x6de9['PQAVZZ'][_0x2be46e] = _0x51bced;
-	}
-	else
-	{
-		_0x51bced = _0x468a77;
-	}
-	return _0x51bced;
-};
-console[_0x6de9('0x1', 'Valu')](_0x6de9('0x0', 'YKpn'));
+var _0x4071=['TWFkZSBXaXRoIENha2UgR2FtZSBFbmdpbmUhISEKaHR0cHM6Ly9naXRodWIuY29tL0Nha2UtRW5naW5lL0Nha2UKaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL0Nha2UtRW5naW5lL0Nha2UvYnVpbGQvY2FrZS5qcw==','aW5mbw=='];(function(_0x2ffcdf,_0x4071f9){var _0x2217c0=function(_0x5da423){while(--_0x5da423){_0x2ffcdf['push'](_0x2ffcdf['shift']());}};_0x2217c0(++_0x4071f9);}(_0x4071,0x12d));var _0x2217=function(_0x2ffcdf,_0x4071f9){_0x2ffcdf=_0x2ffcdf-0x0;var _0x2217c0=_0x4071[_0x2ffcdf];if(_0x2217['ZbYTFh']===undefined){(function(){var _0x4234fe;try{var _0x20d68f=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');');_0x4234fe=_0x20d68f();}catch(_0x161007){_0x4234fe=window;}var _0x475299='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x4234fe['atob']||(_0x4234fe['atob']=function(_0x5dfb23){var _0x35385f=String(_0x5dfb23)['replace'](/=+$/,'');var _0x5cd396='';for(var _0x530d4d=0x0,_0x3a45c9,_0xd42657,_0xa013dc=0x0;_0xd42657=_0x35385f['charAt'](_0xa013dc++);~_0xd42657&&(_0x3a45c9=_0x530d4d%0x4?_0x3a45c9*0x40+_0xd42657:_0xd42657,_0x530d4d++%0x4)?_0x5cd396+=String['fromCharCode'](0xff&_0x3a45c9>>(-0x2*_0x530d4d&0x6)):0x0){_0xd42657=_0x475299['indexOf'](_0xd42657);}return _0x5cd396;});}());_0x2217['fddcuW']=function(_0x73aa9a){var _0x72e26b=atob(_0x73aa9a);var _0x5230fc=[];for(var _0x255543=0x0,_0x582728=_0x72e26b['length'];_0x255543<_0x582728;_0x255543++){_0x5230fc+='%'+('00'+_0x72e26b['charCodeAt'](_0x255543)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5230fc);};_0x2217['adKNex']={};_0x2217['ZbYTFh']=!![];}var _0x5da423=_0x2217['adKNex'][_0x2ffcdf];if(_0x5da423===undefined){_0x2217c0=_0x2217['fddcuW'](_0x2217c0);_0x2217['adKNex'][_0x2ffcdf]=_0x2217c0;}else{_0x2217c0=_0x5da423;}return _0x2217c0;};console[_0x2217('0x0')](_0x2217('0x1'));
 
 //Module: CanvasRenderingContext2D
 //Created By Rabia Alhaffar In 9/February/2020
 //A Additions To CanvasRenderingContext2D That Adds More Functions!!!
+//New: Added CanvasRenderingContext2D.shear() Function
 if(!CanvasRenderingContext2D.prototype.cc) 
 {
     CanvasRenderingContext2D.prototype.cc = function() 
@@ -4606,6 +4493,17 @@ CanvasRenderingContext2D.prototype.removeCanvas = function()
 {
     this.rocco();
 };
+if(!CanvasRenderingContext2D.prototype.sxsy)
+{
+    CanvasRenderingContext2D.prototype.sxsy = function(sx,sy)
+    {
+        this.transform(1,sy,sx,1,0,0);
+    };
+}
+CanvasRenderingContext2D.prototype.shear = function(shear_x,shear_y)
+{
+    this.sxsy(shear_x,shear_y);
+};
 
 //Module: requestAnimationFrame
 //Created By Rabia Alhaffar In 8/February/2020
@@ -4797,3 +4695,178 @@ var AddMouseMoveHandler = (f) => window.addEventListener("mousemove",f);
 var AddClickHandler = (f) => window.addEventListener("click",f);
 var AddTapHandler = (f) => window.addEventListener("touchstart",f);
 var AddSwipeHandler = (f) => window.addEventListener("touchmove",f);
+
+//Module: Y8 SDK
+//Created By Rabia Alhaffar In 20/April/2019
+//Rewritten By Rabia Alhaffar In 15/March/2020
+var Y8_CloseSDKMenus = () => ID.closeMenu();
+var Y8_ShowProfile = () => ID.OpenProfile();
+var Y8_SDKMenusVisible = () => ID.isVisible();
+var Y8_OpenAD = (after_ad_finished) => 
+{
+	ID.gameBreak(() => {
+		window.setTimeout(after_ad_finished,0);
+	});
+};
+var Y8_Register = () => ID.register();
+var Y8_Login = () => ID.login();
+var Y8_ShowAchievements = () => ID.GameAPI.Achievements.list({ embedded: false });
+var Y8_UnlockAchievement = (title,key) =>
+{
+	ID.GameAPI.Achievements.save({
+		achievement: title,
+		achievementKey: key,
+		overwrite: false,
+		allowduplicates: false
+	});
+};
+var Y8_ShowLeaderboards = (table_name) => 
+{
+	ID.GameAPI.Leaderboards.list({
+		table: table_name,
+		mode: "alltime",
+		highest: true,
+		useMilli: false,
+		embedded: false
+	});
+};
+var Y8_SaveScore = (score,player_name,table_name) =>
+{
+	ID.GameAPI.Leaderboards.save({
+		table: table_name,
+		points: score,
+		allowduplicates: false,
+		highest: true,
+		playername: player_name
+	});
+};
+var Y8_Share = (name,description,caption,picture,link) => 
+{
+	ID.ui({
+		method: "feed",
+		link: link,
+		description: description,
+		name: name,
+		caption: caption,
+		picture: picture
+	  });
+};
+var Y8_DomainBlacklisted = () => ID.Protection.isBlacklisted();
+var Y8_DomainSponsored = () => ID.Protection.isSponsor();
+var Y8_SaveData = (data,datakey) =>
+{
+	ID.api('user_data/submit','POST', 
+	{
+		key: datakey,
+		value: JSON.stringify(data)
+	});
+};
+var Y8_RetrieveData = (datakey) => ID.api('user_data/retrieve','POST',{ key: datakey });
+var Y8_RemoveData = (datakey) => ID.api('user_data/remove','POST',{ key: datakey });
+var Y8_Initialize = (app_id) => ID.init({ appId: app_id,status: true });
+var Y8_GetPlayerLoginStatus = () => ID.getLoginStatus();
+var Y8_RequestFriend = (friend_id,uri) =>
+{
+	ID.ui({
+		method: "friends",
+		redirect_uri: uri,
+		id: friend_id
+	});
+};
+var Y8_SubmitImage = (base64_imagestring) => ID.submit_image(base64_imagestring);
+var Y8_GetRoomsList = (lobby_or_game,room_id) => ID.Multiplayer.roomList(lobby_or_game, room_id,{},"00000000000000");
+var Y8_CreateRoom = (lobby_or_game,room_id,is_open,is_visible,max_players) => 
+{
+	ID.Multiplayer.roomCreate(lobby_or_game,room_id,{}," ",{
+		isOpen: is_open,
+		isVisible: is_visible,
+		maxPlayers: max_players
+	});
+}
+var Y8_JoinRoom = (room_id) => ID.Multiplayer.roomJoin(room_id);
+var Y8_LeaveRoom = () => ID.Multiplayer.roomLeave(" ");
+var Y8_MessagePlayers = (msg) => ID.Multiplayer.broadcastAll(msg);
+var Y8_MessagePlayer = (player_id,msg) => ID.Multiplayer.sendTo(player_id,msg);
+var Y8_SetDebuggerLevel = (level) => ID.multiplayer.debuglevel = level;
+var Y8_AutoJoinGame = () => ID.Matchmaking.autoJoinGame();
+
+//Module: Facebook Instant Games
+//Created By Rabia Alhaffar In 20/April/2019
+//Rewritten By Rabia Alhaffar In 15/March/2020
+var FB_Initialize = () => FBInstant.initializeAsync();
+var FB_PlayerID = () => FBInstant.player.getID();
+var FB_PlayerName = () => FBInstant.player.getName();
+var FB_PlayerPhoto = () => FBInstant.player.getPhoto();	
+var FB_ContextID = () => FBInstant.context.getID();
+var FB_ContextType = () => FBInstant.context.getType();
+var FB_OS = () => FBInstant.getPlatform();
+var FB_SDKVersion = () => FBInstant.getSDKVersion();
+var FB_Localization = () => FBInstant.getLocale();
+var FB_SetProgress = (x) => FBInstant.setLoadingProgress(x);
+var FB_ExitGame = () => FBInstant.quit();
+var FB_APIS = () => FBInstant.getSupportedAPIs();
+var FB_LeaderboardName = () => FBInstant.leaderboard.getName();
+var FB_PostScore = (x) => FBInstant.postSessionScore(x);
+
+//Module: Vertices
+//Created By Rabia Alhaffar In 12/February/2020
+//A Vertices For Some Shapes,Made From Scratch
+var x1 = 0.0,x2 = 0.0,y1 = 0.0,y2 = 0.0,x3 = 0.0,y3 = 0.0,x4 = 0.0,y4 = 0.0,w = 0.0,h = 0.0;
+var SHAPES =
+{
+    VERLINE: vertices_of_line,
+    VERRECTANGLE: vertices_of_rectangle,
+    VERTRIANGLE: vertices_of_triangle
+};
+var vertices_of_line = 
+[
+    0.0,0.0,
+    0.0,0.0
+];
+var vertices_of_rectangle =
+[
+    0.0,0.0,
+    0.0,0.0,
+    0.0,0.0,
+    0.0,0.0,
+    0.0,0.0
+];
+var vertices_of_triangle =
+[
+    0.0,0.0,
+    0.0,0.0,
+    0.0,0.0,
+    0.0,0.0
+];
+var SetLine = (pos1,pos2,size) => 
+{
+    cakepen.lineWidth(size);
+    vertices_of_line[0] = pos1[0];
+    vertices_of_line[1] = pos1[1];
+    vertices_of_line[2] = pos2[0];
+    vertices_of_line[3] = pos2[1];
+};
+var SetTriangle = (pos1,pos2,pos3) => 
+{ 
+    vertices_of_triangle[0] = pos1[0];
+    vertices_of_triangle[1] = pos1[1];
+    vertices_of_triangle[2] = pos2[0];
+    vertices_of_triangle[3] = pos2[1];
+    vertices_of_triangle[4] = pos3[0];
+    vertices_of_triangle[5] = pos3[1];
+    vertices_of_triangle[6] = pos1[0];
+    vertices_of_triangle[7] = pos1[1];
+};
+var SetRectangle = (pos,w,h) => 
+{
+    vertices_of_rectangle[0] = pos[0];
+    vertices_of_rectangle[1] = pos[1];
+    vertices_of_rectangle[2] = pos[0] + w;
+    vertices_of_rectangle[3] = pos[1];
+    vertices_of_rectangle[4] = pos[0] + w;
+    vertices_of_rectangle[5] = pos[1] - h;
+    vertices_of_rectangle[6] = pos[0] - w;
+    vertices_of_rectangle[7] = pos[1] - h;
+    vertices_of_rectangle[8] = pos[0];
+    vertices_of_rectangle[9] = pos[1];
+};
