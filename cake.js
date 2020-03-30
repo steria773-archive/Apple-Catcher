@@ -1,6 +1,6 @@
 //Copyright (c)2019-Present Rabia Alhaffar,All Rights Reserved!!!
 //Cake Canvas (2D And 3D) And WebGL(2D And 3D) HTML5 Game Engine!!!
-//Date: 29/March/2020
+//Date: 30/March/2020
 //The Engine/Framework Code Starts Here!!!
 //Variables:
 var Opera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0,
@@ -799,7 +799,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 				x = 0,y = y + gridsize;
 			}
 			}; 
-           	var RemoveAlpha = () => cakepen.globalAlpha = 0;	 
+           	var ClearAlpha = () => cakepen.globalAlpha = 0;	 
 			var SetTransform = (horizontal_scaling,horizontal_skewing,vertical_skewing,vertical_scaling,horizontal_moving,vertical_moving) =>
 			{
 				if(Unknown(horizontal_scaling)) horizontal_scaling = 0;
@@ -1394,7 +1394,7 @@ var CrashGame = () =>
 var ViewSourceCode = (index) => window.open(document.scripts[index].src);
 var ViewGameSourceCode = () => window.open(document.scripts[2].src);
 var StartProcess = (dir) => window.open("file:///" + dir.toString);
-var UpdateCake = () => Import("https://cdn.jsdelivr.net/gh/Cake-Engine/Cake@master/build/cake.js");
+var UpdateEngine = () => Import("https://cdn.jsdelivr.net/gh/Cake-Engine/Cake@master/build/cake.js");
 var Destroy = (component) =>
 {
     if(!component.destroyed) component.Destroy();
@@ -3979,474 +3979,321 @@ var _0x1152=['TWFkZSBXaXRoIENha2UgR2FtZSBFbmdpbmUhISEKaHR0cHM6Ly9naXRodWIuY29tL0
 //New: Added CanvasRenderingContext2D.shear() Function
 //New: Added Flipping Horizontally And Vertically
 //New: Added CanvasRenderingContext2D.line() And CanvasRenderingContext2D.applyFilters() And CanvasRenderingContext2D.setFilters()
-if(!CanvasRenderingContext2D.prototype.cc) 
+if(!CanvasRenderingContext2D.prototype.clear) 
 {
-    CanvasRenderingContext2D.prototype.cc = function() 
+    CanvasRenderingContext2D.prototype.clear = function() 
     {
-            this.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.clearRect(0,0,this.canvas.width,this.canvas.height);
     };
 }
-CanvasRenderingContext2D.prototype.clear = function()
-{
-    this.cc();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.fc)
+if(!CanvasRenderingContext2D.prototype.fillCircle)
 {
-    CanvasRenderingContext2D.prototype.fc = function(x,y,radius)
+    CanvasRenderingContext2D.prototype.fillCircle = function(x,y,radius)
     {
-            this.beginPath();
-            this.arc(x,y,radius,90,180 * Math.PI);
-            this.closePath();
-            this.fill();
+        this.beginPath();
+        this.arc(x,y,radius,90,180 * Math.PI);
+        this.closePath();
+        this.fill();
     };
 }
-CanvasRenderingContext2D.prototype.fillCircle = function(x,y,radius) 
-{ 
-    this.fc(x,y,radius); 
-};
 
-
-if(!CanvasRenderingContext2D.prototype.sc)
+if(!CanvasRenderingContext2D.prototype.strokeCircle)
 {
-    CanvasRenderingContext2D.prototype.sc = function(x,y,radius)
+    CanvasRenderingContext2D.prototype.strokeCircle = function(x,y,radius)
     {
-            this.beginPath();
-            this.arc(x,y,radius,90,180 * Math.PI);
-            this.closePath();
-            this.stroke();
+        this.beginPath();
+        this.arc(x,y,radius,90,180 * Math.PI);
+        this.closePath();
+        this.stroke();
     };
 }
-CanvasRenderingContext2D.prototype.strokeCircle = function(x,y,radius) 
-{ 
-    this.sc(x,y,radius); 
-};
 
 
-if(!CanvasRenderingContext2D.prototype.ft)
+if(!CanvasRenderingContext2D.prototype.fillTriangle)
 {
-    CanvasRenderingContext2D.prototype.ft = function(x1,y1,x2,y2,x3,y3)
+    CanvasRenderingContext2D.prototype.fillTriangle = function(x1,y1,x2,y2,x3,y3)
     {
-            this.beginPath();
-            this.moveTo(x1,y1);
-            this.lineTo(x2,y2);
-            this.lineTo(x3,y3);
-            this.lineTo(x1,y1);
-            this.closePath();
-            this.fill();
+        this.beginPath();
+        this.moveTo(x1,y1);
+        this.lineTo(x2,y2);
+        this.lineTo(x3,y3);
+        this.lineTo(x1,y1);
+        this.closePath();
+        this.fill();
     };
 }
-CanvasRenderingContext2D.prototype.fillTriangle = function(x1,y1,x2,y2,x3,y3) 
-{ 
-    this.ft(x1,y1,x2,y2,x3,y3); 
-};
 
-
-if(!CanvasRenderingContext2D.prototype.st)
+if(!CanvasRenderingContext2D.prototype.strokeTriangle)
 {
-    CanvasRenderingContext2D.prototype.st = function(x1,y1,x2,y2,x3,y3)
+    CanvasRenderingContext2D.prototype.strokeTriangle = function(x1,y1,x2,y2,x3,y3)
     {
-            this.beginPath();
-            this.moveTo(x1,y1);
-            this.lineTo(x2,y2);
-            this.lineTo(x3,y3);
-            this.lineTo(x1,y1);
-            this.closePath();
-            this.stroke();
+        this.beginPath();
+        this.moveTo(x1,y1);
+        this.lineTo(x2,y2);
+        this.lineTo(x3,y3);
+        this.lineTo(x1,y1);
+        this.closePath();
+        this.stroke();
     };
 }
-CanvasRenderingContext2D.prototype.strokeTriangle = function(x1,y1,x2,y2,x3,y3)
-{
-    this.st(x1,y1,x2,y2,x3,y3);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.fp)
+if(!CanvasRenderingContext2D.prototype.fillPolygon)
 {
-    CanvasRenderingContext2D.prototype.fp = function(points)
+    CanvasRenderingContext2D.prototype.fillPolygon = function(points)
     {
-            this.beginPath();
-            this.moveTo(points[0][0], points[0][1]);
-            for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
-            this.closePath();
-            this.fill();
+        this.beginPath();
+        this.moveTo(points[0][0], points[0][1]);
+    for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
+        this.closePath();
+        this.fill();
     };
 }
-CanvasRenderingContext2D.prototype.fillPolygon = function(points)
-{
-    this.fp(points);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.sp)
+if(!CanvasRenderingContext2D.prototype.strokePolygon)
 {
-    CanvasRenderingContext2D.prototype.sp = function(points)
+    CanvasRenderingContext2D.prototype.strokePolygon = function(points)
     {
-            this.beginPath();
-            this.moveTo(points[0][0], points[0][1]);
-            for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
-            this.closePath();
-            this.stroke();
+        this.beginPath();
+        this.moveTo(points[0][0], points[0][1]);
+    for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
+        this.closePath();
+        this.stroke();
     };
 }
-CanvasRenderingContext2D.prototype.strokePolygon = function(points)
-{
-    this.sp(points);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.frr)
+if(!CanvasRenderingContext2D.prototype.fillRoundedRect)
 {
-    CanvasRenderingContext2D.prototype.frr = function(x,y,width,height,radius)
+    CanvasRenderingContext2D.prototype.fillRoundedRect = function(x,y,width,height,radius)
     {
-            this.beginPath();
-            this.moveTo(x + radius,y);
-            this.lineTo(x + width - radius,y);
-            this.quadraticCurveTo(x + width,y,x + width,y + radius);
-            this.lineTo(x + width,y + height - radius);
-            this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
-            this.lineTo(x + radius,y + height);
-            this.quadraticCurveTo(x,y + height,x,y + height - radius);
-            this.lineTo(x,y + radius);
-            this.quadraticCurveTo(x,y,x + radius,y);
-            this.closePath();
-            this.fill();
+        this.beginPath();
+        this.moveTo(x + radius,y);
+        this.lineTo(x + width - radius,y);
+        this.quadraticCurveTo(x + width,y,x + width,y + radius);
+        this.lineTo(x + width,y + height - radius);
+        this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
+        this.lineTo(x + radius,y + height);
+        this.quadraticCurveTo(x,y + height,x,y + height - radius);
+        this.lineTo(x,y + radius);
+        this.quadraticCurveTo(x,y,x + radius,y);
+        this.closePath();
+        this.fill();
     };
 }
-CanvasRenderingContext2D.prototype.fillRoundedRect = function(x,y,width,height,radius)
-{
-    this.frr(x,y,width,height,radius);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.srr)
+if(!CanvasRenderingContext2D.prototype.strokeRoundedRect)
 {
-    CanvasRenderingContext2D.prototype.srr = function(x,y,width,height,radius)
+    CanvasRenderingContext2D.prototype.strokeRoundedRect = function(x,y,width,height,radius)
     {
-            this.beginPath();
-            this.moveTo(x + radius,y);
-            this.lineTo(x + width - radius,y);
-            this.quadraticCurveTo(x + width,y,x + width,y + radius);
-            this.lineTo(x + width,y + height - radius);
-            this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
-            this.lineTo(x + radius,y + height);
-            this.quadraticCurveTo(x,y + height,x,y + height - radius);
-            this.lineTo(x,y + radius);
-            this.quadraticCurveTo(x,y,x + radius,y);
-            this.closePath();
-            this.stroke();
+        this.beginPath();
+        this.moveTo(x + radius,y);
+        this.lineTo(x + width - radius,y);
+        this.quadraticCurveTo(x + width,y,x + width,y + radius);
+        this.lineTo(x + width,y + height - radius);
+        this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
+        this.lineTo(x + radius,y + height);
+        this.quadraticCurveTo(x,y + height,x,y + height - radius);
+        this.lineTo(x,y + radius);
+        this.quadraticCurveTo(x,y,x + radius,y);
+        this.closePath();
+        this.stroke();
     };
 }
-CanvasRenderingContext2D.prototype.strokeRoundedRect = function(x,y,width,height,radius)
-{
-    this.srr(x,y,width,height,radius);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.fas)
+if(!CanvasRenderingContext2D.prototype.fillAndStroke)
 {
-    CanvasRenderingContext2D.prototype.fas = function()
+    CanvasRenderingContext2D.prototype.fillAndStroke = function()
     {
-            this.fill();
-            this.stroke();
+        this.fill();
+        this.stroke();
     };
 }
-CanvasRenderingContext2D.prototype.fillAndStroke = function()
-{
-    this.fas();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.blu) 
+if(!CanvasRenderingContext2D.prototype.blur) 
 {
-    CanvasRenderingContext2D.prototype.blu = function(px) 
+    CanvasRenderingContext2D.prototype.blur = function(px) 
     { 
-            this.canvas.style.filter += " blur(" + px + "px) "; 
+        this.canvas.style.filter += " blur(" + px + "px) "; 
     };
 }
-CanvasRenderingContext2D.prototype.blur = function(px)
-{
-    this.blu(px);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.brightness) 
+if(!CanvasRenderingContext2D.prototype.bright) 
 {
-    CanvasRenderingContext2D.prototype.brightness = function(percentage) 
+    CanvasRenderingContext2D.prototype.bright = function(percentage) 
     {
-            this.canvas.style.filter += " brightness(" + percentage + "%) ";
+        this.canvas.style.filter += " brightness(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.bright = function(percentage)
-{
-    this.brightness(percentage);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.contras) 
+if(!CanvasRenderingContext2D.prototype.contrast) 
 {
-    CanvasRenderingContext2D.prototype.contras = function(percentage) 
+    CanvasRenderingContext2D.prototype.contrast = function(percentage) 
     {
-            this.canvas.style.filter += " contrast(" + percentage + "%) ";
+        this.canvas.style.filter += " contrast(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.contrast = function(percentage)
-{
-    this.contras(percentage);
-};
 
 
-if(!CanvasRenderingContext2D.prototype.inv) 
+if(!CanvasRenderingContext2D.prototype.invert) 
 {
-    CanvasRenderingContext2D.prototype.inv = function(percentage)
+    CanvasRenderingContext2D.prototype.invert = function(percentage)
     {
-            this.canvas.style.filter += " invert(" + percentage + "%) ";
+        this.canvas.style.filter += " invert(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.invert = function(percentage)
-{
-    this.inv(percentage);
-};
 
 
-if(!CanvasRenderingContext2D.prototype.grace) 
+if(!CanvasRenderingContext2D.prototype.grayscale) 
 {
-    CanvasRenderingContext2D.prototype.grace = function(percentage)
+    CanvasRenderingContext2D.prototype.grayscale = function(percentage)
     {
-            this.canvas.style.filter += " grayscale(" + percentage + "%) ";
+        this.canvas.style.filter += " grayscale(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.grayscale = function(percentage)
-{
-    this.grace(percentage);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.opal) 
+if(!CanvasRenderingContext2D.prototype.opacity) 
 {
-    CanvasRenderingContext2D.prototype.opal = function(percentage) 
+    CanvasRenderingContext2D.prototype.opacity = function(percentage) 
     {
-            this.canvas.style.filter += " opacity(" + percentage + "%) ";
+        this.canvas.style.filter += " opacity(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.opacity = function(percentage)
-{
-    this.opal(percentage);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.sat) 
+if(!CanvasRenderingContext2D.prototype.saturate) 
 {
-    CanvasRenderingContext2D.prototype.sat = function(percentage)
+    CanvasRenderingContext2D.prototype.saturate = function(percentage)
     {
-            this.canvas.style.filter += " saturate(" + percentage + "%) ";
+        this.canvas.style.filter += " saturate(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.saturate = function(percentage)
-{
-    this.sat(percentage);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.spyro) 
+if(!CanvasRenderingContext2D.prototype.sepia) 
 {
-    CanvasRenderingContext2D.prototype.spyro = function(percentage)
+    CanvasRenderingContext2D.prototype.sepia = function(percentage)
     {
-            this.canvas.style.filter += " sepia(" + percentage + "%) ";
+        this.canvas.style.filter += " sepia(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.sepia = function(percentage)
-{
-    this.spyro(percentage);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.roue) 
+if(!CanvasRenderingContext2D.prototype.rotateHue) 
 {
-    CanvasRenderingContext2D.prototype.roue = function(percentage) 
+    CanvasRenderingContext2D.prototype.rotateHue = function(percentage) 
     {
-            this.canvas.style.filter += " hue-rotate(" + percentage + "%) ";
+        this.canvas.style.filter += " hue-rotate(" + percentage + "%) ";
     };
 }
-CanvasRenderingContext2D.prototype.rotateHue = function(percentage)
-{
-    this.roue(percentage);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.sf) 
+if(!CanvasRenderingContext2D.prototype.setFilters) 
 {
-    CanvasRenderingContext2D.prototype.sf = function(filters)
+    CanvasRenderingContext2D.prototype.setFilters = function(filters)
     {
-            this.canvas.style.filter = filters.toString();
+        this.canvas.style.filter = filters.toString();
     };
 }
-CanvasRenderingContext2D.prototype.setFilters = function(filters)
-{
-    this.sf(filters);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.af) 
+if(!CanvasRenderingContext2D.prototype.applyFilters) 
 {
-    CanvasRenderingContext2D.prototype.af = function(filters)
+    CanvasRenderingContext2D.prototype.applyFilters = function(filters)
     {
-            this.canvas.style.filter += filters.toString();
+        this.canvas.style.filter += filters.toString();
     };
 }
-CanvasRenderingContext2D.prototype.applyFilters = function(filters)
-{
-    this.af(filters);
-};
 
 
-if(!CanvasRenderingContext2D.prototype.removeFilters) 
+if(!CanvasRenderingContext2D.prototype.clearFilters) 
 {
-    CanvasRenderingContext2D.prototype.removeFilters = function()
+    CanvasRenderingContext2D.prototype.clearFilters = function()
     {
-            this.canvas.style.filter = "none";
+        this.canvas.style.filter = "none";
     };
 }
-CanvasRenderingContext2D.prototype.clearFilters = function()
-{
-    this.removesFilters();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.flis) 
+if(!CanvasRenderingContext2D.prototype.fillSquare) 
 {
-    CanvasRenderingContext2D.prototype.flis = function(x,y,size)
+    CanvasRenderingContext2D.prototype.fillSquare = function(x,y,size)
     {
-            this.fillRect(x,y,size,size);
+        this.fillRect(x,y,size,size);
     };
 }
-CanvasRenderingContext2D.prototype.fillSquare = function(x,y,size)
-{
-    this.flis(x,y,size);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.slis) 
+if(!CanvasRenderingContext2D.prototype.strokeSquare) 
 {
-    CanvasRenderingContext2D.prototype.slis = function(x,y,size)
+    CanvasRenderingContext2D.prototype.strokeSquare = function(x,y,size)
     {
-            this.strokeRect(x,y,size,size);
+        this.strokeRect(x,y,size,size);
     };
-}              
-CanvasRenderingContext2D.prototype.strokeSquare = function(x,y,size)
-{
-    this.slis(x,y,size);
-};
+}      
 
-
-if(!CanvasRenderingContext2D.prototype.hoco) 
+if(!CanvasRenderingContext2D.prototype.hideCanvas) 
 {
-    CanvasRenderingContext2D.prototype.hoco = function()
+    CanvasRenderingContext2D.prototype.hideCanvas = function()
     {
-            this.canvas.style.visibility = "hidden";
+        this.canvas.style.visibility = "hidden";
     };
 }
-CanvasRenderingContext2D.prototype.hideCanvas = function()
-{
-    this.hoco();
-};
 
 
-if(!CanvasRenderingContext2D.prototype.sirocco) 
+if(!CanvasRenderingContext2D.prototype.showCanvas) 
 {
-    CanvasRenderingContext2D.prototype.sirocco = function()
+    CanvasRenderingContext2D.prototype.showCanvas = function()
     {
-            this.canvas.style.visibility = "visible";
+        this.canvas.style.visibility = "visible";
     };
 }
-CanvasRenderingContext2D.prototype.showCanvas = function()
-{
-    this.sirocco();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.rocco) 
+if(!CanvasRenderingContext2D.prototype.removeCanvas) 
 {
-    CanvasRenderingContext2D.prototype.rocco = function()
+    CanvasRenderingContext2D.prototype.removeCanvas = function()
     {
-            this.canvas.parentNode.removeChild(this.canvas);
+        this.canvas.parentNode.removeChild(this.canvas);
     };
 }
-CanvasRenderingContext2D.prototype.removeCanvas = function()
-{
-    this.rocco();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.sxsy)
+if(!CanvasRenderingContext2D.prototype.shear)
 {
-    CanvasRenderingContext2D.prototype.sxsy = function(sx,sy)
+    CanvasRenderingContext2D.prototype.shear = function(sx,sy)
     {
-            this.transform(1,sy,sx,1,0,0);
+        this.transform(1,sy,sx,1,0,0);
     };
 }
-CanvasRenderingContext2D.prototype.shear = function(shear_x,shear_y)
-{
-    this.sxsy(shear_x,shear_y);
-};
 
-
-if(!CanvasRenderingContext2D.prototype.fliph)
+if(!CanvasRenderingContext2D.prototype.flipHorizontally)
 {
-    CanvasRenderingContext2D.prototype.fliph = function()
+    CanvasRenderingContext2D.prototype.flipHorizontally = function()
     {
         this.scale(-1,1);
     };
 }
-CanvasRenderingContext2D.prototype.flipHorizontally = function()
-{
-    this.fliph();
-};
 
 
-if(!CanvasRenderingContext2D.prototype.flipv)
+if(!CanvasRenderingContext2D.prototype.flipVertically)
 {
-    CanvasRenderingContext2D.prototype.flipv = function()
+    CanvasRenderingContext2D.prototype.flipVertically = function()
     {
         this.scale(1,-1);
     };
 }
-CanvasRenderingContext2D.prototype.flipVertically = function()
-{
-    this.flipv();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.flipc)
+if(!CanvasRenderingContext2D.prototype.flipContent)
 {
-    CanvasRenderingContext2D.prototype.flipc = function()
+    CanvasRenderingContext2D.prototype.flipContent = function()
     {
         this.scale(-1,-1);
     };
 }
-CanvasRenderingContext2D.prototype.flipContent = function()
-{
-    this.flipc();
-};
 
 
-if(!CanvasRenderingContext2D.prototype.flipres)
+if(!CanvasRenderingContext2D.prototype.resetFlipping)
 {
-    CanvasRenderingContext2D.prototype.flipres = function()
+    CanvasRenderingContext2D.prototype.resetFlipping = function()
     {
         this.scale(1,1);
     };
 }
-CanvasRenderingContext2D.prototype.resetFlipping = function()
-{
-    this.flipres();
-};
 
-
-if(!CanvasRenderingContext2D.prototype.dline)
+if(!CanvasRenderingContext2D.prototype.line)
 {
-    CanvasRenderingContext2D.prototype.dline = function(x1,y1,x2,y2,size)
+    CanvasRenderingContext2D.prototype.line = function(x1,y1,x2,y2,size)
     {
         this.lineWidth = size;
         this.beginPath();
@@ -4456,10 +4303,6 @@ if(!CanvasRenderingContext2D.prototype.dline)
         this.stroke();
     };
 }
-CanvasRenderingContext2D.prototype.line = function(x1,y1,x2,y2,size)
-{
-    this.dline(x1,y1,x2,y2,size);
-};
 
 //Module: requestAnimationFrame
 //Created By Rabia Alhaffar In 8/February/2020
@@ -5257,7 +5100,7 @@ var Tizen_CreateArchive = (directory,files) =>
 {
     tizen.archive.open(directory,"rw",(archive) =>
     {
-        for(var arc = 0;arc < files.length;arc++) archive.add(giles[arc],null,null,null);
+        for(var arc = 0;arc < files.length;arc++) archive.add(files[arc],null,null,null);
         archive.close();
     },null,null);
 };
