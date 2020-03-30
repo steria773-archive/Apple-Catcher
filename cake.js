@@ -1355,7 +1355,32 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 	};
 	var SetCanvasBackground = (bg) => cakecanvas.style.background = bg;
 	var RemoveCanvasBackground = () => cakecanvas.style.background = "none";
-	
+
+
+//Module: Execution
+//Created By Rabia Alhaffar On 15/November/2019
+//An Library To Debug,Run Scripts In-Game
+var scripts_added = 0;
+var Execute = (code,l,time) =>
+{
+    if(Unknown(l)) l = 0;
+    if(Unknown(time)) time = 0;
+    if(l == 0) setTimeout(code,0);
+    if(l == 1) setTimeout(code,time);
+    if(l == 2) setInterval(code,0);
+    if(l == 3) setInterval(code,time);
+};
+
+var Import = (script_source) =>
+{
+  var script = document.createElement('script'); 
+  script.src = script_source; 
+  script.type = 'text/javascript'; 
+  script.defer = true; 
+  document.getElementsByTagName('head')[scripts_added].appendChild(script); 
+  scripts_added++;
+};
+
 //Module: Game
 //Cake Game Library!!!
 //Just For Closing Game Page As Exit Or Opening URL Or Even Restart Game!!!
@@ -2593,30 +2618,6 @@ var CheckCheatCode = (cheatcode, f) =>
 	}
 };
 var SetCheatCode = (cheatcode) => cheat = cheatcode;
-
-//Module: Execution
-//Created By Rabia Alhaffar On 15/November/2019
-//An Library To Debug,Run Scripts In-Game
-var scripts_added = 0;
-var Execute = (code,l,time) =>
-{
-    if(Unknown(l)) l = 0;
-    if(Unknown(time)) time = 0;
-    if(l == 0) setTimeout(code,0);
-    if(l == 1) setTimeout(code,time);
-    if(l == 2) setInterval(code,0);
-    if(l == 3) setInterval(code,time);
-};
-
-var Import = (script_source) =>
-{
-  var script = document.createElement('script'); 
-  script.src = script_source; 
-  script.type = 'text/javascript'; 
-  script.defer = true; 
-  document.getElementsByTagName('head')[scripts_added].appendChild(script); 
-  scripts_added++;
-};
 
 //Module: FPS And Levels
 //Created By Rabia Alhaffar On 16/November/2019
