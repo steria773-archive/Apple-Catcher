@@ -1,6 +1,6 @@
 //Copyright (c)2019-Present Rabia Alhaffar,All Rights Reserved!!!
-//Cake Canvas (2D And 3D) And WebGL(2D And 3D) HTML5 Game Framework!!!
-//Date: 17/March/2020
+//Cake Canvas (2D And 3D) And WebGL(2D And 3D) HTML5 Game Engine!!!
+//Date: 29/March/2020
 //The Engine/Framework Code Starts Here!!!
 //Variables:
 var Opera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0,
@@ -62,7 +62,6 @@ var Opera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAg
 	CanvasHeight,
 	CanvasWidth,
 	calltime = performance.now(),
-	RandomColor = `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`,
 	RED = "red",
 	ORANGE = "orange",
 	YELLOW = "yellow",
@@ -169,6 +168,136 @@ var TVKey = {
 	Next: 228,
 	Previous: 227
 };
+var KeyboardKey = 
+{
+    Key: 
+    {
+        A: "a",
+        B: "b",
+        C: "c",
+        D: "d",
+        E: "e",
+        F: "f",
+        G: "g",
+        H: "h",
+        I: "i",
+        J: "j",
+        K: "k",
+        L: "l",
+        M: "m",
+        N: "n",
+        O: "o",
+        P: "p",
+        Q: "q",
+        R: "r",
+        S: "s",
+        T: "t",
+        U: "u",
+        V: "v",
+        W: "w",
+        X: "x",
+        Y: "y",
+        Z: "z",
+        ZERO: "0",
+        ONE: "1",
+        TWO: "2",
+        THREE: "3",
+        FOUR: "4",
+        FIVE: "5",
+        SIX: "6",
+        SEVEN: "7",
+        EIGHT: "8",
+        NINE: "9",
+        UP: "ArrowUp",
+        DOWN: "ArrowDown",
+        LEFT: "ArrowLeft",
+        Right: "ArrowRight",
+        SPACE: 32,
+        TAB: "Tab",
+        SHIFT: "Shift",
+        CONTROL: "Control",
+        ALT: "Alt",
+        BACKSPACE: "Backspace",
+        ENTER: "Enter",
+        OS: "OS",
+        UNIDENTIFIED: "Unidentified",
+        HOME: "Home",
+        PGUP: "PageUp",
+        PGDN: "PageDown",
+        CLEAR: "Clear",
+        DELETE: "Delete",
+        ESCAPE: "Escape",
+        INSERT: "Insert"
+    },
+
+    KeyCode:
+    {
+        A: 65,
+        B: 66,
+        C: 67,
+        D: 68,
+        E: 69,
+        F: 70,
+        G: 71,
+        H: 72,
+        I: 73,
+        J: 74,
+        K: 75,
+        L: 76,
+        M: 77,
+        N: 78,
+        O: 79,
+        P: 80,
+        Q: 81,
+        R: 82,
+        S: 83,
+        T: 84,
+        U: 85,
+        V: 86,
+        W: 87,
+        X: 88,
+        Y: 89,
+        Z: 90,
+        ZERO: 48,
+        ONE: 49,
+        TWO: 50,
+        THREE: 51,
+        FOUR: 52,
+        FIVE: 53,
+        SIX: 54,
+        SEVEN: 55,
+        EIGHT: 56,
+        NINE: 57,
+        UP: 38,
+        DOWN: 40,
+        LEFT: 37,
+        RIGHT: 39,
+        SPACE: 32,
+        TAB: 9,
+        SHIFT: 16,
+        CONTROL: 17,
+        ALT: 18,
+        BACKSPACE: 8,
+        ENTER: 13,
+        NUMLOCK: 144,
+        OS: 91,
+        UNIDENTIFIED: 0,
+        HOME: 36,
+        PGUP: 33,
+        PGDN: 34,
+        CLEAR: 12,
+        DELETE: 46,
+        ESCAPE: 27,
+        INSERT: 45
+    }
+};
+
+var MouseButton =
+{
+    LEFT: 0,
+    RIGHT: 2,
+    MIDDLE: 1
+};
 
 //Module: Browser
 var ReloadHistory = () => window.location.reload();
@@ -176,26 +305,78 @@ var NextHistory = () => window.history.forward();
 var BackHistory = () => window.history.back();
 var OpenURL = (url) => window.open(url);
 
-//Module: Audio
+//Module: Media(Video And Audio)
+//Audio
 var PlayAudio = (url) => audio = new Audio(url).play();
-
 function Music(url)
 {
 	this.url = url;
 	this.audio = new Audio(this.url);
-	this.Play = function ()
-	{
-		this.audio.play();
-	}
-	this.Pause = function ()
-	{
-		this.audio.pause();
-	}
-	this.Resume = function ()
-	{
-		this.Play();
-	}
+	this.Play = function() { this.audio.play(); };
+	this.Pause = function() { this.audio.pause(); };
+	this.Resume = function() { this.audio.play(); };
+	this.Reload = function() { this.audio.load(); }
+	this.SetVolume = function(v) { this.audio.volume = v; };
+	this.SetSource = function(src) { this.audio.src = src; this.audio.load(); };
+	this.ShowControls = function() { this.audio.controls = true; };
+	this.HideControls = function() { this.audio.controls = false; };
+	this.Mute = function() { this.audio.muted = true; };
+	this.UnMute = function() { this.audio.muted = false; };
+	this.EnableLoop = function() { this.audio.loop = true; };
+	this.DisableLoop = function() { this.audio.loop = false; };
+	this.paused = function() { return this.audio.paused; };
+	this.finished = function() { return this.audio.ended; }; 
+	this.muted = function() { return this.audio.muted; };
+	this.EnablePreload = function() { this.audio.preload = "auto"; };
+	this.DisablePreload = function() { this.audio.preload = "none"; };
 };
+
+//Video
+var PlayVideo = (src) =>
+{
+    var video = document.createElement("video");
+    video.src = src;
+    video.loop = false;
+    cakepen.drawImage(video,0,0,cakecanvas.width,cakecanvas.height);
+    video.onended = () => video.parentNode.removeChild(video);
+};
+
+function Video(src)
+{
+    this.src = src;
+    this.removeonfinish = false;
+    this.video = document.createElement("video");
+    this.video.src = this.src;
+    this.video.loop = false;
+    this.video.controls = false;
+    this.Play = function() 
+    {
+		if(!this.video.autoplay) this.video.play();
+        cakepen.drawImage(this.video,0,0,cakecanvas.width,cakecanvas.height); 
+        if(this.removeonfinish) this.video.onended = () => this.video.parentNode.removeChild(this.video);
+    };
+	this.Pause = function() { this.video.pause(); };
+	this.Resume = function() { this.Play(); };
+	this.Reload = function() { this.video.load(); }
+	this.SetVolume = function(v) { this.video.volume = v; };
+	this.SetSource = function(src) { this.video.src = src; this.video.load(); };
+	this.ShowControls = function() { this.video.controls = true; };
+	this.HideControls = function() { this.video.controls = false; };
+	this.Mute = function() { this.video.muted = true; };
+	this.UnMute = function() { this.video.muted = false; };
+	this.EnableLoop = function() { this.video.loop = true; };
+	this.DisableLoop = function() { this.video.loop = false; };
+	this.paused = function() { return this.video.paused; };
+	this.finished = function() { return this.video.ended; }; 
+	this.muted = function() { return this.video.muted; };
+	this.EnablePreload = function() { this.video.preload = "auto"; };
+    this.DisablePreload = function() { this.video.preload = "none"; };
+    this.RemoveWhenFinish = function() 
+    {
+        this.removeonfinish = true;
+    };
+
+}
 
 //Module: Fullscreen API
 var Fullscreen = window.fullscreen;
@@ -273,6 +454,41 @@ var CheckCollisionCircleTopCanvasAdvanced = (c1_y,c1_speedY,c1_r) => { return c1
 var CheckCollisionCircleBottomCanvasAdvanced = (c1_y,c1_speedY,c1_r) => { return c1_y + c1_speedY > cakecanvas.height - c1_r; };
 var CheckCollisionCircleLeftCanvasAdvanced = (c1_x,c1_speedX,c1_r) => { return c1_x + c1_speedX < c1_r; };
 var CheckCollisionCircleRightCanvasAdvanced = (c1_x,c1_speedX,c1_r) => { return c1_x + c1_speedX > cakecanvas.width - c1_r; };
+var CheckCollisionPointSphere = (point,sphere) =>
+{
+	return Math.sqrt((point.x - sphere.x) * (point.x - sphere.x) +
+		             (point.y - sphere.y) * (point.y - sphere.y) +
+                     (point.z - sphere.z) * (point.z - sphere.z)) < sphere.radius;
+};
+	   
+var CheckCollisionSpheres = (sphere1,sphere2) =>
+{
+	return Math.sqrt((sphere1.x - sphere2.x) * (sphere1.x - sphere2.x) +
+                     (sphere1.y - sphere2.y) * (sphere1.y - sphere2.y) +
+                     (sphere1.z - sphere2.z) * (sphere1.z - sphere2.z)) < (sphere1.radius + sphere2.radius);
+};
+	   
+var CheckCollisionCubes = (cube1,cube2) =>
+{
+	if (Math.abs(cube1.x - cube2.x) < cube1.size + cube2.size)
+	{
+		if (Math.abs(cube1.y - cube2.y) < cube1.size + cube2.size)
+		{
+			if (Math.abs(cube1.z - cube2.z) < cube1.size + cube2.size) return true;
+		}
+	}
+};
+
+var CheckCollisionCuboids = (cuboid1,cuboid2) =>
+{
+	if (Math.abs(cuboid1.x - cuboid2.x) < cuboid1.scale[0] + cuboid2.scale[0])
+	{
+		if (Math.abs(cuboid1.y - cuboid2.y) < cuboid1.scale[1] + cuboid2.scale[1])
+		{
+			if (Math.abs(cuboid1.z - cuboid2.z) < cuboid1.scale[2] + cuboid2.scale[2]) return true;
+		}
+	}
+};
 
 //Module: Mobile
 //Created By Rabia Alhaffar In 23/April/2019
@@ -329,11 +545,10 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 			if(Unknown(shadowblur)) cakepen.shadowBlur = "0px";
 			cakepen.shadowOffsetX = shadowOffsetX,cakepen.shadowOffsetY = shadowOffsetY,cakepen.shadowColor = shadowcolor,cakepen.shadowBlur = shadowblur;			
 		};
-	    var SetLineProperties = (line_width,line_height) =>
+	    var SetLineProperties = (line_width) =>
 		{
-			if(Unknown(line_height)) line_height = 1;
 			if(Unknown(line_width)) line_width = 1;
-			cakepen.lineHeight = line_height,cakepen.lineWidth = line_width;
+			cakepen.lineWidth = line_width;
 		};
 		var DrawRect = (x,y,width,height,color,stroke_color,alpha) =>
 		{
@@ -389,15 +604,15 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 			};
 		var DrawCircle = (x,y,radius,color,stroke_color,alpha) =>
 		{
-			        if(Unknown(x)) x = 0;
+			            if(Unknown(x)) x = 0;
 					if(Unknown(y)) y = 0;
-                    if(Unknown(radius)) radius = 1;
+            if(Unknown(radius)) radius = 1;
 					if(Unknown(color)) color = "black";
 					if(Unknown(stroke_color)) stroke_color = "black";
 					if(Unknown(alpha)) alpha = 1;
 					cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
 					cakepen.beginPath();
-                    cakepen.arc(x, y, radius, 90, 180 * Math.PI);
+            cakepen.arc(x, y, radius, 90, 180 * Math.PI);
 				    if(mode == "fill") cakepen.fill();
 					if(mode == "stroke") cakepen.stroke();		
 					if(mode == "custom") { cakepen.stroke(); cakepen.fill(); }
@@ -479,10 +694,10 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		 cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
 		 if (points.length <= 0) return;
 		 cakepen.beginPath();
-         cakepen.moveTo(points[0][0], points[0][1]);
-         for (var i = 0; i < points.length; i++) cakepen.lineTo(points[i][0], points[i][1]);
-         if (mode == "fill") cakepen.fill();
-         if (mode == "stroke") cakepen.stroke();
+             cakepen.moveTo(points[0][0], points[0][1]);
+             for (var i = 0; i < points.length; i++) cakepen.lineTo(points[i][0], points[i][1]);
+             if (mode == "fill") cakepen.fill();
+             if (mode == "stroke") cakepen.stroke();
 		 if (mode == "custom") { cakepen.fill(); cakepen.stroke(); }
 		 cakepen.closePath();
 		 };		 
@@ -500,10 +715,10 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		if(Unknown(alpha)) alpha = 1;
 		cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
 		cakepen.beginPath();
-        var a = 360 / sides;
+            var a = 360 / sides;
 		cakepen.moveTo(x,y);
-        for (var i = 1; i < sides; i++) cakepen.lineTo(size * Math.cos(a * i),size * Math.sin(a * i));
-        cakepen.closePath();
+            for (var i = 1; i < sides; i++) cakepen.lineTo(size * Math.cos(a * i),size * Math.sin(a * i));
+            cakepen.closePath();
 		cakepen.fill();
 		};
 
@@ -527,7 +742,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		 cakepen.scale(scale_width,scale_height);
 		 };
 		var Rotate = (angle) => { if(Unknown(angle)) angle = 0; cakepen.rotate(angle); };
-        var Translate = (x,y) =>
+            var Translate = (x,y) =>
 		 {
 	     if(Unknown(x)) x = 0;
 		 if(Unknown(y)) y = 0;
@@ -539,11 +754,11 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		  if(Unknown(a)) a = 0;
 		  if(Unknown(b)) b = 0;
 		  if(mode == "translate") cakepen.translate(a,b);
-          if(mode == "rotate") cakepen.rotate(a);
-          if(mode == "scale") cakepen.scale(a,b);		  
+              if(mode == "rotate") cakepen.rotate(a);
+              if(mode == "scale") cakepen.scale(a,b);		  
 		 };
 
-         var DrawFilledGrid = (gridsize,color,stroke_color,alpha) =>
+             var DrawFilledGrid = (gridsize,color,stroke_color,alpha) =>
 		 {
 			if(Unknown(gridsize)) gridsize = 10;
 			if(Unknown(color)) color = "black";
@@ -565,7 +780,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 			}
 			};
 
-        var DrawSuperFilledGrid = (gridsize,alpha) =>
+            var DrawSuperFilledGrid = (gridsize,alpha) =>
 		{
 			if(Unknown(gridsize)) gridsize = 0;
 			if(Unknown(alpha)) alpha = 1;
@@ -584,28 +799,28 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 				x = 0,y = y + gridsize;
 			}
 			}; 
-      	var RemoveAlpha = () => cakepen.globalAlpha = 0;	 
-        var SetTransform = (horizontal_scaling,horizontal_skewing,vertical_skewing,vertical_scaling,horizontal_moving,vertical_moving) =>
-		 {
-		 if(Unknown(horizontal_scaling)) horizontal_scaling = 0;
-         if(Unknown(horizontal_skewing)) horizontal_skewing = 0;		
-         if(Unknown(vertical_skewing)) vertical_skewing = 0;
-         if(Unknown(vertical_scaling)) vertical_scaling = 0;		 
-		 if(Unknown(horizontal_moving)) horizontal_moving = 0;
-		 if(Unknown(vertical_moving)) vertical_moving = 0;
-		 cakepen.setTransform(horizontal_scaling, horizontal_skewing, vertical_skewing, vertical_scaling, horizontal_moving, vertical_moving);
-		 };
+           	var RemoveAlpha = () => cakepen.globalAlpha = 0;	 
+			var SetTransform = (horizontal_scaling,horizontal_skewing,vertical_skewing,vertical_scaling,horizontal_moving,vertical_moving) =>
+			{
+				if(Unknown(horizontal_scaling)) horizontal_scaling = 0;
+				if(Unknown(horizontal_skewing)) horizontal_skewing = 0;
+				if(Unknown(vertical_skewing)) vertical_skewing = 0;
+				if(Unknown(vertical_scaling)) vertical_scaling = 0;
+				if(Unknown(horizontal_moving)) horizontal_moving = 0;
+				if(Unknown(vertical_moving)) vertical_moving = 0;
+				cakepen.setTransform(horizontal_scaling, horizontal_skewing, vertical_skewing, vertical_scaling, horizontal_moving, vertical_moving);
+			};
 		 		 
-        var DoTransform = (horizontal_scaling,horizontal_skewing,vertical_skewing,vertical_scaling,horizontal_moving,vertical_moving) =>
+            var DoTransform = (horizontal_scaling,horizontal_skewing,vertical_skewing,vertical_scaling,horizontal_moving,vertical_moving) =>
 		 {
 	     if(Unknown(horizontal_scaling)) horizontal_scaling = 0;
-         if(Unknown(horizontal_skewing)) horizontal_skewing = 0;		
-         if(Unknown(vertical_skewing)) vertical_skewing = 0;
-         if(Unknown(vertical_scaling)) vertical_scaling = 0;		 
+             if(Unknown(horizontal_skewing)) horizontal_skewing = 0;		
+             if(Unknown(vertical_skewing)) vertical_skewing = 0;
+             if(Unknown(vertical_scaling)) vertical_scaling = 0;		 
 		 if(Unknown(horizontal_moving)) horizontal_moving = 0;
 		 if(Unknown(vertical_moving)) vertical_moving = 0;
 		 cakepen.transform(horizontal_scaling, horizontal_skewing, vertical_skewing, vertical_scaling, horizontal_moving, vertical_moving);
-         };
+             };
 
 		var DrawPixel = (x,y,size,color,alpha,show_grid) =>
 		{
@@ -624,17 +839,17 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		{
 		if(Unknown(color)) color = "black";
 		cakepen.fillStyle = color;
-        cakepen.clearRect(0,0,cakecanvas.width,cakecanvas.height);
+            cakepen.clearRect(0,0,cakecanvas.width,cakecanvas.height);
 		cakecanvas.height = cakecanvas.height,cakecanvas.width = cakecanvas.width;
-        cakepen.fillRect(0,0,cakecanvas.width,cakecanvas.height);		
+            cakepen.fillRect(0,0,cakecanvas.width,cakecanvas.height);		
 		};
 	    var SetAlpha = (alpha) => { if(Unknown(alpha)) alpha = 1; cakepen.globalAlpha = alpha; };
 		var SetBackgroundImage = (url) => document.body.style.backgroundImage = `url(${url.toString()})`; 
-        var SetBackgroundColor = (color) =>
-        {
+            var SetBackgroundColor = (color) =>
+            {
 		if(Unknown(color)) color = "white";
 	    document.body.style.color = color,document.body.style.backgroundColor = color;
-        };
+            };
 		var SetCanvasBackgroundImage = (url) => cakecanvas.style.backgroundImage = `url(${url.toString()})`;
 		var RemoveCanvasBackgroundImage = () => cakecanvas.style.backgroundImage = "none";	
 		var RemoveCanvasBackgroundColor = () => cakecanvas.style.backgroundColor = "none";
@@ -647,7 +862,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		if(Unknown(border_style)) border_style = "none";
 		if(Unknown(bgcolor)) bgcolor = "none";
 		var canvas = document.createElement("canvas");
-        canvas.id = "cake-canvas",canvas.height = height,canvas.width = width,canvas.style.backgroundColor = bgcolor,canvas.style.border = border_style;
+            canvas.id = "cake-canvas",canvas.height = height,canvas.width = width,canvas.style.backgroundColor = bgcolor,canvas.style.border = border_style;
 		document.body.appendChild(canvas);
 		};
 		var CreateGame = (width,height,gametitle,context) =>
@@ -655,10 +870,10 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 			document.title = gametitle;
 			if(Unknown(height)) height = 150;
 			if(Unknown(width)) width = 150;
-			var gamecanvas = document.createElement("canvas");
-			gamecanvas.id = gametitle.toString().toLowerCase() + "-game-canvas",gamecanvas.height = height,gamecanvas.width = width;
-			document.body.appendChild(gamecanvas);
-			var cakecanvas = document.getElementById(gametitle.toString().toLowerCase() + "-game-canvas");
+			var cakecanvas = document.createElement("canvas");
+			cakecanvas.id = gametitle.toString().toLowerCase() + "-game-canvas",cakecanvas.height = height,cakecanvas.width = width;
+			document.body.appendChild(cakecanvas);
+			cakecanvas = document.getElementById(gametitle.toString().toLowerCase() + "-game-canvas");
 		    var cakepen	= cakecanvas.getContext(context);
 		    if(cakepen) console.info(context == "2d" ? "CAKE GAME ENGINE: INITIALIZING CanvasRenderingContext2D..." : "CAKE GAME ENGINE: INITIALIZING WebGLRenderingContext...");
 		    if(!cakepen) 
@@ -676,8 +891,8 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		if(Unknown(color)) color = "black";
 		if(Unknown(stroke_color)) stroke_color = color;
 		if(Unknown(alpha)) alpha = 1;
-        cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
-        if(mode == "fill") cakepen.fillRect(x,y,size,size);			
+            cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
+            if(mode == "fill") cakepen.fillRect(x,y,size,size);			
 		if(mode == "stroke") cakepen.strokeRect(x,y,size,size);	
 		if(mode == "custom") { cakepen.fillRect(x,y,size,size); cakepen.strokeRect(x,y,size,size); }
 		};	
@@ -691,20 +906,20 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		if(Unknown(stroke_color)) stroke_color = color;
 		if(Unknown(alpha)) alpha = 1;
 		cakepen.globalAlpha = alpha,cakepen.fillStyle = color,cakepen.strokeStyle = stroke_color;
-        if (typeof radius === "undefined") radius = 5;
-        cakepen.beginPath();
-        cakepen.moveTo(x + radius,y);
-        cakepen.lineTo(x + width - radius,y);
-        cakepen.quadraticCurveTo(x + width,y,x + width,y + radius);
-        cakepen.lineTo(x + width,y + height - radius);
-        cakepen.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
-        cakepen.lineTo(x + radius,y + height);
-        cakepen.quadraticCurveTo(x,y + height,x,y + height - radius);
-        cakepen.lineTo(x,y + radius);
-        cakepen.quadraticCurveTo(x,y,x + radius,y);
-        cakepen.closePath();
-        if(mode == "fill") cakepen.fill();			
-        if(mode == "stroke") cakepen.stroke();
+            if (typeof radius === "undefined") radius = 5;
+            cakepen.beginPath();
+            cakepen.moveTo(x + radius,y);
+            cakepen.lineTo(x + width - radius,y);
+            cakepen.quadraticCurveTo(x + width,y,x + width,y + radius);
+            cakepen.lineTo(x + width,y + height - radius);
+            cakepen.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
+            cakepen.lineTo(x + radius,y + height);
+            cakepen.quadraticCurveTo(x,y + height,x,y + height - radius);
+            cakepen.lineTo(x,y + radius);
+            cakepen.quadraticCurveTo(x,y,x + radius,y);
+            cakepen.closePath();
+            if(mode == "fill") cakepen.fill();			
+            if(mode == "stroke") cakepen.stroke();
 		if(mode == "custom") { cakepen.fill(); cakepen.stroke(); }
 	   };
 	   var ResetAlpha = () => cakepen.globalAlpha = 1;
@@ -799,7 +1014,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 
 	var SetBackgroundPosition = (pos) =>
 	{
-        cakecanvas.style.backgroundAttachment = "fixed";
+            cakecanvas.style.backgroundAttachment = "fixed";
 		cakecanvas.style.backgroundRepeat = "no-repeat";
 		cakecanvas.style.backgroundPosition = pos;
 	};
@@ -844,7 +1059,9 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
     for(var i = 0; i < canvases.length; i++) cakepen = canvases[i].getContext(context);  
 	};
 	var RandomColor = () => { return `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`; };
-	var RandomBetween = (x) => { return Math.floor(Math.random() * x); };
+	var RandomNumber = (x) => { return Math.floor(Math.random() * x); };
+	var RandomCanvasWidth = () => { return Math.floor(Math.random() * CanvasWidth); };
+	var RandomCanvasHeight = () => { return Math.floor(Math.random() * CanvasHeight); };
 	var RandomAlpha = () => cakepen.globalAlpha = Math.random();
 	var HSL = (h,s,l) =>
 	{
@@ -870,24 +1087,24 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		return `rgba(${r},${g},${b},${a})`;
 	};
 	var MakeCanvasCompatible = () => { cakecanvas.width = WindowWidth,cakecanvas.height = WindowHeight; };
-	var DrawGradientRect = (x,y,w,h,content,alpha) =>
+	var DrawGradientRect = (x,y,width,height,content,alpha) =>
 	{
 		if(Unknown(x)) x = 0;
 		if(Unknown(y)) y = 0;
-		if(Unknown(w)) w = 0;
-		if(Unknown(h)) h = 0;
+		if(Unknown(width)) width = 0;
+		if(Unknown(height)) height = 0;
 		if(Unknown(alpha)) alpha = 1;
-		var linear = cakepen.createLinearGradient(x, y, w, h);
+		var linear = cakepen.createLinearGradient(x, y, width, height);
 		for(var loopdlg = 0;loopdlg < content.length;loopdlg++) linear.addColorStop(content[loopdlg][0], content[loopdlg][1]);
 		cakepen.fillStyle = linear;
 		cakepen.strokeStyle = linear;
 		cakepen.globalAlpha = alpha;
-		if (mode == "fill") cakepen.fillRect(x,y,w,h);
-		if (mode == "stroke") cakepen.strokeRect(x,y,w,h);
+		if (mode == "fill") cakepen.fillRect(x,y,width,height);
+		if (mode == "stroke") cakepen.strokeRect(x,y,width,height);
 		if (mode == "custom")
 		{
-			cakepen.fillRect(x,y,w,h);
-			cakepen.strokeRect(x,y,w,h);
+			cakepen.fillRect(x,y,width,height);
+			cakepen.strokeRect(x,y,width,height);
 		}
 	};
 	//Modes For DrawArrays()
@@ -901,7 +1118,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		TEXTS = "texts",
 		ROUNDED_RECTANGLES = "rounded_rectangles";
 //Drawing Using Arrays Feature Is Available,Now For Everyone!!!
-	var DrawArrays = (type,content) =>
+	var DrawContent = (type,content) =>
 	{
 		if(type == RECTANGLES)
 		{
@@ -962,7 +1179,7 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 				cakepen.strokeStyle = content[loopcontent][4];
 				cakepen.globalAlpha = content[loopcontent][5];
 				cakepen.beginPath();
-                cakepen.arc(content[loopcontent][0], content[loopcontent][1], content[loopcontent][2], 90, 180 * Math.PI);
+              cakepen.arc(content[loopcontent][0], content[loopcontent][1], content[loopcontent][2], 90, 180 * Math.PI);
 				if(mode == "fill") cakepen.fill();
 				if(mode == "stroke") cakepen.stroke();		
 				if(mode == "custom")
@@ -1009,9 +1226,9 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 				cakepen.strokeStyle = content[loopcontent][4];
 				cakepen.globalAlpha = content[loopcontent][5];
 				cakepen.beginPath();
-		        cakepen.moveTo(content[loopcontent][0][0],content[loopcontent][0][1]);
-		        cakepen.lineTo(content[loopcontent][1][0],content[loopcontent][1][1]);
-		        cakepen.lineTo(content[loopcontent][2][0],content[loopcontent][2][1]);
+		            cakepen.moveTo(content[loopcontent][0][0],content[loopcontent][0][1]);
+		            cakepen.lineTo(content[loopcontent][1][0],content[loopcontent][1][1]);
+		            cakepen.lineTo(content[loopcontent][2][0],content[loopcontent][2][1]);
 			    cakepen.lineTo(content[loopcontent][0][0],content[loopcontent][0][1]);
 			    if(mode == "fill") cakepen.fill();
 			    if(mode == "stroke") cakepen.stroke();			
@@ -1136,6 +1353,9 @@ var CanvasHeight,CanvasWidth,texture,RandomX,RandomY,HalfCanvasHeight,HalfCanvas
 		if(Unknown(y)) y = 0;
 		cakepen.shear(x,y);
 	};
+	var SetCanvasBackground = (bg) => cakecanvas.style.background = bg;
+	var RemoveCanvasBackground = () => cakecanvas.style.background = "none";
+	
 //Module: Game
 //Cake Game Library!!!
 //Just For Closing Game Page As Exit Or Opening URL Or Even Restart Game!!!
@@ -1361,7 +1581,6 @@ this.Move = function(position,force)
 this.AddFeature = function(feature,code) { this.feature = code; };
 this.InPosition = function(x_pos,y_pos) { return(this.x == x_pos && this.y == y_pos); };
 if(autoupdate) this.Update();
-this.Add();
 }
 
 function Texture(url,x,y,width,height,autoupdate)
@@ -1392,6 +1611,7 @@ this.clickFunction = 0;
 this.rotationAngle = 0;
 this.name = "";
 var mousePosition = { x:0,y:0 };
+var touchPosition = { x:0,y:0 };
 var isClicking = false,isTouching = false,mousePressed = false,canvasTouched = false;
 this.SetInteractions = function(clickF) 
 {
@@ -1824,7 +2044,7 @@ this.Draw = function()
         cakepen.lineTo(this.x + this.width - this.radius,this.y);
         cakepen.quadraticCurveTo(this.x + this.width,this.y,this.x + this.width,this.y + this.radius);
         cakepen.lineTo(this.x + this.width,this.y + this.height - this.radius);
-        cakepen.quadraticCurveTo(this.x + this.width,this.y + this.height,this.x + width - this.radius,this.y + this.height);
+        cakepen.quadraticCurveTo(this.x + this.width,this.y + this.height,this.x + this.width - this.radius,this.y + this.height);
         cakepen.lineTo(this.x + this.radius,this.y + this.height);
         cakepen.quadraticCurveTo(this.x,this.y + this.height,this.x,this.y + this.height - this.radius);
         cakepen.lineTo(this.x,this.y + this.radius);
@@ -1919,18 +2139,20 @@ function Polygon(points,color,autoupdate)
  this.UpdatePosition = function() { this.gravitySpeed += this.gravity,this.x += this.speedX,this.y += this.speedY + this.gravitySpeed; };
  this.Draw = function()
  {
- if(Unknown(this.color)) this.color = "black";
- if(Unknown(autoupdate)) autoupdate = false;
- cakepen.globalAlpha = this.alpha,cakepen.fillStyle = this.color,cakepen.strokeStyle = this.stroke;
- if(this.destroyed) cakepen.globalAlpha = 0;
- if(this.rotated) cakepen.rotate(this.rotationAngle);
- if (points.length <= 0) return;
- cakepen.moveTo(points[0][0], points[0][1]);
- for (var i = 0; i < points.length; i++) cakepen.lineTo(points[i][0], points[i][1]);
- cakepen.fill();
- cakepen.stroke();
- cakepen.globalAlpha = this.alpha;
- cakepen.rotate(-this.rotationAngle);
+	if(Unknown(this.color)) this.color = "black";
+	if(Unknown(autoupdate)) autoupdate = false;
+	cakepen.globalAlpha = this.alpha,cakepen.fillStyle = this.color,cakepen.strokeStyle = this.stroke;
+	if(this.destroyed) cakepen.globalAlpha = 0;
+	if(this.rotated) cakepen.rotate(this.rotationAngle);
+	if (points.length <= 0) return;
+	cakepen.beginPath();
+	cakepen.moveTo(points[0][0], points[0][1]);
+	for (var i = 0; i < points.length; i++) cakepen.lineTo(points[i][0], points[i][1]);
+	cakepen.closePath();
+	cakepen.fill();
+	cakepen.stroke();
+	cakepen.globalAlpha = this.alpha;
+	cakepen.rotate(-this.rotationAngle);
  };
  this.Update = function() { this.UpdatePosition(); this.Draw(); };
  this.Accelerate = function(g) { this.gravity = g; };
@@ -1962,13 +2184,12 @@ this.Move = function(position,force)
 this.AddFeature = function(feature,code) { this.feature = code; };
 this.InPosition = function(x_pos,y_pos) { return(this.x == x_pos && this.y == y_pos); };
 if(autoupdate) this.Update();
-this.Add();
 }
 function Sprite(url,x,y,width,height,autoupdate)
 {	
 this.url = url;
+this.sprites = this.url;
 this.img = new Image();
-this.img.src = this.url;
 this.x = x;
 this.y = y;
 this.alpha = 1;
@@ -1993,6 +2214,8 @@ this.clickFunction = 0;
 this.rotationAngle = 0;
 var touchPosition = { x:0,y:0 };
 var mousePosition = { x:0,y:0 };
+for(var ps = 0;ps < this.sprites.length;ps++) this.sprites.push(this.url[ps]);
+this.img.src = this.sprites[0];
 var isClicking = false,isTouching = false,mousePressed = false,canvasTouched = false;
 this.SetInteractions = function(clickF) 
 {
@@ -2027,7 +2250,10 @@ if(Unknown(this.width)) this.width = 0;
 if(Unknown(autoupdate)) autoupdate = false;
 if(this.destroyed) cakepen.globalAlpha = 0;
 if(this.rotated) cakepen.rotate(this.rotationAngle);
-cakepen.drawImage(this.img.src[0],this.x,this.y,this.height,this.width);
+for(var imgs = 0;imgs < this.sprites.length;imgs++)
+{
+	cakepen.drawImage(this.img,this.x,this.y,this.height,this.width);
+}
 cakepen.globalAlpha = this.alpha;
 cakepen.rotate(-this.rotationAngle);
 };
@@ -2035,7 +2261,11 @@ this.Animate = function()
 {
 if(this.destroyed) cakepen.globalAlpha = 0;
 if(this.rotated) cakepen.rotate(this.rotationAngle);
-for(x in this.img.src) cakepen.drawImage(this.img.src,this.x,this.y,this.height,this.width);
+for(var imgs = 0;imgs < this.sprites.length;imgs++)
+{
+	this.img.src = this.sprites[imgs];
+	cakepen.drawImage(this.img,this.x,this.y,this.height,this.width);
+}
 cakepen.globalAlpha = 1;
 cakepen.rotate(-this.rotationAngle);
 };
@@ -2098,9 +2328,10 @@ this.Move = function(position,force)
    if(position == "left") this.speedX = Math.abs(force);
    if(position == "right") this.speedX = force;
 };
-this.Add = function(feature,code) { this.feature = code; };
+this.AddFeature = function(feature,code) { this.feature = code; };
 this.InPosition = function(x_pos,y_pos) { return(this.x == x_pos && this.y == y_pos); };
 if(autoupdate) this.Update();
+this.Add();
 }
 function PolygonLineSides(x,y,size,sides,color,stroke_color,start_angle,anticlockwise,autoupdate)
 {
@@ -2183,7 +2414,6 @@ this.AddFeature = function(feature,code) { this.feature = code; };
 this.InPosition = function(x_pos,y_pos) { return(this.x == x_pos && this.y == y_pos); };
 this.Update = function() { this.UpdatePosition(); this.Draw(); };
 if(autoupdate) this.Update();
-this.Add();
 }
 function LinearGradient(x,y,w,h,content)
 {
@@ -2214,7 +2444,7 @@ this.pos2 = pos2;
 this.size = size;
 this.color = color;
 this.destroyed = false;
-this.alpha = 1;
+this.alpha = 1.0;
 if(Unknown(this.pos1[0])) this.pos1[0] = 0;
 if(Unknown(this.pos1[1])) this.pos1[1] = 0;
 if(Unknown(this.pos2[0])) this.pos2[0] = 0;
@@ -2261,7 +2491,7 @@ this.color = color;
 this.destroyed = false;
 this.rotated = false;
 this.rotationAngle = 0;
-this.alpha = 1;
+this.alpha = 1.0;
 if(Unknown(this.pos1[0])) this.pos1[0] = 0;
 if(Unknown(this.pos1[1])) this.pos1[1] = 0;
 if(Unknown(this.pos2[0])) this.pos2[0] = 0;
@@ -2543,7 +2773,7 @@ if(type == "image")
     cakecanvas.addEventListener("mousedown",(e) => { cakepen.drawImage(cursor_image,e.clientX,e.clientY); });
     cakecanvas.addEventListener("touchmove",(e) => { cakepen.drawImage(cursor_image,e.clientX || e.pageX,e.clientY || e.pageY); });
     cakecanvas.addEventListener("touchstart",(e) => { cakepen.drawImage(cursor_image,e.clientX || e.pageX,e.clientY || e.pageY); });  
-       
+            
 }
 if(type == "icon") cakecanvas.style.cursor = img_src; //CSS Style,Your Call ;)
 };
@@ -2687,468 +2917,6 @@ var SetSplashscreen = (src, level, time) =>
 		cakecanvas.style.backgroundImage = "none";
 		level.Start();
 	}, time);
-};
-
-//Module: Graphics(3D)
-//Created By Rabia Alhaffar In 26/December/2019
-//A Fork Of Google's Space 3D For 2D Canvas Graphics Engine
-//Do Not Use It For 3D If You Do Not Know What Are You Doing
-/* 
-Features:
-1- No Dependencies Needed  
-2- Works With 2D Graphics And Huge Polygonal Designs
-3- Easy To Use,You Can Add Your Shaped As Code Contribution
-4- Use Cake Game Framework Features Without Hassle    
-    */
-/*
-	Copyright 2006 Google Inc.
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-	  http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
-*/
-var canvasWidth = CanvasWidth,
-	halfCanvasWidth = CanvasWidth * 0.5,
-	canvasHeight = CanvasHeight,
-	halfCanvasHeight = CanvasHeight * 0.5;
-
-function Space()
-{
-	this.m = createMatrixIdentity();
-	this.mStack = [];
-}
-
-Space.prototype.createMatrixIdentity = function ()
-{
-	return [
-		[1, 0, 0, 0],
-		[0, 1, 0, 0],
-		[0, 0, 1, 0],
-		[0, 0, 0, 1]
-	];
-}
-
-/**
- * Multiplies two 4x4 matricies together.
- */
-Space.prototype.matrixMultiply = function (m1, m2)
-{
-	var result = this.createMatrixIdentity();
-
-	var width = m1[0].length;
-	var height = m1.length;
-
-	if (width != m2.length)
-	{
-		// error
-	}
-
-	for (var x = 0; x < width; x++)
-	{
-		for (var y = 0; y < height; y++)
-		{
-			var sum = 0;
-
-			for (var z = 0; z < width; z++)
-			{
-				sum += m1[y][z] * m2[z][x];
-			}
-
-			result[y][x] = sum;
-		}
-	}
-
-	return result;
-}
-
-/**
- * Transforms a coordinate using the current transformation
- * matrix, then flattens it using the projection matrix.
- */
-Space.prototype.flatten = function (point)
-{
-	var p = [
-		[point.x, point.y, point.z, 1]
-	];
-	var pm = this.matrixMultiply(p, this.m);
-
-	point.tx = pm[0][0];
-	point.ty = pm[0][1];
-	point.tz = pm[0][2];
-
-	// lazy projection
-	point.fx = halfCanvasWidth + (canvasWidth * point.tx / point.tz);
-	point.fy = halfCanvasHeight - (canvasWidth * point.ty / point.tz);
-}
-
-/**
- * Translate (move) the current transformation matrix
- */
-Space.prototype.translate = function (x, y, z)
-{
-	var m = [
-		[1, 0, 0, 0],
-		[0, 1, 0, 0],
-		[0, 0, 1, 0],
-		[x, y, z, 1]
-	];
-
-	this.m = this.matrixMultiply(m, this.m);
-}
-
-/**
- * Rotate the current transformation matrix. Rotations are
- * world-oriented, and occur in y,x,z order.
- */
-Space.prototype.rotate = function (x, y, z)
-{
-	if (y)
-	{
-		var cosY = Math.cos(y);
-		var sinY = Math.sin(y);
-		var rotY = [
-			[cosY, 0, sinY, 0],
-			[0, 1, 0, 0],
-			[-sinY, 0, cosY, 0],
-			[0, 0, 0, 1]
-		];
-
-		this.m = this.matrixMultiply(this.m, rotY);
-	}
-
-	if (x)
-	{
-		var cosX = Math.cos(x);
-		var sinX = Math.sin(x);
-		var rotX = [
-			[1, 0, 0, 0],
-			[0, cosX, -sinX, 0],
-			[0, sinX, cosX, 0],
-			[0, 0, 0, 1]
-		];
-		this.m = this.matrixMultiply(this.m, rotX);
-	}
-
-	if (z)
-	{
-		var cosZ = Math.cos(z);
-		var sinZ = Math.sin(z);
-		var rotZ = [
-			[cosZ, -sinZ, 0, 0],
-			[sinZ, cosZ, 0, 0],
-			[0, 0, 1, 0],
-			[0, 0, 0, 1]
-		];
-
-		this.m = this.matrixMultiply(this.m, rotZ);
-	}
-}
-
-/**
- * Pushes the current transformation onto the stack
- */
-Space.prototype.push = function ()
-{
-	this.mStack.push(this.m);
-	this.m = [
-		[this.m[0][0], this.m[0][1], this.m[0][2], this.m[0][3]],
-		[this.m[1][0], this.m[1][1], this.m[1][2], this.m[1][3]],
-		[this.m[2][0], this.m[2][1], this.m[2][2], this.m[2][3]],
-		[this.m[3][0], this.m[3][1], this.m[3][2], this.m[3][3]]
-	];
-}
-
-/**
- * Pops the end off the transformation stack
- */
-Space.prototype.pop = function ()
-{
-	this.m = this.mStack.pop();
-}
-
-/* -------------------------------------------------------------------- */
-
-/**
- * A 3d coordinate
- */
-function Point(x, y, z)
-{
-	this.x = x;
-	this.y = y;
-	this.z = z;
-
-	// Relative to camera coordinates
-	this.tx;
-	this.ty;
-	this.tz;
-
-	// Flattened coordinates
-	this.fx;
-	this.fy;
-}
-
-/**
- * A Shape is made up of polygons
- */
-function Shape()
-{
-	this.points = [];
-	this.polygons = [];
-}
-
-/**
- * Draws the shape
- */
-Shape.prototype.draw = function (drawlist)
-{
-	for (var i = 0; i < this.points.length; i++)
-	{
-		space.flatten(this.points[i]);
-	}
-
-	for (var i = 0; i < this.polygons.length; i++)
-	{
-		var poly = this.polygons[i]; // convenience
-
-		space.flatten(poly.origin);
-
-		// lazy backface culling
-		if (poly.normal && this.backface)
-		{
-			space.flatten(poly.normal);
-
-			var originDist = Math.pow(poly.origin.tx, 2) +
-				Math.pow(poly.origin.ty, 2) +
-				Math.pow(poly.origin.tz, 2);
-
-			var normalDist = Math.pow(poly.normal.tx, 2) +
-				Math.pow(poly.normal.ty, 2) +
-				Math.pow(poly.normal.tz, 2);
-
-			if (originDist > normalDist)
-			{
-				drawlist.push(poly);
-			}
-		}
-		else
-		{
-			drawlist.push(poly);
-		}
-	}
-}
-
-/**
- * A polygon is a connection of points in the shape object. You
- * should probably try to make them coplanar.
- */
-function Polygon(points, normal, backface, type, color)
-{
-	this.points = points;
-
-	this.origin = new Point(0, 0, 0);
-	for (var i = 0; i < this.points.length; i++)
-	{
-		this.origin.x += this.points[i].x;
-		this.origin.y += this.points[i].y;
-		this.origin.z += this.points[i].z;
-	}
-
-	this.origin.x /= this.points.length;
-	this.origin.y /= this.points.length;
-	this.origin.z /= this.points.length;
-
-	if (normal)
-	{
-		this.normal = new Point(this.origin.x + normal.x,
-			this.origin.y + normal.y,
-			this.origin.z + normal.z);
-	}
-	else
-	{
-		this.normal = null;
-	}
-
-	this.backface = backface;
-	this.type = type;
-	this.color = color;
-}
-
-Polygon.SOLID = 0;
-Polygon.WIRE = 1;
-
-/**
- * Draws the polygon. Assumes that the points have already been
- * flattened.
- */
-Polygon.prototype.draw = function ()
-{
-	cakepen.beginPath();
-	cakepen.moveTo(this.points[0].fx, this.points[0].fy);
-
-	for (var i = 0; i < this.points.length; i++)
-	{
-		cakepen.lineTo(this.points[i].fx, this.points[i].fy);
-	}
-
-	cakepen.closePath();
-
-	var color = this.color;
-
-	/*
-	// Do lighting here
-	lightvector = Math.abs(this.normal.x + this.normal.y);
-	if(lightvector > 1) {
-		lightvector = 1;
-	}
-
-	color[0] = (color[0] * lightvector).toString();
-	color[1] = (color[1] * lightvector).toString();
-	color[2] = (color[2] * lightvector).toString();
-	*/
-
-	if (color.length > 3)
-	{
-		var style = ["rgba(",
-			color[0], ",",
-			color[1], ",",
-			color[2], ",",
-			color[3], ")"
-		].join("");
-	}
-	else
-	{
-		var style = ["rgb(",
-			color[0], ",",
-			color[1], ",",
-			color[2], ")"
-		].join("");
-	}
-
-	if (this.type == Polygon.SOLID)
-	{
-		cakepen.fillStyle = style;
-		cakepen.fill();
-	}
-	else if (this.type == Polygon.WIRE)
-	{
-		cakepen.strokeStyle = style;
-		cakepen.stroke();
-	}
-}
-
-/* -------------------------------------------------------------------- */
-
-/**
- * Scene describes the 3D environment
- */
-function Scene()
-{
-	this.shapes = {};
-	this.camera = new Point(0, 0, 0);
-	this.cameraTarget = new Point(0, 0, 0);
-	this.cameraRotation = 0;
-
-	this.drawlist = [];
-}
-
-/**
- * Draw the world
- */
-Scene.prototype.draw = function ()
-{
-	space.push();
-
-	// Camera transformation
-	space.translate(
-		-this.camera.x,
-		-this.camera.y,
-		-this.camera.z
-	);
-
-	// Camera rotation
-	var xdiff = this.cameraTarget.x - this.camera.x;
-	var ydiff = this.cameraTarget.y - this.camera.y;
-	var zdiff = this.cameraTarget.z - this.camera.z;
-
-	var xzdist = Math.sqrt(Math.pow(xdiff, 2) + Math.pow(zdiff, 2));
-
-	var xrot = -Math.atan2(ydiff, xzdist); // up/down rotation
-	var yrot = Math.atan2(xdiff, zdiff); // left/right rotation
-
-	space.rotate(xrot, yrot, this.cameraRotation);
-
-	// Drawing
-	this.drawlist = [];
-
-	for (var i in this.shapes)
-	{
-		this.shapes[i].draw(this.drawlist);
-	}
-
-	// Depth sorting (warning: this is only enough to drive this demo - feel
-	// free to contribute a better system).
-	this.drawlist.sort(function (poly1, poly2)
-	{
-		return poly2.origin.tz - poly1.origin.tz;
-	});
-
-	for (var i = 0; i < this.drawlist.length; i++)
-	{
-		this.drawlist[i].draw();
-	}
-
-	space.pop();
-}
-
-function createMatrixIdentity()
-{
-	return [
-		[1, 0, 0, 0],
-		[0, 1, 0, 0],
-		[0, 0, 1, 0],
-		[0, 0, 0, 1]
-	];
-
-}
-//Module: Cookies
-//https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
-var Cookie = (cname, cvalue, exdays) =>
-{
-	var d = new Date();
-	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-	var expires = "expires=" + d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-};
-
-var GetCookie = (cname) =>
-{
-	var name = cname + "=";
-	var ca = document.cookie.split(';');
-	for (var i = 0; i < ca.length; i++)
-	{
-		var c = ca[i];
-		while (c.charAt(0) == ' ') c = c.substring(1);
-		if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-	}
-	return "";
-};
-
-var CheckCookie = (cname) =>
-{
-	var cookie = GetCookie(cname);
-	if (cookie == "")
-	{
-		cookie = prompt("Please Enter Something:", "");
-		if (user != "" && user != null) Cookie(cname, cookie, 365);
-	}
 };
 
 //Module: Content
@@ -3823,8 +3591,8 @@ var OpenSteamPage = (page) =>
 var DownloadSteamDirectly = () => window.open("https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe");
 //id_as_number Must Be Number,The Number Consists Of Over 6 Or More Numbers!!!
 var OpenSteamAppPage = (id_as_number) => window.open("https://store.steampowered.com/app/" + id_as_number.toString());
-var Steam_LogIn = () => window.open("https://store.steampowered.com/login/");
-var Steam_LogOut = () => window.open("https://store.steampowered.com/logout/");
+var Steam_Login = () => window.open("https://store.steampowered.com/login/");
+var Steam_Logout = () => window.open("https://store.steampowered.com/logout/");
 
 //Module: XBOX
 var LaunchXBOX = () => window.open("https://www.xbox.com/");
@@ -3852,13 +3620,21 @@ var OpenXBOXGamePage = (game_name) => window.open("https://www.xbox.com/games/" 
 var SignOutFromXBOX = () => window.open("https://account.xbox.com/Account/Signout");
 
 //Module: WEBGL_NEXT
-//Created By Rabia Alhaffar In 11/February/2020
-//A WebGL Pure,No Libraries Or Extensions
-//WebGL Made From Scratch,But Still In Development Cause Contains Huge Content
-var cakecanvas,
-    cakepen,
+//Created By Rabia Alhaffar In 19/March/2020
+//WebGL Version Of Cake
+/*
+ * lightgl.js
+ * http://github.com/evanw/lightgl.js/
+ *
+ * Copyright 2011 Evan Wallace
+ * Released under the MIT license
+ */
+var GL=function(){var t;var r={create:function(r){r=r||{ antialias: false };var a=document.createElement("canvas");a.width=window.innerWidth;a.height=window.innerHeight;if(!("alpha"in r))r.alpha=false;try{t=a.getContext("webgl2",r)}catch(o){}try{t=t||a.getContext("webgl2",r)}catch(o){}if(!t)throw new Error("WebGL not supported");t.HALF_FLOAT_OES=36193;e();i();n();u();return t},keys:{},Matrix:c,Indexer:h,Buffer:m,Mesh:d,HitTest:p,Raytracer:x,Shader:E,Texture:_,Vector:P};function e(){t.MODELVIEW=f|1;t.PROJECTION=f|2;var r=new c;var e=new c;t.modelviewMatrix=new c;t.projectionMatrix=new c;var i=[];var n=[];var a,o;t.matrixMode=function(r){switch(r){case t.MODELVIEW:a="modelviewMatrix";o=i;break;case t.PROJECTION:a="projectionMatrix";o=n;break;default:throw new Error("invalid matrix mode "+r)}};t.loadIdentity=function(){c.identity(t[a])};t.loadMatrix=function(r){var e=r.m,i=t[a].m;for(var n=0;n<16;n++){i[n]=e[n]}};t.multMatrix=function(r){t.loadMatrix(c.multiply(t[a],r,e))};t.perspective=function(e,i,n,a){t.multMatrix(c.perspective(e,i,n,a,r))};t.frustum=function(e,i,n,a,o,s){t.multMatrix(c.frustum(e,i,n,a,o,s,r))};t.ortho=function(e,i,n,a,o,s){t.multMatrix(c.ortho(e,i,n,a,o,s,r))};t.scale=function(e,i,n){t.multMatrix(c.scale(e,i,n,r))};t.translate=function(e,i,n){t.multMatrix(c.translate(e,i,n,r))};t.rotate=function(e,i,n,a){t.multMatrix(c.rotate(e,i,n,a,r))};t.lookAt=function(e,i,n,a,o,s,u,f,l){t.multMatrix(c.lookAt(e,i,n,a,o,s,u,f,l,r))};t.pushMatrix=function(){o.push(Array.prototype.slice.call(t[a].m))};t.popMatrix=function(){var r=o.pop();t[a].m=l?new Float32Array(r):r};t.project=function(r,e,i,n,a,o){n=n||t.modelviewMatrix;a=a||t.projectionMatrix;o=o||t.getParameter(t.VIEWPORT);var s=a.transformPoint(n.transformPoint(new P(r,e,i)));return new P(o[0]+o[2]*(s.x*.5+.5),o[1]+o[3]*(s.y*.5+.5),s.z*.5+.5)};t.unProject=function(i,n,a,o,s,u){o=o||t.modelviewMatrix;s=s||t.projectionMatrix;u=u||t.getParameter(t.VIEWPORT);var f=new P((i-u[0])/u[2]*2-1,(n-u[1])/u[3]*2-1,a*2-1);return c.inverse(c.multiply(s,o,r),e).transformPoint(f)};t.matrixMode(t.MODELVIEW)}function i(){var r={mesh:new d({coords:true,colors:true,triangles:false}),mode:-1,coord:[0,0,0,0],color:[1,1,1,1],pointSize:1,shader:new E("uniform float pointSize;varying vec4 color;varying vec4 coord;void main(){color=gl_Color;coord=gl_TexCoord;gl_Position=gl_ModelViewProjectionMatrix*gl_Vertex;gl_PointSize=pointSize;}","uniform sampler2D texture;uniform float pointSize;uniform bool useTexture;varying vec4 color;varying vec4 coord;void main(){gl_FragColor=color;if(useTexture)gl_FragColor*=texture2D(texture,coord.xy);}")};t.pointSize=function(t){r.shader.uniforms({pointSize:t})};t.begin=function(t){if(r.mode!=-1)throw new Error("mismatched gl.begin() and gl.end() calls");r.mode=t;r.mesh.colors=[];r.mesh.coords=[];r.mesh.vertices=[]};t.color=function(t,e,i,n){r.color=arguments.length==1?t.toArray().concat(1):[t,e,i,n||1]};t.texCoord=function(t,e){r.coord=arguments.length==1?t.toArray(2):[t,e]};t.vertex=function(t,e,i){r.mesh.colors.push(r.color);r.mesh.coords.push(r.coord);r.mesh.vertices.push(arguments.length==1?t.toArray():[t,e,i])};t.end=function(){if(r.mode==-1)throw new Error("mismatched gl.begin() and gl.end() calls");r.mesh.compile();r.shader.uniforms({useTexture:!!t.getParameter(t.TEXTURE_BINDING_2D)}).draw(r.mesh,r.mode);r.mode=-1}}function n(){var r=t,e=0,i=0,n={},a=false;var u=Object.prototype.hasOwnProperty;function f(){for(var t in n){if(u.call(n,t)&&n[t])return true}return false}function l(r){var n={};for(var o in r){if(typeof r[o]=="function"){n[o]=function(t){return function(){t.apply(r,arguments)}}(r[o])}else{n[o]=r[o]}}n.original=r;n.x=n.pageX;n.y=n.pageY;for(var s=t.canvas;s;s=s.offsetParent){n.x-=s.offsetLeft;n.y-=s.offsetTop}if(a){n.deltaX=n.x-e;n.deltaY=n.y-i}else{n.deltaX=0;n.deltaY=0;a=true}e=n.x;i=n.y;n.dragging=f();n.preventDefault=function(){n.original.preventDefault()};n.stopPropagation=function(){n.original.stopPropagation()};return n}function c(e){t=r;if(!f()){o(document,"mousemove",h);o(document,"mouseup",m);s(t.canvas,"mousemove",h);s(t.canvas,"mouseup",m)}n[e.which]=true;e=l(e);if(t.onmousedown)t.onmousedown(e);e.preventDefault()}function h(e){t=r;e=l(e);if(t.onmousemove)t.onmousemove(e);e.preventDefault()}function m(e){t=r;n[e.which]=false;if(!f()){s(document,"mousemove",h);s(document,"mouseup",m);o(t.canvas,"mousemove",h);o(t.canvas,"mouseup",m)}e=l(e);if(t.onmouseup)t.onmouseup(e);e.preventDefault()}function d(){a=false}function v(){n={};a=false}o(t.canvas,"mousedown",c);o(t.canvas,"mousemove",h);o(t.canvas,"mouseup",m);o(t.canvas,"mouseover",d);o(t.canvas,"mouseout",d);o(document,"contextmenu",v)}function a(t){var r={8:"BACKSPACE",9:"TAB",13:"ENTER",16:"SHIFT",27:"ESCAPE",32:"SPACE",37:"LEFT",38:"UP",39:"RIGHT",40:"DOWN"};return r[t]||(t>=65&&t<=90?String.fromCharCode(t):null)}function o(t,r,e){t.addEventListener(r,e)}function s(t,r,e){t.removeEventListener(r,e)}o(document,"keydown",function(t){if(!t.altKey&&!t.ctrlKey&&!t.metaKey){var e=a(t.keyCode);if(e)r.keys[e]=true;r.keys[t.keyCode]=true}});o(document,"keyup",function(t){if(!t.altKey&&!t.ctrlKey&&!t.metaKey){var e=a(t.keyCode);if(e)r.keys[e]=false;r.keys[t.keyCode]=false}});function u(){(function(r){t.makeCurrent=function(){t=r}})(t);t.animate=function(){var r=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||function(t){setTimeout(t,1e3/60)};var e=(new Date).getTime();var i=t;function n(){t=i;var a=(new Date).getTime();if(t.onupdate)t.onupdate((a-e)/1e3);if(t.ondraw)t.ondraw();r(n);e=a}n()};t.fullscreen=function(r){r=r||{};var e=r.paddingTop||0;var i=r.paddingLeft||0;var n=r.paddingRight||0;var a=r.paddingBottom||0;if(!document.body){throw new Error("document.body doesn't exist yet (call gl.fullscreen() from "+"window.onload() or from inside the <body> tag)")}document.body.appendChild(t.canvas);document.body.style.overflow="hidden";t.canvas.style.position="absolute";t.canvas.style.left=i+"px";t.canvas.style.top=e+"px";function s(){t.canvas.width=window.innerWidth-i-n;t.canvas.height=window.innerHeight-e-a;t.viewport(0,0,t.canvas.width,t.canvas.height);if(r.camera||!("camera"in r)){t.matrixMode(t.PROJECTION);t.loadIdentity();t.perspective(r.fov||45,t.canvas.width/t.canvas.height,r.near||.1,r.far||1e3);t.matrixMode(t.MODELVIEW)}if(t.ondraw)t.ondraw()}o(window,"resize",s);s()}}var f=305397760;var l=typeof Float32Array!="undefined";function c(){var t=Array.prototype.concat.apply([],arguments);if(!t.length){t=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}this.m=l?new Float32Array(t):t}c.prototype={inverse:function(){return c.inverse(this,new c)},transpose:function(){return c.transpose(this,new c)},multiply:function(t){return c.multiply(this,t,new c)},transformPoint:function(t){var r=this.m;return new P(r[0]*t.x+r[1]*t.y+r[2]*t.z+r[3],r[4]*t.x+r[5]*t.y+r[6]*t.z+r[7],r[8]*t.x+r[9]*t.y+r[10]*t.z+r[11]).divide(r[12]*t.x+r[13]*t.y+r[14]*t.z+r[15])},transformVector:function(t){var r=this.m;return new P(r[0]*t.x+r[1]*t.y+r[2]*t.z,r[4]*t.x+r[5]*t.y+r[6]*t.z,r[8]*t.x+r[9]*t.y+r[10]*t.z)}};c.inverse=function(t,r){r=r||new c;var e=t.m,i=r.m;i[0]=e[5]*e[10]*e[15]-e[5]*e[14]*e[11]-e[6]*e[9]*e[15]+e[6]*e[13]*e[11]+e[7]*e[9]*e[14]-e[7]*e[13]*e[10];i[1]=-e[1]*e[10]*e[15]+e[1]*e[14]*e[11]+e[2]*e[9]*e[15]-e[2]*e[13]*e[11]-e[3]*e[9]*e[14]+e[3]*e[13]*e[10];i[2]=e[1]*e[6]*e[15]-e[1]*e[14]*e[7]-e[2]*e[5]*e[15]+e[2]*e[13]*e[7]+e[3]*e[5]*e[14]-e[3]*e[13]*e[6];i[3]=-e[1]*e[6]*e[11]+e[1]*e[10]*e[7]+e[2]*e[5]*e[11]-e[2]*e[9]*e[7]-e[3]*e[5]*e[10]+e[3]*e[9]*e[6];i[4]=-e[4]*e[10]*e[15]+e[4]*e[14]*e[11]+e[6]*e[8]*e[15]-e[6]*e[12]*e[11]-e[7]*e[8]*e[14]+e[7]*e[12]*e[10];i[5]=e[0]*e[10]*e[15]-e[0]*e[14]*e[11]-e[2]*e[8]*e[15]+e[2]*e[12]*e[11]+e[3]*e[8]*e[14]-e[3]*e[12]*e[10];i[6]=-e[0]*e[6]*e[15]+e[0]*e[14]*e[7]+e[2]*e[4]*e[15]-e[2]*e[12]*e[7]-e[3]*e[4]*e[14]+e[3]*e[12]*e[6];i[7]=e[0]*e[6]*e[11]-e[0]*e[10]*e[7]-e[2]*e[4]*e[11]+e[2]*e[8]*e[7]+e[3]*e[4]*e[10]-e[3]*e[8]*e[6];i[8]=e[4]*e[9]*e[15]-e[4]*e[13]*e[11]-e[5]*e[8]*e[15]+e[5]*e[12]*e[11]+e[7]*e[8]*e[13]-e[7]*e[12]*e[9];i[9]=-e[0]*e[9]*e[15]+e[0]*e[13]*e[11]+e[1]*e[8]*e[15]-e[1]*e[12]*e[11]-e[3]*e[8]*e[13]+e[3]*e[12]*e[9];i[10]=e[0]*e[5]*e[15]-e[0]*e[13]*e[7]-e[1]*e[4]*e[15]+e[1]*e[12]*e[7]+e[3]*e[4]*e[13]-e[3]*e[12]*e[5];i[11]=-e[0]*e[5]*e[11]+e[0]*e[9]*e[7]+e[1]*e[4]*e[11]-e[1]*e[8]*e[7]-e[3]*e[4]*e[9]+e[3]*e[8]*e[5];i[12]=-e[4]*e[9]*e[14]+e[4]*e[13]*e[10]+e[5]*e[8]*e[14]-e[5]*e[12]*e[10]-e[6]*e[8]*e[13]+e[6]*e[12]*e[9];i[13]=e[0]*e[9]*e[14]-e[0]*e[13]*e[10]-e[1]*e[8]*e[14]+e[1]*e[12]*e[10]+e[2]*e[8]*e[13]-e[2]*e[12]*e[9];i[14]=-e[0]*e[5]*e[14]+e[0]*e[13]*e[6]+e[1]*e[4]*e[14]-e[1]*e[12]*e[6]-e[2]*e[4]*e[13]+e[2]*e[12]*e[5];i[15]=e[0]*e[5]*e[10]-e[0]*e[9]*e[6]-e[1]*e[4]*e[10]+e[1]*e[8]*e[6]+e[2]*e[4]*e[9]-e[2]*e[8]*e[5];var n=e[0]*i[0]+e[1]*i[4]+e[2]*i[8]+e[3]*i[12];for(var a=0;a<16;a++)i[a]/=n;return r};c.transpose=function(t,r){r=r||new c;var e=t.m,i=r.m;i[0]=e[0];i[1]=e[4];i[2]=e[8];i[3]=e[12];i[4]=e[1];i[5]=e[5];i[6]=e[9];i[7]=e[13];i[8]=e[2];i[9]=e[6];i[10]=e[10];i[11]=e[14];i[12]=e[3];i[13]=e[7];i[14]=e[11];i[15]=e[15];return r};c.multiply=function(t,r,e){e=e||new c;var i=t.m,n=r.m,a=e.m;a[0]=i[0]*n[0]+i[1]*n[4]+i[2]*n[8]+i[3]*n[12];a[1]=i[0]*n[1]+i[1]*n[5]+i[2]*n[9]+i[3]*n[13];a[2]=i[0]*n[2]+i[1]*n[6]+i[2]*n[10]+i[3]*n[14];a[3]=i[0]*n[3]+i[1]*n[7]+i[2]*n[11]+i[3]*n[15];a[4]=i[4]*n[0]+i[5]*n[4]+i[6]*n[8]+i[7]*n[12];a[5]=i[4]*n[1]+i[5]*n[5]+i[6]*n[9]+i[7]*n[13];a[6]=i[4]*n[2]+i[5]*n[6]+i[6]*n[10]+i[7]*n[14];a[7]=i[4]*n[3]+i[5]*n[7]+i[6]*n[11]+i[7]*n[15];a[8]=i[8]*n[0]+i[9]*n[4]+i[10]*n[8]+i[11]*n[12];a[9]=i[8]*n[1]+i[9]*n[5]+i[10]*n[9]+i[11]*n[13];a[10]=i[8]*n[2]+i[9]*n[6]+i[10]*n[10]+i[11]*n[14];a[11]=i[8]*n[3]+i[9]*n[7]+i[10]*n[11]+i[11]*n[15];a[12]=i[12]*n[0]+i[13]*n[4]+i[14]*n[8]+i[15]*n[12];a[13]=i[12]*n[1]+i[13]*n[5]+i[14]*n[9]+i[15]*n[13];a[14]=i[12]*n[2]+i[13]*n[6]+i[14]*n[10]+i[15]*n[14];a[15]=i[12]*n[3]+i[13]*n[7]+i[14]*n[11]+i[15]*n[15];return e};c.identity=function(t){t=t||new c;var r=t.m;r[0]=r[5]=r[10]=r[15]=1;r[1]=r[2]=r[3]=r[4]=r[6]=r[7]=r[8]=r[9]=r[11]=r[12]=r[13]=r[14]=0;return t};c.perspective=function(t,r,e,i,n){var a=Math.tan(t*Math.PI/360)*e;var o=a*r;return c.frustum(-o,o,-a,a,e,i,n)};c.frustum=function(t,r,e,i,n,a,o){o=o||new c;var s=o.m;s[0]=2*n/(r-t);s[1]=0;s[2]=(r+t)/(r-t);s[3]=0;s[4]=0;s[5]=2*n/(i-e);s[6]=(i+e)/(i-e);s[7]=0;s[8]=0;s[9]=0;s[10]=-(a+n)/(a-n);s[11]=-2*a*n/(a-n);s[12]=0;s[13]=0;s[14]=-1;s[15]=0;return o};c.ortho=function(t,r,e,i,n,a,o){o=o||new c;var s=o.m;s[0]=2/(r-t);s[1]=0;s[2]=0;s[3]=-(r+t)/(r-t);s[4]=0;s[5]=2/(i-e);s[6]=0;s[7]=-(i+e)/(i-e);s[8]=0;s[9]=0;s[10]=-2/(a-n);s[11]=-(a+n)/(a-n);s[12]=0;s[13]=0;s[14]=0;s[15]=1;return o};c.scale=function(t,r,e,i){i=i||new c;var n=i.m;n[0]=t;n[1]=0;n[2]=0;n[3]=0;n[4]=0;n[5]=r;n[6]=0;n[7]=0;n[8]=0;n[9]=0;n[10]=e;n[11]=0;n[12]=0;n[13]=0;n[14]=0;n[15]=1;return i};c.translate=function(t,r,e,i){i=i||new c;var n=i.m;n[0]=1;n[1]=0;n[2]=0;n[3]=t;n[4]=0;n[5]=1;n[6]=0;n[7]=r;n[8]=0;n[9]=0;n[10]=1;n[11]=e;n[12]=0;n[13]=0;n[14]=0;n[15]=1;return i};c.rotate=function(t,r,e,i,n){if(!t||!r&&!e&&!i){return c.identity(n)}n=n||new c;var a=n.m;var o=Math.sqrt(r*r+e*e+i*i);t*=Math.PI/180;r/=o;e/=o;i/=o;var s=Math.cos(t),u=Math.sin(t),f=1-s;a[0]=r*r*f+s;a[1]=r*e*f-i*u;a[2]=r*i*f+e*u;a[3]=0;a[4]=e*r*f+i*u;a[5]=e*e*f+s;a[6]=e*i*f-r*u;a[7]=0;a[8]=i*r*f-e*u;a[9]=i*e*f+r*u;a[10]=i*i*f+s;a[11]=0;a[12]=0;a[13]=0;a[14]=0;a[15]=1;return n};c.lookAt=function(t,r,e,i,n,a,o,s,u,f){f=f||new c;var l=f.m;var h=new P(t,r,e);var m=new P(i,n,a);var d=new P(o,s,u);var v=h.subtract(m).unit();var g=d.cross(v).unit();var p=v.cross(g).unit();l[0]=g.x;l[1]=g.y;l[2]=g.z;l[3]=-g.dot(h);l[4]=p.x;l[5]=p.y;l[6]=p.z;l[7]=-p.dot(h);l[8]=v.x;l[9]=v.y;l[10]=v.z;l[11]=-v.dot(h);l[12]=0;l[13]=0;l[14]=0;l[15]=1;return f};function h(){this.unique=[];this.indices=[];this.map={}}h.prototype={add:function(t){var r=JSON.stringify(t);if(!(r in this.map)){this.map[r]=this.unique.length;this.unique.push(t)}return this.map[r]}};function m(t,r){this.buffer=null;this.target=t;this.type=r;this.data=[]}m.prototype={compile:function(r){var e=[];for(var i=0,n=1e4;i<this.data.length;i+=n){e=Array.prototype.concat.apply(e,this.data.slice(i,i+n))}var a=this.data.length?e.length/this.data.length:0;if(a!=Math.round(a))throw new Error("buffer elements not of consistent size, average size is "+a);this.buffer=this.buffer||t.createBuffer();this.buffer.length=e.length;this.buffer.spacing=a;t.bindBuffer(this.target,this.buffer);t.bufferData(this.target,new this.type(e),r||t.STATIC_DRAW)}};function d(t){t=t||{};this.vertexBuffers={};this.indexBuffers={};this.addVertexBuffer("vertices","gl_Vertex");if(t.coords)this.addVertexBuffer("coords","gl_TexCoord");if(t.normals)this.addVertexBuffer("normals","gl_Normal");if(t.colors)this.addVertexBuffer("colors","gl_Color");if(!("triangles"in t)||t.triangles)this.addIndexBuffer("triangles");if(t.lines)this.addIndexBuffer("lines")}d.prototype={addVertexBuffer:function(r,e){var i=this.vertexBuffers[e]=new m(t.ARRAY_BUFFER,Float32Array);i.name=r;this[r]=[]},addIndexBuffer:function(r){var e=this.indexBuffers[r]=new m(t.ELEMENT_ARRAY_BUFFER,Uint16Array);this[r]=[]},compile:function(){for(var t in this.vertexBuffers){var r=this.vertexBuffers[t];r.data=this[r.name];r.compile()}for(var e in this.indexBuffers){var r=this.indexBuffers[e];r.data=this[e];r.compile()}},transform:function(t){this.vertices=this.vertices.map(function(r){return t.transformPoint(P.fromArray(r)).toArray()});if(this.normals){var r=t.inverse().transpose();this.normals=this.normals.map(function(t){return r.transformVector(P.fromArray(t)).unit().toArray()})}this.compile();return this},computeNormals:function(){if(!this.normals)this.addVertexBuffer("normals","gl_Normal");for(var t=0;t<this.vertices.length;t++){this.normals[t]=new P}for(var t=0;t<this.triangles.length;t++){var r=this.triangles[t];var e=P.fromArray(this.vertices[r[0]]);var i=P.fromArray(this.vertices[r[1]]);var n=P.fromArray(this.vertices[r[2]]);var a=i.subtract(e).cross(n.subtract(e)).unit();this.normals[r[0]]=this.normals[r[0]].add(a);this.normals[r[1]]=this.normals[r[1]].add(a);this.normals[r[2]]=this.normals[r[2]].add(a)}for(var t=0;t<this.vertices.length;t++){this.normals[t]=this.normals[t].unit().toArray()}this.compile();return this},computeWireframe:function(){var t=new h;for(var r=0;r<this.triangles.length;r++){var e=this.triangles[r];for(var i=0;i<e.length;i++){var n=e[i],a=e[(i+1)%e.length];t.add([Math.min(n,a),Math.max(n,a)])}}if(!this.lines)this.addIndexBuffer("lines");this.lines=t.unique;this.compile();return this},getAABB:function(){var t={min:new P(Number.MAX_VALUE,Number.MAX_VALUE,Number.MAX_VALUE)};t.max=t.min.negative();for(var r=0;r<this.vertices.length;r++){var e=P.fromArray(this.vertices[r]);t.min=P.min(t.min,e);t.max=P.max(t.max,e)}return t},getBoundingSphere:function(){var t=this.getAABB();var r={center:t.min.add(t.max).divide(2),radius:0};for(var e=0;e<this.vertices.length;e++){r.radius=Math.max(r.radius,P.fromArray(this.vertices[e]).subtract(r.center).length())}return r}};d.plane=function(t){t=t||{};var r=new d(t);detailX=t.detailX||t.detail||1;detailY=t.detailY||t.detail||1;for(var e=0;e<=detailY;e++){var i=e/detailY;for(var n=0;n<=detailX;n++){var a=n/detailX;r.vertices.push([2*a-1,2*i-1,0]);if(r.coords)r.coords.push([a,i]);if(r.normals)r.normals.push([0,0,1]);if(n<detailX&&e<detailY){var o=n+e*(detailX+1);r.triangles.push([o,o+1,o+detailX+1]);r.triangles.push([o+detailX+1,o+1,o+detailX+2])}}}r.compile();return r};var v=[[0,4,2,6,-1,0,0],[1,3,5,7,+1,0,0],[0,1,4,5,0,-1,0],[2,6,3,7,0,+1,0],[0,2,1,3,0,0,-1],[4,5,6,7,0,0,+1]];function g(t){return new P((t&1)*2-1,(t&2)-1,(t&4)/2-1)}d.cube=function(t){var r=new d(t);for(var e=0;e<v.length;e++){var i=v[e],n=e*4;for(var a=0;a<4;a++){var o=i[a];r.vertices.push(g(o).toArray());if(r.coords)r.coords.push([a&1,(a&2)/2]);if(r.normals)r.normals.push(i.slice(4,7))}r.triangles.push([n,n+1,n+2]);r.triangles.push([n+2,n+1,n+3])}r.compile();return r};d.sphere=function(t){function r(t,r,e){return s?[t,e,r]:[t,r,e]}function e(t){return t+(t-t*t)/2}t=t||{};var i=new d(t);var n=new h;detail=t.detail||6;for(var a=0;a<8;a++){var o=g(a);var s=o.x*o.y*o.z>0;var u=[];for(var f=0;f<=detail;f++){for(var l=0;f+l<=detail;l++){var c=f/detail;var m=l/detail;var v=(detail-f-l)/detail;var p={vertex:new P(e(c),e(m),e(v)).unit().multiply(o).toArray()};if(i.coords)p.coord=o.y>0?[1-c,v]:[v,1-c];u.push(n.add(p))}if(f>0){for(var l=0;f+l<=detail;l++){var c=(f-1)*(detail+1)+(f-1-(f-1)*(f-1))/2+l;var m=f*(detail+1)+(f-f*f)/2+l;i.triangles.push(r(u[c],u[c+1],u[m]));if(f+l<detail){i.triangles.push(r(u[m],u[c+1],u[m+1]))}}}}}i.vertices=n.unique.map(function(t){return t.vertex});if(i.coords)i.coords=n.unique.map(function(t){return t.coord});if(i.normals)i.normals=i.vertices;i.compile();return i};d.load=function(t,r){r=r||{};if(!("coords"in r))r.coords=!!t.coords;if(!("normals"in r))r.normals=!!t.normals;if(!("colors"in r))r.colors=!!t.colors;if(!("triangles"in r))r.triangles=!!t.triangles;if(!("lines"in r))r.lines=!!t.lines;var e=new d(r);e.vertices=t.vertices;if(e.coords)e.coords=t.coords;if(e.normals)e.normals=t.normals;if(e.colors)e.colors=t.colors;if(e.triangles)e.triangles=t.triangles;if(e.lines)e.lines=t.lines;e.compile();return e};function p(t,r,e){this.t=arguments.length?t:Number.MAX_VALUE;this.hit=r;this.normal=e}p.prototype={mergeWith:function(t){if(t.t>0&&t.t<this.t){this.t=t.t;this.hit=t.hit;this.normal=t.normal}}};function x(){var r=t.getParameter(t.VIEWPORT);var e=t.modelviewMatrix.m;var i=new P(e[0],e[4],e[8]);var n=new P(e[1],e[5],e[9]);var a=new P(e[2],e[6],e[10]);var o=new P(e[3],e[7],e[11]);this.eye=new P((-o.dot(i)),(-o.dot(n)),(-o.dot(a)));var s=r[0],u=s+r[2];var f=r[1],l=f+r[3];this.ray00=t.unProject(s,f,1).subtract(this.eye);this.ray10=t.unProject(u,f,1).subtract(this.eye);this.ray01=t.unProject(s,l,1).subtract(this.eye);this.ray11=t.unProject(u,l,1).subtract(this.eye);this.viewport=r}x.prototype={getRayForPixel:function(t,r){t=(t-this.viewport[0])/this.viewport[2];r=1-(r-this.viewport[1])/this.viewport[3];var e=P.lerp(this.ray00,this.ray10,t);var i=P.lerp(this.ray01,this.ray11,t);return P.lerp(e,i,r).unit()}};x.hitTestBox=function(t,r,e,i){var n=e.subtract(t).divide(r);var a=i.subtract(t).divide(r);var o=P.min(n,a);var s=P.max(n,a);var u=o.max();var f=s.min();if(u>0&&u<f){var l=1e-6,c=t.add(r.multiply(u));e=e.add(l);i=i.subtract(l);return new p(u,c,new P((c.x>i.x)-(c.x<e.x),(c.y>i.y)-(c.y<e.y),(c.z>i.z)-(c.z<e.z)))}return null};x.hitTestSphere=function(t,r,e,i){var n=t.subtract(e);var a=r.dot(r);var o=2*r.dot(n);var s=n.dot(n)-i*i;var u=o*o-4*a*s;if(u>0){var f=(-o-Math.sqrt(u))/(2*a),l=t.add(r.multiply(f));return new p(f,l,l.subtract(e).divide(i))}return null};x.hitTestTriangle=function(t,r,e,i,n){var a=i.subtract(e);var o=n.subtract(e);var s=a.cross(o).unit();var u=s.dot(e.subtract(t))/s.dot(r);if(u>0){var f=t.add(r.multiply(u));var l=f.subtract(e);var c=o.dot(o);var h=o.dot(a);var m=o.dot(l);var d=a.dot(a);var v=a.dot(l);var g=c*d-h*h;var x=(d*m-h*v)/g;var y=(c*v-h*m)/g;if(x>=0&&y>=0&&x+y<=1)return new p(u,f,s)}return null};function y(t,r,e){while((result=t.exec(r))!=null){e(result)}}var w="LIGHTGL";function E(r,e){function i(t){var r=document.getElementById(t);return r?r.text:t}r=i(r);e=i(e);var n="uniform mat3 gl_NormalMatrix;uniform mat4 gl_ModelViewMatrix;uniform mat4 gl_ProjectionMatrix;uniform mat4 gl_ModelViewProjectionMatrix;uniform mat4 gl_ModelViewMatrixInverse;uniform mat4 gl_ProjectionMatrixInverse;uniform mat4 gl_ModelViewProjectionMatrixInverse;";var a=n+"attribute vec4 gl_Vertex;attribute vec4 gl_TexCoord;attribute vec3 gl_Normal;attribute vec4 gl_Color;vec4 ftransform(){return gl_ModelViewProjectionMatrix*gl_Vertex;}";var o="precision highp float;"+n;var s=r+e;var u={};y(/\b(gl_[^;]*)\b;/g,n,function(t){var r=t[1];if(s.indexOf(r)!=-1){var e=r.replace(/[a-z_]/g,"");u[e]=w+r}});if(s.indexOf("ftransform")!=-1)u.MVPM=w+"gl_ModelViewProjectionMatrix";this.usedMatrices=u;function f(t,r){var e={};var i=/^((\s*\/\/.*\n|\s*#extension.*\n)+)[^]*$/.exec(r);r=i?i[1]+t+r.substr(i[1].length):t+r;y(/\bgl_\w+\b/g,t,function(t){if(!(t in e)){r=r.replace(new RegExp("\\b"+t+"\\b","g"),w+t);e[t]=true}});return r}r=f(a,r);e=f(o,e);function l(r,e){var i=t.createShader(r);t.shaderSource(i,e);t.compileShader(i);if(!t.getShaderParameter(i,t.COMPILE_STATUS)){throw new Error("compile error: "+t.getShaderInfoLog(i))}return i}this.program=t.createProgram();t.attachShader(this.program,l(t.VERTEX_SHADER,r));t.attachShader(this.program,l(t.FRAGMENT_SHADER,e));t.linkProgram(this.program);if(!t.getProgramParameter(this.program,t.LINK_STATUS)){throw new Error("link error: "+t.getProgramInfoLog(this.program))}this.attributes={};this.uniformLocations={};var c={};y(/uniform\s+sampler(1D|2D|3D|Cube)\s+(\w+)\s*;/g,r+e,function(t){c[t[2]]=1});this.isSampler=c}function M(t){var r=Object.prototype.toString.call(t);return r=="[object Array]"||r=="[object Float32Array]"}function b(t){var r=Object.prototype.toString.call(t);return r=="[object Number]"||r=="[object Boolean]"}var T=new c;var A=new c;E.prototype={uniforms:function(r){t.useProgram(this.program);for(var e in r){var i=this.uniformLocations[e]||t.getUniformLocation(this.program,e);if(!i)continue;this.uniformLocations[e]=i;var n=r[e];if(n instanceof P){n=[n.x,n.y,n.z]}else if(n instanceof c){n=n.m}if(M(n)){switch(n.length){case 1:t.uniform1fv(i,new Float32Array(n));break;case 2:t.uniform2fv(i,new Float32Array(n));break;case 3:t.uniform3fv(i,new Float32Array(n));break;case 4:t.uniform4fv(i,new Float32Array(n));break;case 9:t.uniformMatrix3fv(i,false,new Float32Array([n[0],n[3],n[6],n[1],n[4],n[7],n[2],n[5],n[8]]));break;case 16:t.uniformMatrix4fv(i,false,new Float32Array([n[0],n[4],n[8],n[12],n[1],n[5],n[9],n[13],n[2],n[6],n[10],n[14],n[3],n[7],n[11],n[15]]));break;default:throw new Error("don't know how to load uniform \""+e+'" of length '+n.length)}}else if(b(n)){(this.isSampler[e]?t.uniform1i:t.uniform1f).call(t,i,n)}else{throw new Error('attempted to set uniform "'+e+'" to invalid value '+n)}}return this},draw:function(r,e){this.drawBuffers(r.vertexBuffers,r.indexBuffers[e==t.LINES?"lines":"triangles"],arguments.length<2?t.TRIANGLES:e)},drawBuffers:function(r,e,i){var n=this.usedMatrices;var a=t.modelviewMatrix;var o=t.projectionMatrix;var s=n.MVMI||n.NM?a.inverse():null;var u=n.PMI?o.inverse():null;var f=n.MVPM||n.MVPMI?o.multiply(a):null;var l={};if(n.MVM)l[n.MVM]=a;if(n.MVMI)l[n.MVMI]=s;if(n.PM)l[n.PM]=o;if(n.PMI)l[n.PMI]=u;if(n.MVPM)l[n.MVPM]=f;if(n.MVPMI)l[n.MVPMI]=f.inverse();if(n.NM){var c=s.m;l[n.NM]=[c[0],c[4],c[8],c[1],c[5],c[9],c[2],c[6],c[10]]}this.uniforms(l);var h=0;for(var m in r){var d=r[m];var v=this.attributes[m]||t.getAttribLocation(this.program,m.replace(/^(gl_.*)$/,w+"$1"));if(v==-1||!d.buffer)continue;this.attributes[m]=v;t.bindBuffer(t.ARRAY_BUFFER,d.buffer);t.enableVertexAttribArray(v);t.vertexAttribPointer(v,d.buffer.spacing,t.FLOAT,false,0,0);h=d.buffer.length/d.buffer.spacing}for(var m in this.attributes){if(!(m in r)){t.disableVertexAttribArray(this.attributes[m])}}if(h&&(!e||e.buffer)){if(e){t.bindBuffer(t.ELEMENT_ARRAY_BUFFER,e.buffer);t.drawElements(i,e.buffer.length,t.UNSIGNED_SHORT,0)}else{t.drawArrays(i,0,h)}}return this}};function _(r,e,i){i=i||{};this.id=t.createTexture();this.width=r;this.height=e;this.format=i.format||t.RGBA;this.type=i.type||t.UNSIGNED_BYTE;var n=i.filter||i.magFilter||t.LINEAR;var a=i.filter||i.minFilter||t.LINEAR;if(this.type===t.FLOAT){if(!_.canUseFloatingPointTextures()){throw new Error("OES_texture_float is required but not supported")}if((a!==t.NEAREST||n!==t.NEAREST)&&!_.canUseFloatingPointLinearFiltering()){throw new Error("OES_texture_float_linear is required but not supported")}}else if(this.type===t.HALF_FLOAT_OES){if(!_.canUseHalfFloatingPointTextures()){throw new Error("OES_texture_half_float is required but not supported")}if((a!==t.NEAREST||n!==t.NEAREST)&&!_.canUseHalfFloatingPointLinearFiltering()){throw new Error("OES_texture_half_float_linear is required but not supported")}}t.bindTexture(t.TEXTURE_2D,this.id);t.pixelStorei(t.UNPACK_FLIP_Y_WEBGL,1);t.texParameteri(t.TEXTURE_2D,t.TEXTURE_MAG_FILTER,n);t.texParameteri(t.TEXTURE_2D,t.TEXTURE_MIN_FILTER,a);t.texParameteri(t.TEXTURE_2D,t.TEXTURE_WRAP_S,i.wrap||i.wrapS||t.CLAMP_TO_EDGE);t.texParameteri(t.TEXTURE_2D,t.TEXTURE_WRAP_T,i.wrap||i.wrapT||t.CLAMP_TO_EDGE);t.texImage2D(t.TEXTURE_2D,0,this.format,r,e,0,this.format,this.type,i.data||null)}var R;var F;var z;_.prototype={bind:function(r){t.activeTexture(t.TEXTURE0+(r||0));t.bindTexture(t.TEXTURE_2D,this.id)},unbind:function(r){t.activeTexture(t.TEXTURE0+(r||0));t.bindTexture(t.TEXTURE_2D,null)},canDrawTo:function(){R=R||t.createFramebuffer();t.bindFramebuffer(t.FRAMEBUFFER,R);t.framebufferTexture2D(t.FRAMEBUFFER,t.COLOR_ATTACHMENT0,t.TEXTURE_2D,this.id,0);var r=t.checkFramebufferStatus(t.FRAMEBUFFER)==t.FRAMEBUFFER_COMPLETE;t.bindFramebuffer(t.FRAMEBUFFER,null);return r},drawTo:function(r){var e=t.getParameter(t.VIEWPORT);R=R||t.createFramebuffer();F=F||t.createRenderbuffer();t.bindFramebuffer(t.FRAMEBUFFER,R);t.bindRenderbuffer(t.RENDERBUFFER,F);if(this.width!=F.width||this.height!=F.height){F.width=this.width;F.height=this.height;t.renderbufferStorage(t.RENDERBUFFER,t.DEPTH_COMPONENT16,this.width,this.height)}t.framebufferTexture2D(t.FRAMEBUFFER,t.COLOR_ATTACHMENT0,t.TEXTURE_2D,this.id,0);t.framebufferRenderbuffer(t.FRAMEBUFFER,t.DEPTH_ATTACHMENT,t.RENDERBUFFER,F);if(t.checkFramebufferStatus(t.FRAMEBUFFER)!=t.FRAMEBUFFER_COMPLETE){throw new Error("Rendering to this texture is not supported (incomplete framebuffer)")}t.viewport(0,0,this.width,this.height);r();t.bindFramebuffer(t.FRAMEBUFFER,null);t.bindRenderbuffer(t.RENDERBUFFER,null);t.viewport(e[0],e[1],e[2],e[3])},swapWith:function(t){var r;r=t.id;t.id=this.id;this.id=r;r=t.width;t.width=this.width;this.width=r;r=t.height;t.height=this.height;this.height=r}};_.fromImage=function(r,e){e=e||{};var i=new _(r.width,r.height,e);try{t.texImage2D(t.TEXTURE_2D,0,i.format,i.format,i.type,r)}catch(n){if(location.protocol=="file:"){throw new Error('image not loaded for security reasons (serve this page over "http://" instead)')}else{throw new Error("image not loaded for security reasons (image must originate from the same "+"domain as this page or use Cross-Origin Resource Sharing)")}}if(e.minFilter&&e.minFilter!=t.NEAREST&&e.minFilter!=t.LINEAR){t.generateMipmap(t.TEXTURE_2D)}return i};_.fromURL=function(r,e){z=z||function(){var t=document.createElement("canvas").getContext("2d");t.canvas.width=t.canvas.height=128;for(var r=0;r<t.canvas.height;r+=16){for(var e=0;e<t.canvas.width;e+=16){t.fillStyle=(e^r)&16?"#FFF":"#DDD";t.fillRect(e,r,16,16)}}return t.canvas}();var i=_.fromImage(z,e);var n=new Image;var a=t;n.onload=function(){a.makeCurrent();_.fromImage(n,e).swapWith(i)};n.src=r;return i};_.canUseFloatingPointTextures=function(){return!!t.getExtension("OES_texture_float")};_.canUseFloatingPointLinearFiltering=function(){return!!t.getExtension("OES_texture_float_linear")};_.canUseHalfFloatingPointTextures=function(){return!!t.getExtension("OES_texture_half_float")};_.canUseHalfFloatingPointLinearFiltering=function(){return!!t.getExtension("OES_texture_half_float_linear")};function P(t,r,e){this.x=t||0;this.y=r||0;this.z=e||0}P.prototype={negative:function(){return new P((-this.x),(-this.y),(-this.z))},add:function(t){if(t instanceof P)return new P(this.x+t.x,this.y+t.y,this.z+t.z);else return new P(this.x+t,this.y+t,this.z+t)},subtract:function(t){if(t instanceof P)return new P(this.x-t.x,this.y-t.y,this.z-t.z);else return new P(this.x-t,this.y-t,this.z-t)},multiply:function(t){if(t instanceof P)return new P(this.x*t.x,this.y*t.y,this.z*t.z);else return new P(this.x*t,this.y*t,this.z*t)},divide:function(t){if(t instanceof P)return new P(this.x/t.x,this.y/t.y,this.z/t.z);else return new P(this.x/t,this.y/t,this.z/t)},equals:function(t){return this.x==t.x&&this.y==t.y&&this.z==t.z},dot:function(t){return this.x*t.x+this.y*t.y+this.z*t.z},cross:function(t){return new P(this.y*t.z-this.z*t.y,this.z*t.x-this.x*t.z,this.x*t.y-this.y*t.x)},length:function(){return Math.sqrt(this.dot(this))},unit:function(){return this.divide(this.length())},min:function(){return Math.min(Math.min(this.x,this.y),this.z)},max:function(){return Math.max(Math.max(this.x,this.y),this.z)},toAngles:function(){return{theta:Math.atan2(this.z,this.x),phi:Math.asin(this.y/this.length())}},angleTo:function(t){return Math.acos(this.dot(t)/(this.length()*t.length()))},toArray:function(t){return[this.x,this.y,this.z].slice(0,t||3)},clone:function(){return new P(this.x,this.y,this.z)},init:function(t,r,e){this.x=t;this.y=r;this.z=e;return this}};P.negative=function(t,r){r.x=-t.x;r.y=-t.y;r.z=-t.z;return r};P.add=function(t,r,e){if(r instanceof P){e.x=t.x+r.x;e.y=t.y+r.y;e.z=t.z+r.z}else{e.x=t.x+r;e.y=t.y+r;e.z=t.z+r}return e};P.subtract=function(t,r,e){if(r instanceof P){e.x=t.x-r.x;e.y=t.y-r.y;e.z=t.z-r.z}else{e.x=t.x-r;e.y=t.y-r;e.z=t.z-r}return e};P.multiply=function(t,r,e){if(r instanceof P){e.x=t.x*r.x;e.y=t.y*r.y;e.z=t.z*r.z}else{e.x=t.x*r;e.y=t.y*r;e.z=t.z*r}return e};P.divide=function(t,r,e){if(r instanceof P){e.x=t.x/r.x;e.y=t.y/r.y;e.z=t.z/r.z}else{e.x=t.x/r;e.y=t.y/r;e.z=t.z/r}return e};P.cross=function(t,r,e){e.x=t.y*r.z-t.z*r.y;e.y=t.z*r.x-t.x*r.z;e.z=t.x*r.y-t.y*r.x;return e};P.unit=function(t,r){var e=t.length();r.x=t.x/e;r.y=t.y/e;r.z=t.z/e;return r};P.fromAngles=function(t,r){return new P(Math.cos(t)*Math.cos(r),Math.sin(r),Math.sin(t)*Math.cos(r))};P.randomDirection=function(){return P.fromAngles(Math.random()*Math.PI*2,Math.asin(Math.random()*2-1))};P.min=function(t,r){return new P(Math.min(t.x,r.x),Math.min(t.y,r.y),Math.min(t.z,r.z))};P.max=function(t,r){return new P(Math.max(t.x,r.x),Math.max(t.y,r.y),Math.max(t.z,r.z))};P.lerp=function(t,r,e){return r.subtract(t).multiply(e).add(t)};P.fromArray=function(t){return new P(t[0],t[1],t[2])};P.angleBetween=function(t,r){return t.angleTo(r)};return r}();
+
+//NOTES: It Uses LightGL As 3rd Party
+var cakepen,
+    cakecanvas,
     cake_webgl_debugger,
-    program_location,
     TRIANGLES,
     LINES,
     FAN,
@@ -3868,25 +3644,23 @@ var cakecanvas,
     VERTEX,
     FRAGMENT,
     TRISTRIP,
-    program,
-    buffer,
-    pos_buffer,
-    color_buffer,
-    shader_variable,
-    shader,
+    current_program,
+    current_buffer,
+    current_vertex_shader,
+    current_fragment_shader,
     GPU,
     GLSL_VER,
     VENDOR,
     GL_VER,
-    UNMASKED;
-    var InitializeWebGL = (c) =>
-    {
-    if(Unknown(c)) c = 0;
-    cakecanvas = document.getElementsByTagName("canvas")[c];
-    cakepen = cakecanvas.getContext('webgl2');
-    if(cakepen) console.info("CAKE GAME ENGINE: INITIALIZING WebGL2RenderingContext...");
-    if(!cakepen) console.error("WEBGL NOT SUPPORTED!!!");
-    EnableDebugger();
+    UNMASKED,
+    cakecanvas2d,
+    cakepen2d;
+
+//Starting
+var InitializeLightGL = (options) => 
+{
+    cakepen = GL.create(options);
+    cakecanvas = cakepen.canvas;
     EnableScissor(true);
     TRIANGLES = cakepen.TRIANGLES;
     LINES = cakepen.LINES;
@@ -3897,20 +3671,38 @@ var cakecanvas,
     TRISTRIP = cakepen.TRIANGLE_STRIP;
     LINELOOP = cakepen.LINE_LOOP;
     LINESTRIP = cakepen.LINE_STRIP;
-    GPU = cakepen.getParameter(cake_webgl_debugger.UNMASKED_VENDOR_WEBGL);
     GL_VER = cakepen.getExtension(cakepen.VERSION);
     GLSL_VER = cakepen.getParameter(cakepen.SHADING_LANGUAGE_VERSION);
-    UNMASKED = cakepen.getParameter(cake_webgl_debugger.UNMASKED_RENDERER_WEBGL);
     VENDOR = cakepen.getParameter(cakepen.VENDOR);
-    };
-var GetWebGLFullInfo = () => console.info(`GPU: ${GPU}\nWEBGL VERSION: ${GL_VER}\nGLSL VERSION: ${GLSL_VER}\nVENDOR: ${VENDOR}\nUNMASKED RENDERER: ${UNMASKED}\n`);
-var GetWebGLErrors = () => cakepen.getError();
+};
+
+var InitializeWebGL = (c,options) =>
+{
+    if(Unknown(c)) c = 0;
+    cakecanvas = document.getElementsByTagName("canvas")[c];
+    cakepen = cakecanvas.getContext('webgl',options);
+    if(cakepen) console.info("CAKE GAME ENGINE: INITIALIZING WebGLRenderingContext...");
+    if(!cakepen) console.error("WEBGL NOT SUPPORTED!!!");
+    TRIANGLES = cakepen.TRIANGLES;
+    LINES = cakepen.LINES;
+    POINTS = cakepen.POINTS;
+    TRIFAN = cakepen.TRIANGLE_FAN;
+    TRISTRIP = cakepen.TRIANGLE_STRIP;
+    LINELOOP = cakepen.LINE_LOOP;
+    LINESTRIP = cakepen.LINE_STRIP;
+    GL_VER = cakepen.getExtension(cakepen.VERSION);
+    GLSL_VER = cakepen.getParameter(cakepen.SHADING_LANGUAGE_VERSION);
+    VENDOR = cakepen.getParameter(cakepen.VENDOR);
+};
+
+//Drawing
 var ClearCanvasFully = () =>
 {
     cakepen.clearColor(0,0,0,0);
     cakepen.clearDepth(1.0);
     cakepen.clear(cakepen.COLOR_BUFFER_BIT | cakepen.DEPTH_BUFFER_BIT);
 };
+
 var WebGLClearCanvas = (r,g,b,a) =>
 {
     if(Unknown(r)) r = 0;
@@ -3920,218 +3712,244 @@ var WebGLClearCanvas = (r,g,b,a) =>
     cakepen.clearColor(r,g,b,a);
     cakepen.clear(cakepen.COLOR_BUFFER_BIT);
 };
-var WebGLExtension = (ext) => cakepen.getExtension(ext);
-var WebGLParameter = (param) => cakepen.getParameter(param);
-var LoadGLID = () => cakepen.loadIdentity();
-var ShaderParameter = (shader,param) => cakepen.getShaderParameter(shader,param);
-var ProgramParameter = (program,param) => cakepen.getProgramParameter(program,param);
-var CreateShader = (shader,type,src) =>
+
+var DrawCube = (shaders,position,rotation,size,options) => 
 {
-    var shader = cakepen.createShader(type);
-    cakepen.shaderSource(shader,src);
-    cakepen.compileShader(shader);
-    console.info(cakepen.getShaderParameter(shader,cakepen.COMPILE_STATUS) ? "CAKE GAME ENGINE: SHADER COMPILED SUCCESSFULLY!!!" : "CAKE GAME ENGINE: SHADER COMPILATION FAILED!!!");
-    console.info(cakepen.getShaderInfoLog(shader));
-    console.info(cakepen.getShaderSource(shader));
-    cakepen.deleteShader(shader);
+    var cube_shaders = new GL.Shader(shaders[0],shaders[1]);
+    cakepen.loadIdentity();
+    cakepen.translate(position[0],position[1],position[2]);
+    cakepen.rotate(rotation[0],rotation[1],rotation[2],rotation[3]);
+    cakepen.scale(size,size,-size);
+    cube_shaders.draw(GL.Mesh.cube(options));
+    cakepen.translate(-position[0],-position[1],-position[2]);
+    cakepen.rotate(-rotation[0],-rotation[1],-rotation[2],-rotation[3]);
+    cakepen.scale(-size,-size,size);
 };
-var CreateProgram = (program,vertex,frag) => 
+
+var DrawCuboid = (shaders,position,rotation,scale,options) =>
 {
-    var program = cakepen.createProgram();
-    cakepen.attachShader(program,vertex);
-    cakepen.attachShader(program,frag);
-    cakepen.linkProgram(program);
-    cakepen.validateProgram(program);
-    console.info(cakepen.getAttachedShaders(program));
-    console.info(cakepen.getShaderSource(vertex));
-    console.info(cakepen.getShaderSource(frag));
-    console.info(cakepen.getShaderInfoLog(vertex));
-    console.info(cakepen.getShaderInfoLog(frag));
-    console.info(cakepen.getProgramParameter(cakepen.LINK_STATUS) ? "CAKE GAME ENGINE: PROGRAM CREATED SUCCESSFULLY!!!" : "CAKE GAME ENGINE: PROGRAM CREATION FAILED!!!");
-    console.info(cakepen.getProgramInfoLog(program));
-    cakepen.deleteProgram(program);
+    var cuboid_shaders = new GL.Shader(shaders[0],shaders[1]);
+    cakepen.loadIdentity();
+    cakepen.translate(position[0],position[1],position[2]);
+    cakepen.rotate(rotation[0],rotation[1],rotation[2],rotation[3]);
+    cakepen.scale(scale[0],scale[1],-scale[2]);
+    cuboid_shaders.draw(GL.Mesh.cube(options));
+    cakepen.translate(-position[0],-position[1],-position[2]);
+    cakepen.rotate(-rotation[0],-rotation[1],-rotation[2],-rotation[3]);
+    cakepen.scale(-scale[0],-scale[1],scale[2]);
 };
-var CreateBuffer = (buffer,arr) =>
+
+var DrawBall = (shaders,position,rotation,size,options) => 
 {
-    var buffer = cakepen.createBuffer();
-    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, buffer);
-    cakepen.bufferData(cakepen.ARRAY_BUFFER, new Float32Array(arr), cakepen.DYNAMIC_DRAW);
+    var ball_shaders = new GL.Shader(shaders[0],shaders[1]);
+    cakepen.loadIdentity();
+    cakepen.translate(position[0],position[1],position[2]);
+    cakepen.rotate(rotation[0],rotation[1],rotation[2],rotation[3]);
+    cakepen.scale(size,size,-size);
+    ball_shaders.draw(GL.Mesh.sphere(options));
+    cakepen.translate(-position[0],-position[1],-position[2]);
+    cakepen.rotate(-rotation[0],-rotation[1],-rotation[2],-rotation[3]);
+    cakepen.scale(-size,-size,size);
 };
-var SetGeometry = (program,pos_attrib,pos_buffer,pos_arr) =>
+
+var DrawSphere = (shaders,position,rotation,scale,options) => 
 {
-    cakepen.getAttribLocation(program,pos_attrib);
-    var pos_buffer = cakepen.createBuffer();
-    cakepen.bindBuffer(cakepen.ARRAY_BUFFER,pos_buffer);
-    cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(pos_arr),cakepen.DYNAMIC_DRAW);
+    var sphere_shaders = new GL.Shader(shaders[0],shaders[1]);
+    cakepen.loadIdentity();
+    cakepen.translate(position[0],position[1],position[2]);
+    cakepen.rotate(rotation[0],rotation[1],rotation[2],rotation[3]);
+    cakepen.scale(scale[0],scale[1],-scale[2]);
+    sphere_shaders.draw(GL.Mesh.sphere(options));
+    cakepen.translate(-position[0],-position[1],-position[2]);
+    cakepen.rotate(-rotation[0],-rotation[1],-rotation[2],-rotation[3]);
+    cakepen.scale(-scale[0],-scale[1],scale[2]);
 };
-var SetColor = (program,color_attribute,color_buffer,color_arr) =>
+
+var DrawPlane = (shaders,position,rotation,size,options) => 
 {
-  var color_buffer = cakepen.createBuffer();
-  cakepen.bindBuffer(cakepen.ARRAY_BUFFER, color_buffer);
-  cakepen.bufferData(cakepen.ARRAY_BUFFER,color_arr,cakepen.DYNAMIC_DRAW);
-  cakepen.enableVertexAttribArray(cakepen.getAttribLocation(program,color_attribute));
-  cakepen.bindBuffer(cakepen.ARRAY_BUFFER, color_buffer);
-  cakepen.vertexAttribPointer(cakepen.getAttribLocation(program,color_attribute), 4, cakepen.FLOAT, false, 0);
+    var plane_shaders = new GL.Shader(shaders[0],shaders[1]);
+    cakepen.loadIdentity();
+    cakepen.translate(position[0],position[1],position[2]);
+    cakepen.rotate(rotation[0],rotation[1],rotation[2],rotation[3]);
+    cakepen.scale(size,size,-size);
+    plane_shaders.draw(GL.Mesh.plane(options));
+    cakepen.translate(-position[0],-position[1],-position[2]);
+    cakepen.rotate(-rotation[0],-rotation[1],-rotation[2],-rotation[3]);
+    cakepen.scale(-size,-size,size);
 };
-var EnableDebugger = () => cake_webgl_debugger = (cakepen.getExtension("WEBGL_debug_renderer_info") || cakepen.getExtension("WEBGL_debug_shaders"));
-var SetLineSize = (size) => cakepen.lineWidth(size);
-var WebGLFeatureEnable = (feature) => cakepen.isEnabled(feature);
-var EnableWebGLFeature = (feature) => cakepen.enable(feature);
-var DisableWebGLFeature = (feature) => cakepen.disable(feature);
-var RemoveShader = (shader) => cakepen.deleteShader(shader);
-var RemoveProgram = (program) => cakepen.deleteProgram(program);
-var RemoveBuffer = (buffer) => cakepen.deleteBuffer(buffer);
-var RemoveFrameBuffer = (buffer) => cakepen.deleteFrameBuffer(buffer);
-var RemoveRenderBuffer = (buffer) => cakepen.deleteRenderBuffer(buffer);
-var CreateFrameBuffer = (buffer) => buffer = cakepen.createFrameBuffer();
-var CreateRenderBuffer = (buffer) => buffer = cakepen.createRenderBuffer();
-var ShaderSourceCode = (shader) => cakepen.getShaderSource(shader);
-var WebGLTranslate = (x,y,z) => cakepen.translate(x,y,z);
-var WebGLRotate = (angle,x,y,z) => cakepen.rotate(angle,x,y,z);
-var WebGLScale = (x,y,z) => cakepen.scale(x,y,z);
-var WebGLViewport = (x,y,width,height) => cakepen.viewport(x,y,width,height);
+
+var DrawField = (shaders,position,rotation,scale,options) => 
+{
+    var plane_shaders = new GL.Shader(shaders[0],shaders[1]);
+    cakepen.loadIdentity();
+    cakepen.translate(position[0],position[1],position[2]);
+    cakepen.rotate(rotation[0],rotation[1],rotation[2],rotation[3]);
+    cakepen.scale(scale[0],scale[1],-scale[2]);
+    plane_shaders.draw(GL.Mesh.plane(options));
+    cakepen.translate(-position[0],-position[1],-position[2]);
+    cakepen.rotate(-rotation[0],-rotation[1],-rotation[2],-rotation[3]);
+    cakepen.scale(-scale[0],-scale[1],scale[2]);
+};
+
+var DrawArrays = (mode,pos_arr) => cakepen.drawArrays(mode,0,pos_arr.length / 2);
 var BEGIN = (mode) => cakepen.begin(mode);
 var END = () =>
 {
     cakepen.flush();
     cakepen.end();
 };
-var UseProgram = (program) => cakepen.useProgram(program);
-var BindBuffer = (buffer) => cakepen.bindBuffer(cakepen.ARRAY_BUFFER,buffer);
-var Transform = (mode,a,b,c,d) =>
+var FINISH = () => cakepen.finish();
+var WebGLDrawContent = (mode,content) =>
 {
-	if(mode == "translate") cakepen.translate(a,b,c);
-	if(mode == "rotate") cakepen.rotate(a,b,c,d);
-	if(mode == "scale") cakepen.scale(a,b,c);
+    cakepen.begin(mode);
+    for(l = 0;l < content.length;l++)
+    {
+            cakepen.color(content[l][3],content[l][4],content[l][5],content[l][6]);
+            cakepen.vertex(content[l][0],content[l][1],content[l][2]);
+    };
+    cakepen.end();
+};
+
+
+
+
+//Shaders
+var Shader = (vertex,frag) => GL.Shader(vertex,frag);
+var ShaderParameter = (shader,param) => cakepen.getShaderParameter(shader,param);
+var RemoveShader = (shader) => cakepen.deleteShader(shader);
+var ShaderSourceCode = (shader) => cakepen.getShaderSource(shader);
+var SHADER = (shader) => cakepen.isShader(shader);
+var CreateShader = (type,src,current_vertex_shader,current_fragment_shader) =>
+{
+    if (type == VERTEX) current_vertex_shader = cakepen.createShader(VERTEX);
+    if (type == FRAGMENT) current_vertex_shader = cakepen.createShader(FRAGMENT);
+    cakepen.shaderSource(type == VERTEX ? current_vertex_shader : current_fragment_shader,src);
+    cakepen.compileShader(type == VERTEX ? current_vertex_shader : current_fragment_shader);
+    console.info(cakepen.getShaderParameter(type == VERTEX ? current_vertex_shader : current_fragment_shader,cakepen.COMPILE_STATUS) ? "CAKE GAME ENGINE: SHADER COMPILED SUCCESSFULLY!!!" : "CAKE GAME ENGINE: SHADER COMPILATION FAILED!!!");
+    console.info(cakepen.getShaderInfoLog(type == VERTEX ? current_vertex_shader : current_fragment_shader));
+    console.info(cakepen.getShaderSource(type == VERTEX ? current_vertex_shader : current_fragment_shader));
+};
+
+
+//Buffers
+var BUFFER = (buffer) => cakepen.isBuffer(buffer);
+var RemoveBuffer = (buffer) => cakepen.deleteBuffer(buffer);
+var RemoveFrameBuffer = (buffer) => cakepen.deleteFrameBuffer(buffer);
+var RemoveRenderBuffer = (buffer) => cakepen.deleteRenderBuffer(buffer);
+var BindBuffer = (buffer) => cakepen.bindBuffer(cakepen.ARRAY_BUFFER,buffer);
+var CreateFrameBuffer = (buffer) => buffer = cakepen.createFrameBuffer();
+var CreateRenderBuffer = (buffer) => buffer = cakepen.createRenderBuffer();
+var CreateBuffer = (current_buffer,arr) =>
+{
+    current_buffer = cakepen.createBuffer();
+    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, current_buffer);
+    cakepen.bufferData(cakepen.ARRAY_BUFFER, new Float32Array(arr), cakepen.DYNAMIC_DRAW);
+};
+
+
+//Programs
+var ProgramParameter = (program,param) => cakepen.getProgramParameter(program,param);
+var RemoveProgram = (program) => cakepen.deleteProgram(program);
+var UseProgram = (program) => cakepen.useProgram(program);
+var PROGRAM = (program) => cakepen.isProgram(program);
+var DisableAttribute = (program,att) => cakepen.disableVertexAttribArray(cakepen.getAttribLocation(program,att));
+var EnableAttribute = (program,att) => cakepen.enableVertexAttribArray(cakepen.getAttribLocation(program, att));
+var CreateProgram = (current_program,vertex,frag) => 
+{
+    current_program = cakepen.createProgram();
+    cakepen.attachShader(current_program,vertex);
+    cakepen.attachShader(current_program,frag);
+    cakepen.linkProgram(current_program);
+    cakepen.validateProgram(current_program);
+    console.info(cakepen.getAttachedShaders(current_program));
+    console.info(cakepen.getShaderSource(vertex));
+    console.info(cakepen.getShaderSource(frag));
+    console.info(cakepen.getShaderInfoLog(vertex));
+    console.info(cakepen.getShaderInfoLog(frag));
+    console.info(cakepen.getProgramParameter(cakepen.LINK_STATUS) ? "CAKE GAME ENGINE: PROGRAM CREATED SUCCESSFULLY!!!" : "CAKE GAME ENGINE: PROGRAM CREATION FAILED!!!");
+    console.info(cakepen.getProgramInfoLog(current_program));
+};
+
+
+//Transformations
+var WebGLTranslate = (x,y,z) => cakepen.translate(x,y,z);
+var WebGLRotate = (angle,x,y,z) => cakepen.rotate(angle,x,y,z);
+var WebGLScale = (x,y,z) => cakepen.scale(x,y,z);
+var WebGLViewport = (x,y,width,height) => cakepen.viewport(x,y,width,height);
+var WebGLScissor = (x,y,width,height) => cakepen.scissor(x,y,width,height);
+var WebGLPerspective = (fov,aspect,near,far) => cakepen.perspective(fov,aspect,near,far);
+var WebGLOrthographic = (left,right,bottom,top,near,far) => cakepen.ortho(left,right,bottom,top,near,far);
+var WebGLFrustum = (left,right,bottom,top,near,far) => cakepen.frustum(left,right,bottom,top,near,far);
+var WebGLLookAt = (eye_x,eye_y,eye_z,center_x,center_y,center_z,uniform_x,uniform_y,uniform_z) => cakepen.lookAt(eye_x,eye_y,eye_z,center_x,center_y,center_z,uniform_x,uniform_y,uniform_z);
+var WebGLMatrixMode = (mode) => cakepen.matrixMode(mode);
+
+
+//Meshes
+var Cube = () => GL.Mesh.cube();
+var Sphere = () => GL.Mesh.sphere();
+var Plane = () => GL.Mesh.plane();
+var LoadMesh = (json,options) => GL.Mesh.load(json,options);
+
+//Options
+var EnableDebugger = () => 
+{
+    cake_webgl_debugger = (cakepen.getExtension("WEBGL_debug_renderer_info") || cakepen.getExtension("WEBGL_debug_shaders"));
+    GPU = cakepen.getParameter(cake_webgl_debugger.UNMASKED_VENDOR_WEBGL);
+    UNMASKED = cakepen.getParameter(cake_webgl_debugger.UNMASKED_RENDERER_WEBGL);
+    cakepen.getError();
+};
+
+var Multisample = (enabled,value,invert) =>
+{
+    if(enabled) 
+    {
+            cakepen.enable(cakepen.SAMPLE_COVERAGE);
+            cakepen.sampleCoverage(value,invert);
+    }
+    if(!enabled) cakepen.disable(cakepen.SAMPLE_COVERAGE);
 };
 var EnableScissor = (m) =>
 {
     if(m) cakepen.enable(cakepen.SCISSOR_TEST);
     if(!m) cakepen.disable(cakepen.SCISSOR_TEST);
 };
+var LoadGLID = () => cakepen.loadIdentity();
+var SetLineSize = (size) => cakepen.lineWidth(size);
+var SetClearDepth = (d) => cakepen.clearDepth(d);
 var CompatibleCanvas = () =>
 {
-    if (cakecanvas.width  !== cakecanvas.clientWidth || cakecanvas.height !== cakecanvas.clientHeight) 
-    {
-        cakecanvas.width  = cakecanvas.clientWidth;
-        cakecanvas.height = cakecanvas.clientHeight;
-    }
+    if (cakecanvas.width !== cakecanvas.clientWidth || cakecanvas.height !== cakecanvas.clientHeight) cakecanvas.width = cakecanvas.clientWidth,cakecanvas.height = cakecanvas.clientHeight;
     cakepen.viewport(0,0,cakecanvas.width,cakecanvas.height);
 };
-var PROGRAM = (program) => cakepen.isProgram(program);
-var SHADER = (shader) => cakepen.isShader(shader);
-var BUFFER = (buffer) => cakepen.isBuffer(buffer);
-var SetClearDepth = (d) => cakepen.clearDepth(d);
-var DrawContent = (mode,pos_arr) => cakepen.drawArrays(mode,0,pos_arr.length / 2);
-var FINISH = () => cakepen.finish();
-var Avoid = (x,y,w,h) => cakepen.scissor(x,y,w,h);
-var DisableAttribute = (program,att) => cakepen.disableVertexAttribArray(cakepen.getAttribLocation(program,att));
-var EnableAttribute = (program,att) => cakepen.enableVertexAttribArray(cakepen.getAttribLocation(program, att));
-var Multisample = (enabled,value,invert) =>
-{
-    if(enabled) 
-    {
-        cakepen.enable(cakepen.SAMPLE_COVERAGE);
-        cakepen.sampleCoverage(value,invert);
-    }
-    if(!enabled) cakepen.disable(cakepen.SAMPLE_COVERAGE);
-};
-var BindBufferContent = (content,buffer,size,start) =>
-{
-    cakepen.enableVertexAttribArray(content);
-    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, buffer);
-    cakepen.vertexAttribPointer(content, size, cakepen.FLOAT, false, 0, start);
-};
-var WebGLScissor = (x,y,width,height) => cakepen.scissor(x,y,width,height);
+
+
+//Misc
 var WebGLSupportedExtensions = () => cakepen.getSupportedExtensions();
-var CreateSolidColorShader = (r,g,b,a) =>
+var WebGLExtension = (ext) => cakepen.getExtension(ext);
+var WebGLParameter = (param) => cakepen.getParameter(param);
+var WebGLFeatureEnable = (feature) => cakepen.isEnabled(feature);
+var EnableWebGLFeature = (feature) => cakepen.enable(feature);
+var Update = () => cakepen.animate();
+var WebGLFullscreen = (options) => cakepen.fullscreen(options);
+var DisableWebGLFeature = (feature) => cakepen.disable(feature);
+var GetWebGLFullInfo = () => 
 {
-    var solid_color_shader = CreateShader(solid_color_shader,FRAGMENT,`
-    precision mediump float;
-    void main() {
-        gl_fragColor = vec4(${r},${g},${b},${a});
-    }`);
+    EnableDebugger();
+    console.info(`GPU: ${GPU}\nWEBGL VERSION: ${GL_VER}\nGLSL VERSION: ${GLSL_VER}\nVENDOR: ${VENDOR}\nUNMASKED RENDERER: ${UNMASKED}\n`);
+};
+var GetWebGLErrors = () => cakepen.getError();
+var Enable2D = () =>
+{
+    cakecanvas2d = document.createElement("canvas");
+    cakecanvas2d.style.position = "absolute";
+    cakecanvas2d.style.backgroundColor = "transparent";
+    cakecanvas2d.style.left = "0px";
+    cakecanvas2d.style.right = "0px";
+    cakecanvas2d.style.zIndex = 1;
+    cakecanvas2d.getElementsByTagName("body")[document.getElementsByTagName("body").length].appendChild(cakecanvas2d);
+    cakepen2d = cakecanvas2d.getContext("2d");
 };
 
-var Create2DPositionBuffer = (position2d_buffer,pos2d_arr) =>
-{
-    var position2d_buffer = cakepen.createBuffer();
-    cakepen.bindBuffer(cakepen.ARRAY_BUFFER, position2d_buffer);
-    cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(pos2d_arr),cakepen.DYNAMIC_DRAW);
-};
-
-var CreateColorBuffer = (color_buffer,colors_arr) =>
-{
-      var color_buffer = cakepen.createBuffer();
-      cakepen.bindBuffer(cakepen.ARRAY_BUFFER,color_buffer);
-      cakepen.bufferData(cakepen.ARRAY_BUFFER,new Float32Array(colors_arr),cakepen.DYNAMIC_DRAW);
-};
-
-//NOTES: Resolution Must Be Uniform vec2 If Possible
-var SetResolution = (program,res_loc,width,height) => cakepen.uniform2f(cakepen.getUniformLocation(program,res_loc),width,height);
-
-var ProgramContentLocation = (type,program,content) =>
-{
-    if(type == "uniform") cakepen.getUniformLocation(program,content);
-    if(type == "attribute") cakepen.getAttribLocation(program,content);
-};
-
-var EnableAttributeFromLocation = (location,pos_each,program,content) =>
-{
-    var location = cakepen.getAttribLocation(program,content);
-    cakepen.enableVertexAttribArray(location);
-    cakepen.vertexAttribPointer(location,pos_each,cakepen.FLOAT,false,0,0);
-};
-
-var DisableAttributeFromLocation = (location,program,content) =>
-{
-    var location = cakepen.getAttribLocation(program,content);
-    cakepen.disableVertexAttribArray(location);
-};
-
-//Module: Isometric Graphics
-//Created By Rabia Alhaffar In 3/February/2020
-var Shade = (color, percent) =>
-{
-	var R = (parseInt(color.substr(1), 16) >> 16) + Math.round(2.55 * percent),
-		G = (parseInt(color.substr(1), 16) >> 8 & 0x00FF) + Math.round(2.55 * percent),
-		B = (parseInt(color.substr(1), 16) & 0x0000FF) + Math.round(2.55 * percent);
-	return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
-};
-
-var DrawIsometricCube = (x, y, width_x, width_y, height, color) =>
-{
-	cakepen.beginPath();
-	cakepen.moveTo(x, y);
-	cakepen.lineTo(x - width_x, y - width_x * 0.5);
-	cakepen.lineTo(x - width_x, y - height - width_x * 0.5);
-	cakepen.lineTo(x, y - height * 1);
-	cakepen.closePath();
-	cakepen.fillStyle = Shade(color, -10);
-	cakepen.strokeStyle = color;
-	cakepen.stroke();
-	cakepen.fill();
-	cakepen.beginPath();
-	cakepen.moveTo(x, y);
-	cakepen.lineTo(x + width_y, y - width_y * 0.5);
-	cakepen.lineTo(x + width_y, y - height - width_y * 0.5);
-	cakepen.lineTo(x, y - height * 1);
-	cakepen.closePath();
-	cakepen.fillStyle = Shade(color, 10);
-	cakepen.strokeStyle = Shade(color, 50);
-	cakepen.stroke();
-	cakepen.fill();
-	cakepen.beginPath();
-	cakepen.moveTo(x, y - height);
-	cakepen.lineTo(x - width_x, y - height - width_x * 0.5);
-	cakepen.lineTo(x - width_x + width_y, y - height - (width_x * 0.5 + width_y * 0.5));
-	cakepen.lineTo(x + width_y, y - height - width_y * 0.5);
-	cakepen.closePath();
-	cakepen.fillStyle = Shade(color, 20);
-	cakepen.strokeStyle = Shade(color, 60);
-	cakepen.stroke();
-	cakepen.fill();
-};
 
 //Module: Simulation(Emulation)
 //Created By Rabia Alhaffar In 25/January/2020
@@ -4152,357 +3970,494 @@ var SimulateDesktop = () =>
 };
 
 //Watermark!!!
-var _0x4071=['TWFkZSBXaXRoIENha2UgR2FtZSBFbmdpbmUhISEKaHR0cHM6Ly9naXRodWIuY29tL0Nha2UtRW5naW5lL0Nha2UKaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL0Nha2UtRW5naW5lL0Nha2UvYnVpbGQvY2FrZS5qcw==','aW5mbw=='];(function(_0x2ffcdf,_0x4071f9){var _0x2217c0=function(_0x5da423){while(--_0x5da423){_0x2ffcdf['push'](_0x2ffcdf['shift']());}};_0x2217c0(++_0x4071f9);}(_0x4071,0x12d));var _0x2217=function(_0x2ffcdf,_0x4071f9){_0x2ffcdf=_0x2ffcdf-0x0;var _0x2217c0=_0x4071[_0x2ffcdf];if(_0x2217['ZbYTFh']===undefined){(function(){var _0x4234fe;try{var _0x20d68f=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');');_0x4234fe=_0x20d68f();}catch(_0x161007){_0x4234fe=window;}var _0x475299='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x4234fe['atob']||(_0x4234fe['atob']=function(_0x5dfb23){var _0x35385f=String(_0x5dfb23)['replace'](/=+$/,'');var _0x5cd396='';for(var _0x530d4d=0x0,_0x3a45c9,_0xd42657,_0xa013dc=0x0;_0xd42657=_0x35385f['charAt'](_0xa013dc++);~_0xd42657&&(_0x3a45c9=_0x530d4d%0x4?_0x3a45c9*0x40+_0xd42657:_0xd42657,_0x530d4d++%0x4)?_0x5cd396+=String['fromCharCode'](0xff&_0x3a45c9>>(-0x2*_0x530d4d&0x6)):0x0){_0xd42657=_0x475299['indexOf'](_0xd42657);}return _0x5cd396;});}());_0x2217['fddcuW']=function(_0x73aa9a){var _0x72e26b=atob(_0x73aa9a);var _0x5230fc=[];for(var _0x255543=0x0,_0x582728=_0x72e26b['length'];_0x255543<_0x582728;_0x255543++){_0x5230fc+='%'+('00'+_0x72e26b['charCodeAt'](_0x255543)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5230fc);};_0x2217['adKNex']={};_0x2217['ZbYTFh']=!![];}var _0x5da423=_0x2217['adKNex'][_0x2ffcdf];if(_0x5da423===undefined){_0x2217c0=_0x2217['fddcuW'](_0x2217c0);_0x2217['adKNex'][_0x2ffcdf]=_0x2217c0;}else{_0x2217c0=_0x5da423;}return _0x2217c0;};console[_0x2217('0x0')](_0x2217('0x1'));
+var _0x1152=['TWFkZSBXaXRoIENha2UgR2FtZSBFbmdpbmUhISEKaHR0cHM6Ly9naXRodWIuY29tL0Nha2UtRW5naW5lL0Nha2UKaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL0Nha2UtRW5naW5lL0Nha2VAbWFzdGVyL2J1aWxkL2Nha2UuanM=','aW5mbw=='];(function(_0x4dcc29,_0x1152e4){var _0x472623=function(_0x25dcfa){while(--_0x25dcfa){_0x4dcc29['push'](_0x4dcc29['shift']());}};_0x472623(++_0x1152e4);}(_0x1152,0x1ab));var _0x4726=function(_0x4dcc29,_0x1152e4){_0x4dcc29=_0x4dcc29-0x0;var _0x472623=_0x1152[_0x4dcc29];if(_0x4726['KLrQeq']===undefined){(function(){var _0x38f904;try{var _0x3d4882=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');');_0x38f904=_0x3d4882();}catch(_0x277cc1){_0x38f904=window;}var _0x4214aa='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x38f904['atob']||(_0x38f904['atob']=function(_0x436082){var _0x451e36=String(_0x436082)['replace'](/=+$/,'');var _0x1fa985='';for(var _0x4d274a=0x0,_0x801e2f,_0x1e53a9,_0x1adc07=0x0;_0x1e53a9=_0x451e36['charAt'](_0x1adc07++);~_0x1e53a9&&(_0x801e2f=_0x4d274a%0x4?_0x801e2f*0x40+_0x1e53a9:_0x1e53a9,_0x4d274a++%0x4)?_0x1fa985+=String['fromCharCode'](0xff&_0x801e2f>>(-0x2*_0x4d274a&0x6)):0x0){_0x1e53a9=_0x4214aa['indexOf'](_0x1e53a9);}return _0x1fa985;});}());_0x4726['owMmdm']=function(_0x287442){var _0x46834e=atob(_0x287442);var _0x173dd8=[];for(var _0x585808=0x0,_0x17a0c4=_0x46834e['length'];_0x585808<_0x17a0c4;_0x585808++){_0x173dd8+='%'+('00'+_0x46834e['charCodeAt'](_0x585808)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x173dd8);};_0x4726['NSliwY']={};_0x4726['KLrQeq']=!![];}var _0x25dcfa=_0x4726['NSliwY'][_0x4dcc29];if(_0x25dcfa===undefined){_0x472623=_0x4726['owMmdm'](_0x472623);_0x4726['NSliwY'][_0x4dcc29]=_0x472623;}else{_0x472623=_0x25dcfa;}return _0x472623;};console[_0x4726('0x0')](_0x4726('0x1'));
 
 //Module: CanvasRenderingContext2D
 //Created By Rabia Alhaffar In 9/February/2020
 //A Additions To CanvasRenderingContext2D That Adds More Functions!!!
 //New: Added CanvasRenderingContext2D.shear() Function
+//New: Added Flipping Horizontally And Vertically
+//New: Added CanvasRenderingContext2D.line() And CanvasRenderingContext2D.applyFilters() And CanvasRenderingContext2D.setFilters()
 if(!CanvasRenderingContext2D.prototype.cc) 
 {
     CanvasRenderingContext2D.prototype.cc = function() 
     {
-        this.clearRect(0,0,this.canvas.width,this.canvas.height);
+            this.clearRect(0,0,this.canvas.width,this.canvas.height);
     };
 }
 CanvasRenderingContext2D.prototype.clear = function()
 {
     this.cc();
 };
+
+
 if(!CanvasRenderingContext2D.prototype.fc)
 {
     CanvasRenderingContext2D.prototype.fc = function(x,y,radius)
     {
-        this.beginPath();
-        this.arc(x,y,radius,90,180 * Math.PI);
-        this.fill();
-        this.closePath();
+            this.beginPath();
+            this.arc(x,y,radius,90,180 * Math.PI);
+            this.closePath();
+            this.fill();
     };
 }
 CanvasRenderingContext2D.prototype.fillCircle = function(x,y,radius) 
 { 
     this.fc(x,y,radius); 
 };
+
+
 if(!CanvasRenderingContext2D.prototype.sc)
 {
     CanvasRenderingContext2D.prototype.sc = function(x,y,radius)
     {
-        this.beginPath();
-        this.arc(x,y,radius,90,180 * Math.PI);
-        this.stroke();
-        this.closePath();
+            this.beginPath();
+            this.arc(x,y,radius,90,180 * Math.PI);
+            this.closePath();
+            this.stroke();
     };
 }
 CanvasRenderingContext2D.prototype.strokeCircle = function(x,y,radius) 
 { 
     this.sc(x,y,radius); 
 };
+
+
 if(!CanvasRenderingContext2D.prototype.ft)
 {
     CanvasRenderingContext2D.prototype.ft = function(x1,y1,x2,y2,x3,y3)
     {
-        this.beginPath();
-        this.moveTo(x1,y1);
-        this.lineTo(x2,y2);
-        this.lineTo(x3,y3);
-        this.lineTo(x1,y1);
-        this.fill();
-        this.closePath();
+            this.beginPath();
+            this.moveTo(x1,y1);
+            this.lineTo(x2,y2);
+            this.lineTo(x3,y3);
+            this.lineTo(x1,y1);
+            this.closePath();
+            this.fill();
     };
 }
 CanvasRenderingContext2D.prototype.fillTriangle = function(x1,y1,x2,y2,x3,y3) 
 { 
     this.ft(x1,y1,x2,y2,x3,y3); 
 };
+
+
 if(!CanvasRenderingContext2D.prototype.st)
 {
     CanvasRenderingContext2D.prototype.st = function(x1,y1,x2,y2,x3,y3)
     {
-        this.beginPath();
-        this.moveTo(x1,y1);
-        this.lineTo(x2,y2);
-        this.lineTo(x3,y3);
-        this.lineTo(x1,y1);
-        this.stroke();
-        this.closePath();
+            this.beginPath();
+            this.moveTo(x1,y1);
+            this.lineTo(x2,y2);
+            this.lineTo(x3,y3);
+            this.lineTo(x1,y1);
+            this.closePath();
+            this.stroke();
     };
 }
 CanvasRenderingContext2D.prototype.strokeTriangle = function(x1,y1,x2,y2,x3,y3)
 {
     this.st(x1,y1,x2,y2,x3,y3);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.fp)
 {
     CanvasRenderingContext2D.prototype.fp = function(points)
     {
-        this.beginPath();
-        this.moveTo(points[0][0], points[0][1]);
-        for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
-        this.fill();
-        this.closePath();
+            this.beginPath();
+            this.moveTo(points[0][0], points[0][1]);
+            for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
+            this.closePath();
+            this.fill();
     };
 }
 CanvasRenderingContext2D.prototype.fillPolygon = function(points)
 {
     this.fp(points);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.sp)
 {
     CanvasRenderingContext2D.prototype.sp = function(points)
     {
-        this.beginPath();
-        this.moveTo(points[0][0], points[0][1]);
-        for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
-        this.stroke();
-        this.closePath();
+            this.beginPath();
+            this.moveTo(points[0][0], points[0][1]);
+            for(var i = 0; i < points.length; i++) this.lineTo(points[i][0], points[i][1]);
+            this.closePath();
+            this.stroke();
     };
 }
 CanvasRenderingContext2D.prototype.strokePolygon = function(points)
 {
     this.sp(points);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.frr)
 {
     CanvasRenderingContext2D.prototype.frr = function(x,y,width,height,radius)
     {
-        this.beginPath();
-        this.moveTo(x + radius,y);
-        this.lineTo(x + width - radius,y);
-        this.quadraticCurveTo(x + width,y,x + width,y + radius);
-        this.lineTo(x + width,y + height - radius);
-        this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
-        this.lineTo(x + radius,y + height);
-        this.quadraticCurveTo(x,y + height,x,y + height - radius);
-        this.lineTo(x,y + radius);
-        this.quadraticCurveTo(x,y,x + radius,y);
-        this.fill();
-        this.closePath();
+            this.beginPath();
+            this.moveTo(x + radius,y);
+            this.lineTo(x + width - radius,y);
+            this.quadraticCurveTo(x + width,y,x + width,y + radius);
+            this.lineTo(x + width,y + height - radius);
+            this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
+            this.lineTo(x + radius,y + height);
+            this.quadraticCurveTo(x,y + height,x,y + height - radius);
+            this.lineTo(x,y + radius);
+            this.quadraticCurveTo(x,y,x + radius,y);
+            this.closePath();
+            this.fill();
     };
 }
 CanvasRenderingContext2D.prototype.fillRoundedRect = function(x,y,width,height,radius)
 {
     this.frr(x,y,width,height,radius);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.srr)
 {
     CanvasRenderingContext2D.prototype.srr = function(x,y,width,height,radius)
     {
-        this.beginPath();
-        this.moveTo(x + radius,y);
-        this.lineTo(x + width - radius,y);
-        this.quadraticCurveTo(x + width,y,x + width,y + radius);
-        this.lineTo(x + width,y + height - radius);
-        this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
-        this.lineTo(x + radius,y + height);
-        this.quadraticCurveTo(x,y + height,x,y + height - radius);
-        this.lineTo(x,y + radius);
-        this.quadraticCurveTo(x,y,x + radius,y);
-        this.stroke();
-        this.closePath();
+            this.beginPath();
+            this.moveTo(x + radius,y);
+            this.lineTo(x + width - radius,y);
+            this.quadraticCurveTo(x + width,y,x + width,y + radius);
+            this.lineTo(x + width,y + height - radius);
+            this.quadraticCurveTo(x + width,y + height,x + width - radius,y + height);
+            this.lineTo(x + radius,y + height);
+            this.quadraticCurveTo(x,y + height,x,y + height - radius);
+            this.lineTo(x,y + radius);
+            this.quadraticCurveTo(x,y,x + radius,y);
+            this.closePath();
+            this.stroke();
     };
 }
 CanvasRenderingContext2D.prototype.strokeRoundedRect = function(x,y,width,height,radius)
 {
     this.srr(x,y,width,height,radius);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.fas)
 {
     CanvasRenderingContext2D.prototype.fas = function()
     {
-        this.fill();
-        this.stroke();
+            this.fill();
+            this.stroke();
     };
 }
 CanvasRenderingContext2D.prototype.fillAndStroke = function()
 {
     this.fas();
 };
+
+
 if(!CanvasRenderingContext2D.prototype.blu) 
 {
     CanvasRenderingContext2D.prototype.blu = function(px) 
     { 
-        this.canvas.style.filter += " blur(" + px + "px) "; 
+            this.canvas.style.filter += " blur(" + px + "px) "; 
     };
 }
 CanvasRenderingContext2D.prototype.blur = function(px)
 {
     this.blu(px);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.brightness) 
 {
     CanvasRenderingContext2D.prototype.brightness = function(percentage) 
     {
-        this.canvas.style.filter += " brightness(" + percentage + "%) ";
+            this.canvas.style.filter += " brightness(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.bright = function(percentage)
 {
     this.brightness(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.contras) 
 {
     CanvasRenderingContext2D.prototype.contras = function(percentage) 
     {
-        this.canvas.style.filter += " contrast(" + percentage + "%) ";
+            this.canvas.style.filter += " contrast(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.contrast = function(percentage)
 {
     this.contras(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.inv) 
 {
     CanvasRenderingContext2D.prototype.inv = function(percentage)
     {
-        this.canvas.style.filter += " invert(" + percentage + "%) ";
+            this.canvas.style.filter += " invert(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.invert = function(percentage)
 {
     this.inv(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.grace) 
 {
     CanvasRenderingContext2D.prototype.grace = function(percentage)
     {
-        this.canvas.style.filter += " grayscale(" + percentage + "%) ";
+            this.canvas.style.filter += " grayscale(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.grayscale = function(percentage)
 {
     this.grace(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.opal) 
 {
     CanvasRenderingContext2D.prototype.opal = function(percentage) 
     {
-        this.canvas.style.filter += " opacity(" + percentage + "%) ";
+            this.canvas.style.filter += " opacity(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.opacity = function(percentage)
 {
     this.opal(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.sat) 
 {
     CanvasRenderingContext2D.prototype.sat = function(percentage)
     {
-        this.canvas.style.filter += " saturate(" + percentage + "%) ";
+            this.canvas.style.filter += " saturate(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.saturate = function(percentage)
 {
     this.sat(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.spyro) 
 {
     CanvasRenderingContext2D.prototype.spyro = function(percentage)
     {
-        this.canvas.style.filter += " sepia(" + percentage + "%) ";
+            this.canvas.style.filter += " sepia(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.sepia = function(percentage)
 {
     this.spyro(percentage);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.roue) 
 {
     CanvasRenderingContext2D.prototype.roue = function(percentage) 
     {
-        this.canvas.style.filter += " hue-rotate(" + percentage + "%) ";
+            this.canvas.style.filter += " hue-rotate(" + percentage + "%) ";
     };
 }
 CanvasRenderingContext2D.prototype.rotateHue = function(percentage)
 {
     this.roue(percentage);
 };
-if(!CanvasRenderingContext2D.prototype.applyFilters) 
+
+
+if(!CanvasRenderingContext2D.prototype.sf) 
 {
-    CanvasRenderingContext2D.prototype.applyFilters = function(filters)
+    CanvasRenderingContext2D.prototype.sf = function(filters)
     {
-        this.canvas.style.filter = filters.toString();
+            this.canvas.style.filter = filters.toString();
     };
 }
 CanvasRenderingContext2D.prototype.setFilters = function(filters)
 {
-    this.applyFilters(filters);
+    this.sf(filters);
 };
-if(!CanvasRenderingContext2D.prototype.clearFilters) 
+
+
+if(!CanvasRenderingContext2D.prototype.af) 
 {
-    CanvasRenderingContext2D.prototype.clearFilters = function()
+    CanvasRenderingContext2D.prototype.af = function(filters)
     {
-        this.canvas.style.filter = "none";
+            this.canvas.style.filter += filters.toString();
     };
 }
-CanvasRenderingContext2D.prototype.removeFilters = function()
+CanvasRenderingContext2D.prototype.applyFilters = function(filters)
 {
-    this.clearFilters();
+    this.af(filters);
 };
+
+
+if(!CanvasRenderingContext2D.prototype.removeFilters) 
+{
+    CanvasRenderingContext2D.prototype.removeFilters = function()
+    {
+            this.canvas.style.filter = "none";
+    };
+}
+CanvasRenderingContext2D.prototype.clearFilters = function()
+{
+    this.removesFilters();
+};
+
+
 if(!CanvasRenderingContext2D.prototype.flis) 
 {
     CanvasRenderingContext2D.prototype.flis = function(x,y,size)
     {
-        this.fillRect(x,y,size,size);
+            this.fillRect(x,y,size,size);
     };
 }
 CanvasRenderingContext2D.prototype.fillSquare = function(x,y,size)
 {
     this.flis(x,y,size);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.slis) 
 {
     CanvasRenderingContext2D.prototype.slis = function(x,y,size)
     {
-        this.strokeRect(x,y,size,size);
+            this.strokeRect(x,y,size,size);
     };
-}        
+}              
 CanvasRenderingContext2D.prototype.strokeSquare = function(x,y,size)
 {
     this.slis(x,y,size);
 };
+
+
 if(!CanvasRenderingContext2D.prototype.hoco) 
 {
     CanvasRenderingContext2D.prototype.hoco = function()
     {
-        this.canvas.style.visibility = "hidden";
+            this.canvas.style.visibility = "hidden";
     };
 }
 CanvasRenderingContext2D.prototype.hideCanvas = function()
 {
     this.hoco();
 };
+
+
 if(!CanvasRenderingContext2D.prototype.sirocco) 
 {
     CanvasRenderingContext2D.prototype.sirocco = function()
     {
-        this.canvas.style.visibility = "visible";
+            this.canvas.style.visibility = "visible";
     };
 }
 CanvasRenderingContext2D.prototype.showCanvas = function()
 {
     this.sirocco();
 };
+
+
 if(!CanvasRenderingContext2D.prototype.rocco) 
 {
     CanvasRenderingContext2D.prototype.rocco = function()
     {
-        this.canvas.parentNode.removeChild(this.canvas);
+            this.canvas.parentNode.removeChild(this.canvas);
     };
 }
 CanvasRenderingContext2D.prototype.removeCanvas = function()
 {
     this.rocco();
 };
+
+
 if(!CanvasRenderingContext2D.prototype.sxsy)
 {
     CanvasRenderingContext2D.prototype.sxsy = function(sx,sy)
     {
-        this.transform(1,sy,sx,1,0,0);
+            this.transform(1,sy,sx,1,0,0);
     };
 }
 CanvasRenderingContext2D.prototype.shear = function(shear_x,shear_y)
 {
     this.sxsy(shear_x,shear_y);
+};
+
+
+if(!CanvasRenderingContext2D.prototype.fliph)
+{
+    CanvasRenderingContext2D.prototype.fliph = function()
+    {
+        this.scale(-1,1);
+    };
+}
+CanvasRenderingContext2D.prototype.flipHorizontally = function()
+{
+    this.fliph();
+};
+
+
+if(!CanvasRenderingContext2D.prototype.flipv)
+{
+    CanvasRenderingContext2D.prototype.flipv = function()
+    {
+        this.scale(1,-1);
+    };
+}
+CanvasRenderingContext2D.prototype.flipVertically = function()
+{
+    this.flipv();
+};
+
+
+if(!CanvasRenderingContext2D.prototype.flipc)
+{
+    CanvasRenderingContext2D.prototype.flipc = function()
+    {
+        this.scale(-1,-1);
+    };
+}
+CanvasRenderingContext2D.prototype.flipContent = function()
+{
+    this.flipc();
+};
+
+
+if(!CanvasRenderingContext2D.prototype.flipres)
+{
+    CanvasRenderingContext2D.prototype.flipres = function()
+    {
+        this.scale(1,1);
+    };
+}
+CanvasRenderingContext2D.prototype.resetFlipping = function()
+{
+    this.flipres();
+};
+
+
+if(!CanvasRenderingContext2D.prototype.dline)
+{
+    CanvasRenderingContext2D.prototype.dline = function(x1,y1,x2,y2,size)
+    {
+        this.lineWidth = size;
+        this.beginPath();
+        this.moveTo(x1,y1);
+        this.lineTo(x2,y2);
+        this.closePath();
+        this.stroke();
+    };
+}
+CanvasRenderingContext2D.prototype.line = function(x1,y1,x2,y2,size)
+{
+    this.dline(x1,y1,x2,y2,size);
 };
 
 //Module: requestAnimationFrame
@@ -4512,15 +4467,15 @@ CanvasRenderingContext2D.prototype.shear = function(shear_x,shear_y)
 //https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 window.update = () =>
 {
-    return  window.requestAnimationFrame       ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame    ||
-            window.msRequestAnimationFrame     ||
-            window.oRequestAnimationFrame      ||
-            function( callback,fps ) 
-            {
+    return window.requestAnimationFrame       ||
+           window.webkitRequestAnimationFrame ||
+           window.mozRequestAnimationFrame    ||
+           window.msRequestAnimationFrame     ||
+           window.oRequestAnimationFrame      || 
+           function( callback,fps ) 
+           {
                 window.setTimeout(callback, 1000 / fps);
-            };
+           }; 
 };
 
 
@@ -4558,47 +4513,47 @@ function Checkbox(x,y,size,color,clickCB)
 		cakecanvas.addEventListener('mouseup',() => { mousePressed = false; });
     };
     this.UpdatePosition = function() 
-      {
-        // check for hover
-        if ((mousePosition.x >= this.x && mousePosition.x <= this.x + this.width &&
-            mousePosition.y >= this.y && mousePosition.y <= this.y + this.height) ||
-            (touchPosition.x >= this.x && touchPosition.x <= this.x + this.width &&
-            touchPosition.y >= this.y && touchPosition.y <= this.y + this.height)) {
-          this.state = 'hover'; this.hovered = true;
-          // check for click
-          if (mousePressed || canvasTouched) 
-          {
-            this.state = 'active';
-            if ((typeof clickCB === 'function') && (!isClicking || !isTouching)) {
-              clickCB();
-              isClicking = true,isTouching = true,this.clicked = true,this.touched = true,this.checked = true;
+           {
+              // check for hover
+            if ((mousePosition.x >= this.x && mousePosition.x <= this.x + this.width &&
+           mousePosition.y >= this.y && mousePosition.y <= this.y + this.height) ||
+           (touchPosition.x >= this.x && touchPosition.x <= this.x + this.width &&
+           touchPosition.y >= this.y && touchPosition.y <= this.y + this.height)) {
+              this.state = 'hover'; this.hovered = true;
+              // check for click
+              if (mousePressed || canvasTouched) 
+              {
+           this.state = 'active';
+           if  ((typeof clickCB === 'function') && (!isClicking || !isTouching)) {
+            clickCB();
+            isClicking = true,isTouching = true,this.clicked = true,this.touched = true,this.checked = true;
+           }
+                }
+              else isClicking = false,isTouching = false,this.clicked = false,this.touched = false;
             }
-          }
-          else isClicking = false,isTouching = false,this.clicked = false,this.touched = false;
-        }
-        else this.state = 'default';
-      };
-      this.Draw = function()
-      {
-        if(this.destroyed) cakepen.globalAlpha = 0;
-        cakepen.fillStyle = this.color;
-        cakepen.strokeStyle = this.color;
-        cakepen.lineHeight = this.lineSize;
-        cakepen.lineWidth = this.lineSize;
-        if(this.checked) cakepen.fillRect(this.x,this.y,this.size,this.size);
-        if(!this.checked) { cakepen.strokeRect(this.x,this.y,this.size,this.size); }
-        cakepen.globalAlpha = this.alpha;
-      };
-      this.Update = function()
-      {
-          this.UpdatePosition();
-          this.Draw();
-      };
-      this.Destroy = function()
-      {
-          this.destroyed = true;
-      };
-      this.Add();
+            else this.state = 'default';
+           }; 
+           this.Draw = function()
+           {
+              if(this.destroyed) cakepen.globalAlpha = 0;
+            cakepen.fillStyle = this.color;
+            cakepen.strokeStyle = this.color;
+            cakepen.lineHeight = this.lineSize;
+            cakepen.lineWidth = this.lineSize;
+            if(this.checked) cakepen.fillRect(this.x,this.y,this.size,this.size);
+            if(!this.checked) { cakepen.strokeRect(this.x,this.y,this.size,this.size); }
+            cakepen.globalAlpha = this.alpha;
+           }; 
+           this.Update = function()
+           {
+                this.UpdatePosition();
+              this.Draw();
+           }; 
+           this.Destroy = function()
+           {
+                this.destroyed = true;
+           }; 
+           this.Add();
 }
 
 //Module: Events
@@ -4789,6 +4744,16 @@ var Y8_MessagePlayers = (msg) => ID.Multiplayer.broadcastAll(msg);
 var Y8_MessagePlayer = (player_id,msg) => ID.Multiplayer.sendTo(player_id,msg);
 var Y8_SetDebuggerLevel = (level) => ID.multiplayer.debuglevel = level;
 var Y8_AutoJoinGame = () => ID.Matchmaking.autoJoinGame();
+var Y8_LoadSDK = () =>
+{
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src =  document.location.protocol == 'https:' ? "https://cdn.y8.com/api/sdk.js" : "http://cdn.y8.com/api/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'id-jssdk'));
+};
 
 //Module: Facebook Instant Games
 //Created By Rabia Alhaffar In 20/April/2019
@@ -4808,65 +4773,500 @@ var FB_APIS = () => FBInstant.getSupportedAPIs();
 var FB_LeaderboardName = () => FBInstant.leaderboard.getName();
 var FB_PostScore = (x) => FBInstant.postSessionScore(x);
 
-//Module: Vertices
-//Created By Rabia Alhaffar In 12/February/2020
-//A Vertices For Some Shapes,Made From Scratch
-var x1 = 0.0,x2 = 0.0,y1 = 0.0,y2 = 0.0,x3 = 0.0,y3 = 0.0,x4 = 0.0,y4 = 0.0,w = 0.0,h = 0.0;
-var SHAPES =
+//Module: Kongregate
+//Created By Rabia Alhaffar In 19/March/2020
+var K_Save = (variable,value) => kongregate.stats.submit(variable,value);
+var K_ResizeGame = (width,height) => kongregate.services.resizeGame(width,height);
+var K_MessagePrivately = (msg) => kongregate.services.privateMessage(msg);
+var K_ClearAllMessages = () => kongregate.chat.clearMessages();
+var K_Message = (msg,user) => kongregate.chat.displayMessage(msg,user);
+var K_Username = () => kongregate.services.getUsername();
+var K_UserID = () => kongregate.services.getUserId();
+var K_Guest = () => kongregate.services.isGuest();
+var K_MessageBox = (msg) =>  kongregate.services.showShoutBox(msg);
+var K_ShowMessageTab = (title,description,tab_size) => kongregate.chat.showTab(title,description, { size: tab_size });
+var K_CloseMessageTab = () => kongregate.chat.closeTab();
+var K_Register = () => kongregate.services.showRegistrationBox();
+var K_SubmitAvatar = (img64baseavatar) => kongregate.images.submitAvatar(img64baseavatar);
+
+//Module: Miniclip
+//Created By Rabia Alhaffar In 19/March/2020
+var MC_Initialize = (mcgame_id,lang_code) =>
 {
-    VERLINE: vertices_of_line,
-    VERRECTANGLE: vertices_of_rectangle,
-    VERTRIANGLE: vertices_of_triangle
+    MC.init({
+            app_id: mcgame_id,
+            language_code: lang_code,  // optional, defaults to 'en'
+            modules: ['Leaderboard'],
+            leaderboard: {}
+    });
 };
-var vertices_of_line = 
-[
-    0.0,0.0,
-    0.0,0.0
-];
-var vertices_of_rectangle =
-[
-    0.0,0.0,
-    0.0,0.0,
-    0.0,0.0,
-    0.0,0.0,
-    0.0,0.0
-];
-var vertices_of_triangle =
-[
-    0.0,0.0,
-    0.0,0.0,
-    0.0,0.0,
-    0.0,0.0
-];
-var SetLine = (pos1,pos2,size) => 
+var MC_Login = () => MC.login();
+var MC_Logout = () => MC.logout();
+var MC_LoginStatus = () =>
 {
-    cakepen.lineWidth(size);
-    vertices_of_line[0] = pos1[0];
-    vertices_of_line[1] = pos1[1];
-    vertices_of_line[2] = pos2[0];
-    vertices_of_line[3] = pos2[1];
+    MC.getLoginStatus(function(r){
+            if (r.status == MC.LOGIN_STATUS.CONNECTED) console.info("USER CONNECTED!!!");
+            else console.log("USER IS NOT CONNECTED!!!");
+    });
 };
-var SetTriangle = (pos1,pos2,pos3) => 
-{ 
-    vertices_of_triangle[0] = pos1[0];
-    vertices_of_triangle[1] = pos1[1];
-    vertices_of_triangle[2] = pos2[0];
-    vertices_of_triangle[3] = pos2[1];
-    vertices_of_triangle[4] = pos3[0];
-    vertices_of_triangle[5] = pos3[1];
-    vertices_of_triangle[6] = pos1[0];
-    vertices_of_triangle[7] = pos1[1];
-};
-var SetRectangle = (pos,w,h) => 
+var MC_ShowLeaderboard = (game_level) => MC.Leaderboard.show(game_level);
+var MC_ShowAllLeaderboards = () => MC.Leaderboard.showAll();
+var MC_Save = (game_level,game_score) => MC.Leaderboard.saveScore({ level: game_level,score: game_score });
+var MC_UserHighScore = (game_level) => MC.Leaderboard.getUserHighscore(game_level);
+
+//Module: Game Distribution SDK
+//Created By Rabia Alhaffar In 19/March/2020
+var GDSDK_LoadSDK = () =>
 {
-    vertices_of_rectangle[0] = pos[0];
-    vertices_of_rectangle[1] = pos[1];
-    vertices_of_rectangle[2] = pos[0] + w;
-    vertices_of_rectangle[3] = pos[1];
-    vertices_of_rectangle[4] = pos[0] + w;
-    vertices_of_rectangle[5] = pos[1] - h;
-    vertices_of_rectangle[6] = pos[0] - w;
-    vertices_of_rectangle[7] = pos[1] - h;
-    vertices_of_rectangle[8] = pos[0];
-    vertices_of_rectangle[9] = pos[1];
+    (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://html5.api.gamedistribution.com/main.min.js';
+            fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'gamedistribution-jssdk'));
 };
+var GDSDK_ShowBanner = () => gdsdk.showBanner();
+var GDSDK_ShowAd = () => gdsdk.showAd();
+var GDSDK_OpenConsole = () => gdsdk.openConsole();
+var GDSDK_CancelAd = () => gdsdk.cancelAd();
+var GDSDK_PreloadAd = () => gdsdk.preloadAd();
+
+//Module: clay.io
+//Created By Rabia Alhaffar In 19/March/2020
+//For clay.io
+var CLAY_Initialize = (game_id) => Clay('init', { gameId: game_id });
+var CLAY_ShareWithText = (share_text) => Clay('client.share.any', { text: share_text });
+var CLAY_VERSION = () => Clay('version');
+var CLAY_ShowAd = () => Clay('ui.ads.page');
+var CLAY_ShowBanner = (banner_position) => Clay('ui.ads.banner', { position: banner_position });
+/*
+banner_position Can Be:
+"top"
+"bottom"
+*/
+
+//Module: Apache Cordova
+//Created By Rabia Alhaffar In 29/November/2019
+//Rewritten By Rabia Alhaffar In 19/March/2020
+//An Library To Help Developing Cordova Apps
+var CORDOVA_GetDeviceInfo = () => console.info(`Device Informations:\nDevice Model: ${ device.model }\nDevice Manufacturer: ${ device.manufacturer }\nDevice Version: ${ device.version }\nDevice UUID: ${ device.uuid }\nDevice Serial Number: ${ device.serial }\nOperating System: ${ device.platform }\nCordova Version: ${ device.cordova }\nEmulated: ${ device.isVirtual }`);
+var CORDOVA_ShowSplashscreen = () => navigator.splashscreen.show();
+var CORDOVA_HideSplashscreen = () => navigator.splashscreen.hide();
+var CORDOVA_SetStatusBar = (color,color_name,isWebView) =>
+{
+	if(isWebView) StatusBar.overlaysWebView(true);
+	if(color == "default") StatusBar.styleDefault();
+	if(color == "name") StatusBar.backgroundColorByName(color_name);
+	if(color == "light-content") StatusBar.styleLightContent();
+	if(color == "black-transculent") StatusBar.styleBlackTransculent();
+	if(color == "black-opaque") StatusBar.styleBlackOpaque();
+	if(color == "hex") StatusBar.backgroundColorByHexString(color_name);	
+};
+var CORDOVA_ShowStatusBar = () => StatusBar.show();
+var CORDOVA_HideStatusBar = () => StatusBar.hide();
+var CORDOVA_CancelVibration = () => navigator.vibrate(0);
+var CORDOVA_StatusBarVisible = () => { return(StatusBar.isVisible); };
+
+//Module: Blackberry
+//Created By Rabia Alhaffar In 29/November/2019
+//Rewritten In 19/March/2020
+//An Library For Importing Some Functions From Blackberry WebWorks SDK
+var BB_GetAppInfo = () => console.info(`Blackberry Application Info:\nApplication Name: ${ blackberry.app.name }\nApplication Version: ${ blackberry.app.version }\nApplication ID: ${ blackberry.app.id }\nApplication Developer: ${ blackberry.app.author }\nApplication Developer URL: ${ blackberry.app.authorURL }\nApplication Copyright: ${ blackberry.app.copyright }\nApplication Description: ${ blackberry.app.description }\nApplication State: ${ blackberry.app.windowState }\nApplication Screen Orientation: ${ blackberry.app.orientation }\nApplication Developer Email: ${ blackberry.app.authorEmail }\nApplication License: ${ blackberry.app.license }\nApplication License URL: ${ blackberry.app.licenseURL }\n`);
+var BB_CloseApp = () => blackberry.app.exit();
+var BB_Minimize = () => blackberry.app.minimize();
+var BB_UnlockScreenOrientation = () => blackberry.app.unlock();
+var BB_LockScreenOrientation = (screen_orientation) => blackberry.app.lock(screen_orientation);
+var BB_GetUserIDVersion = () => blackberry.user.identity.getVersion();
+var BB_GetTimezones = () => blackberry.system.getTimezones();
+var BB_GetFont = () => blackberry.system.getFontInfo();
+var BB_GetCurrentTimezone = () => blackberry.system.getCurrentTimezone();
+var BB_SetWallpaper = (image_location) => blackberry.system.setWallpaper(image_location);
+var BB_Rotate = (screen_orientation) => blackberry.app.rotate(screen_orientation);
+
+//Module: Shaders For Basic Usages
+//Created By Rabia Alhaffar In 24/March/2020
+//All Shaders
+var default_position_shader = `
+//Don't Treat It As Error,lightgl.js Run It Anyway
+//When You Add It,Make Sure Your Mesh Has Normals Enabled
+//Can Be Using { normals: true }
+void main() {
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+}`;
+
+var normals_default_position = `
+//Don't Treat It As Error,lightgl.js Run It Anyway
+//When You Add It,Make Sure Your Mesh Has Normals Enabled
+//Can Be Using { normals: true }
+varying vec3 normal;
+void main() {
+    normal = gl_NormalMatrix * gl_Normal; 
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+}`;
+
+var normals_fragment = `
+//Don't Treat It As Error,lightgl.js Run It Anyway
+//When You Add It,Make Sure Your Mesh Has Normals Enabled
+//Can Be Using { normals: true }
+varying vec3 normal;
+void main() {
+    gl_FragColor = vec4(normalize(normal) * 0.5 + 0.5, 1.0);
+}`;
+
+//Module: Native Codes
+//Created By Rabia Alhaffar In 22/January/2020
+//A Funny Part Of The Engine To Call(Compile,Execute,Run) Native Code In Fact!!!
+/*
+
+Notes About Native Calling Here:
+
+1- Scripts Can Call Itself!!! 
+2- Calling Scripts May Open Windows Of Command Prompt!!!  
+3- C# Compiling Can Use Mono Or Roslyn Compiler!!!   
+4- Basic Compiling Uses FreeBasic,And Pascal Compiling Uses FreePascal!!! 
+5- C++ Compiling Uses Visual C++ 2015 Native!!!
+6- Calling Haxe Code Is In Development!!!
+7- More Updates Will Come To Nim Calling Soon!!! 
+8- You Need To Mention The Full File Location/Address
+9- If Compiler Is In Different Location,See Line 45 With Following Rule 8!!!
+10- Everything Is Done Using NodeJS And Languages Compilers
+
+This Part Of The Engine Itself Won't Work If Not Used NodeJS To Run It
+*/
+var child_process = undefined;
+var EnableNativeCalls = () => child_process = require("child_process");
+var CallBatch = (script) =>           child_process.exec("start " + script);
+var CallPython = (script) =>          child_process.exec("start python " + script);
+var CallJanet = (script) =>           child_process.exec("start janet " + script);
+var CallScript = (script) =>          child_process.exec("start node " + script);
+var CallJSC = (script) =>             child_process.exec("start jsc " + script);     
+var CallJSCEXE = (script) =>          child_process.exec("start jsc /t:winexe " + script);
+var CallJSCDLL = (script) =>          child_process.exec("start jsc /t:library " + script);
+var CallPascal = (script) =>          child_process.exec("start fpc " + script);
+var CallRuby = (script) =>            child_process.exec("start ruby " + script);
+var CallBasic = (script) =>           child_process.exec("start fbc " + script);
+var CallPerl = (script) =>            child_process.exec("start perl " + script);
+var CallHaxe = (lang,script) =>       child_process.exec("start haxe -" + lang + " out " + script);
+var CallPHP = (script) =>             child_process.exec("start php " + script);
+var CallRing = (script) =>            child_process.exec("start ring " + script);
+var CallCSharpRoslyn = (script) =>    child_process.exec("start csc " + script);
+var CallCSharpMono = (script) =>      child_process.exec("start mcs " + script);
+var CallCPP = (script) =>             child_process.exec("start cl /EHsc /W4 " + script);
+var CallJava = (script) =>            child_process.exec("start java " + script);
+var CallCoffee = (script) =>          child_process.exec("start coffee " + script);
+var CallCoffeeJS = (script) =>        child_process.exec("start coffee -c -b " + script);
+var CallTS = (script) =>              child_process.exec("start tsc " + script);
+var CallMoonscript = (script) =>      child_process.exec("start moon " + script);
+var CallMoonscriptLua = (script) =>   child_process.exec("start moonc " + script);
+var CallLua = (script) =>             child_process.exec("start lua " + script);
+var CallElixir = (script) =>          child_process.exec("start erl " + script);
+var CallNim = (script) =>             child_process.exec("start nim c -r" + script);
+var CallBoo = (script) =>             child_process.exec("start booc " + script);
+var CallIR = (script) =>              child_process.exec("start ir " + script);
+var CallIPY = (script) =>             child_process.exec("start ipy " + script);
+var CallTP = (script) =>              child_process.exec("start tpc " + script); 
+var CallJSPP = (script) =>            child_process.exec("start js++ " + script);
+var Call = (compiler,script) =>       child_process.exec("start " + compiler + " " + script);
+var Start = (loc) =>                  child_process.exec("start " + loc);
+
+//Module: WebOS TV
+//Libs
+window.webOS=function(e){var n={};function r(t){if(n[t])return n[t].exports;var o=n[t]={i:t,l:!1,exports:{}};return e[t].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=n,r.d=function(e,n,t){r.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:t})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,n){if(1&n&&(e=r(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var t=Object.create(null);if(r.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var o in e)r.d(t,o,function(n){return e[n]}.bind(null,o));return t},r.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(n,"a",n),n},r.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},r.p="",r(r.s=0)}([function(e,n,r){"use strict";r.r(n);var t=function(){return window.PalmSystem&&window.PalmSystem.identifier?window.PalmSystem.identifier.split(" ")[0]:""},o={},i=function(e,n){if(0===Object.keys(o).length){var r=function(n,r){if(!n&&r)try{o=JSON.parse(r),e&&e(o)}catch(n){console.error("Unable to parse appinfo.json file for",t()),e&&e()}else e&&e()},i=new window.XMLHttpRequest;i.onreadystatechange=function(){4===i.readyState&&(i.status>=200&&i.status<300||0===i.status?r(null,i.responseText):r({status:404}))};try{i.open("GET",n||"appinfo.json",!0),i.send(null)}catch(e){r({status:404})}}else e&&e(o)},s=function(){var e=window.location.href;if("baseURI"in window.document)e=window.document.baseURI;else{var n=window.document.getElementsByTagName("base");n.length>0&&(e=n[0].href)}var r=e.match(new RegExp(".*://[^#]*/"));return r?r[0]:""},a=function(){if(window.PalmSystem&&window.PalmSystem.platformBack)return window.PalmSystem.platformBack()};function c(e,n){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var t=Object.getOwnPropertySymbols(e);n&&(t=t.filter(function(n){return Object.getOwnPropertyDescriptor(e,n).enumerable})),r.push.apply(r,t)}return r}function u(e){for(var n=1;n<arguments.length;n++){var r=null!=arguments[n]?arguments[n]:{};n%2?c(r,!0).forEach(function(n){l(e,n,r[n])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):c(r).forEach(function(n){Object.defineProperty(e,n,Object.getOwnPropertyDescriptor(r,n))})}return e}function l(e,n,r){return n in e?Object.defineProperty(e,n,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[n]=r,e}function f(e,n){for(var r=0;r<n.length;r++){var t=n[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}var d={},m=function(){function e(){!function(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}(this,e),this.bridge=null,this.cancelled=!1,this.subscribe=!1}var n,r,t;return n=e,(r=[{key:"send",value:function(e){var n=e.service,r=void 0===n?"":n,t=e.method,o=void 0===t?"":t,i=e.parameters,s=void 0===i?{}:i,a=e.onSuccess,c=void 0===a?function(){}:a,l=e.onFailure,f=void 0===l?function(){}:l,m=e.onComplete,w=void 0===m?function(){}:m,y=e.subscribe,b=void 0!==y&&y;if(!window.PalmServiceBridge){var p={errorCode:-1,errorText:"PalmServiceBridge is not found.",returnValue:!1};return f(p),w(p),console.error("PalmServiceBridge is not found."),this}this.ts&&d[this.ts]&&delete d[this.ts];var v,h=u({},s);return this.subscribe=b,this.subscribe&&(h.subscribe=this.subscribe),h.subscribe&&(this.subscribe=h.subscribe),this.ts=Date.now(),d[this.ts]=this,this.bridge=new PalmServiceBridge,this.bridge.onservicecallback=this.callback.bind(this,c,f,w),this.bridge.call(("/"!==(v=r).slice(-1)&&(v+="/"),v+o),JSON.stringify(h)),this}},{key:"callback",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:function(){},n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:function(){},r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(){},t=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"";if(!this.cancelled){var o={};try{o=JSON.parse(t)}catch(e){o={errorCode:-1,errorText:t,returnValue:!1}}var i=o,s=i.errorCode,a=i.returnValue;s||!1===a?(o.returnValue=!1,n(o)):(o.returnValue=!0,e(o)),r(o),this.subscribe||this.cancel()}}},{key:"cancel",value:function(){this.cancelled=!0,null!==this.bridge&&(this.bridge.cancel(),this.bridge=null),this.ts&&d[this.ts]&&delete d[this.ts]}}])&&f(n.prototype,r),t&&f(n,t),e}(),w={request:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=u({service:e},n);return(new m).send(r)}};function y(e){return(y="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var b={};if("object"===("undefined"==typeof window?"undefined":y(window))&&window.PalmSystem)if(window.navigator.userAgent.indexOf("SmartWatch")>-1)b.watch=!0;else if(window.navigator.userAgent.indexOf("SmartTV")>-1||window.navigator.userAgent.indexOf("Large Screen")>-1)b.tv=!0;else{try{var p=JSON.parse(window.PalmSystem.deviceInfo||"{}");if(p.platformVersionMajor&&p.platformVersionMinor){var v=Number(p.platformVersionMajor),h=Number(p.platformVersionMinor);v<3||3===v&&h<=0?b.legacy=!0:b.open=!0}}catch(e){b.open=!0}window.Mojo=window.Mojo||{relaunch:function(){}},window.PalmSystem.stageReady&&window.PalmSystem.stageReady()}else b.unknown=!0;var g=b,S={},P=function(e){if(0===Object.keys(S).length){try{var n=JSON.parse(window.PalmSystem.deviceInfo);S.modelName=n.modelName,S.version=n.platformVersion,S.versionMajor=n.platformVersionMajor,S.versionMinor=n.platformVersionMinor,S.versionDot=n.platformVersionDot,S.sdkVersion=n.platformVersion,S.screenWidth=n.screenWidth,S.screenHeight=n.screenHeight}catch(e){S.modelName="webOS Device"}S.screenHeight=S.screenHeight||window.screen.height,S.screenWidth=S.screenWidth||window.screen.width,g.tv&&(new m).send({service:"luna://com.webos.service.tv.systemproperty",method:"getSystemInfo",parameters:{keys:["firmwareVersion","modelName","sdkVersion","UHD"]},onSuccess:function(n){if(S.modelName=n.modelName||S.modelName,S.sdkVersion=n.sdkVersion||S.sdkVersion,S.uhd="true"===n.UHD,n.firmwareVersion&&"0.0.0"!==n.firmwareVersion||(n.firmwareVersion=n.sdkVersion),n.firmwareVersion){S.version=n.firmwareVersion;for(var r=S.version.split("."),t=["versionMajor","versionMinor","versionDot"],o=0;o<t.length;o+=1)try{S[t[o]]=parseInt(r[o],10)}catch(e){S[t[o]]=r[o]}}e(S)},onFailure:function(){e(S)}})}else e(S)},O={isShowing:function(){return PalmSystem&&PalmSystem.isKeyboardVisible||!1}},j=function(){var e={};if(window.PalmSystem){if(window.PalmSystem.country){var n=JSON.parse(window.PalmSystem.country);e.country=n.country,e.smartServiceCountry=n.smartServiceCountry}window.PalmSystem.timeZone&&(e.timezone=window.PalmSystem.timeZone)}return e};r.d(n,"deviceInfo",function(){return P}),r.d(n,"fetchAppId",function(){return t}),r.d(n,"fetchAppInfo",function(){return i}),r.d(n,"fetchAppRootPath",function(){return s}),r.d(n,"keyboard",function(){return O}),r.d(n,"libVersion",function(){return"1.1.1"}),r.d(n,"platformBack",function(){return a}),r.d(n,"platform",function(){return g}),r.d(n,"service",function(){return w}),r.d(n,"systemInfo",function(){return j})}]);
+window.webOSDev=function(e){var r={};function t(n){if(r[n])return r[n].exports;var i=r[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,t),i.l=!0,i.exports}return t.m=e,t.c=r,t.d=function(e,r,n){t.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:n})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,r){if(1&r&&(e=t(e)),8&r)return e;if(4&r&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(t.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&r&&"string"!=typeof e)for(var i in e)t.d(n,i,function(r){return e[r]}.bind(null,i));return n},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},t.p="",t(t.s=0)}([function(e,r,t){"use strict";function n(e,r){var t=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);r&&(n=n.filter(function(r){return Object.getOwnPropertyDescriptor(e,r).enumerable})),t.push.apply(t,n)}return t}function i(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{};r%2?n(t,!0).forEach(function(r){o(e,r,t[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(t)):n(t).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(t,r))})}return e}function o(e,r,t){return r in e?Object.defineProperty(e,r,{value:t,enumerable:!0,configurable:!0,writable:!0}):e[r]=t,e}function u(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}t.r(r);var c={},a=function(){function e(){!function(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}(this,e),this.bridge=null,this.cancelled=!1,this.subscribe=!1}var r,t,n;return r=e,(t=[{key:"send",value:function(e){var r=e.service,t=void 0===r?"":r,n=e.method,o=void 0===n?"":n,u=e.parameters,a=void 0===u?{}:u,s=e.onSuccess,l=void 0===s?function(){}:s,d=e.onFailure,f=void 0===d?function(){}:d,v=e.onComplete,p=void 0===v?function(){}:v,b=e.subscribe,m=void 0!==b&&b;if(!window.PalmServiceBridge){var h={errorCode:-1,errorText:"PalmServiceBridge is not found.",returnValue:!1};return f(h),p(h),console.error("PalmServiceBridge is not found."),this}this.ts&&c[this.ts]&&delete c[this.ts];var O,y=i({},a);return this.subscribe=m,this.subscribe&&(y.subscribe=this.subscribe),y.subscribe&&(this.subscribe=y.subscribe),this.ts=Date.now(),c[this.ts]=this,this.bridge=new PalmServiceBridge,this.bridge.onservicecallback=this.callback.bind(this,l,f,p),this.bridge.call(("/"!==(O=t).slice(-1)&&(O+="/"),O+o),JSON.stringify(y)),this}},{key:"callback",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:function(){},r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:function(){},t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(){},n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"";if(!this.cancelled){var i={};try{i=JSON.parse(n)}catch(e){i={errorCode:-1,errorText:n,returnValue:!1}}var o=i,u=o.errorCode,c=o.returnValue;u||!1===c?(i.returnValue=!1,r(i)):(i.returnValue=!0,e(i)),t(i),this.subscribe||this.cancel()}}},{key:"cancel",value:function(){this.cancelled=!0,null!==this.bridge&&(this.bridge.cancel(),this.bridge=null),this.ts&&c[this.ts]&&delete c[this.ts]}}])&&u(r.prototype,t),n&&u(r,n),e}(),s={BROWSER:"APP_BROWSER"},l=function(e){var r=e.id,t=void 0===r?"":r,n=e.params,i=void 0===n?{}:n,o=e.onSuccess,u=void 0===o?function(){}:o,c=e.onFailure,l=void 0===c?function(){}:c,d={id:t,params:i};s.BROWSER===t&&(d.params.target=i.target||"",d.params.fullMode=!0,d.id="com.webos.app.browser"),function(e){var r=e.parameters,t=e.onSuccess,n=e.onFailure;(new a).send({service:"luna://com.webos.applicationManager",method:"launch",parameters:r,onComplete:function(e){var r=e.returnValue,i=e.errorCode,o=e.errorText;return!0===r?t():n({errorCode:i,errorText:o})}})}({parameters:d,onSuccess:u,onFailure:l})},d=function(){var e={};if(window.PalmSystem&&""!==window.PalmSystem.launchParams)try{e=JSON.parse(window.PalmSystem.launchParams)}catch(e){console.error("JSON parsing error")}return e},f=function(){return window.PalmSystem&&window.PalmSystem.identifier?window.PalmSystem.identifier.split(" ")[0]:""};function v(e,r){var t=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);r&&(n=n.filter(function(r){return Object.getOwnPropertyDescriptor(e,r).enumerable})),t.push.apply(t,n)}return t}function p(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{};r%2?v(t,!0).forEach(function(r){b(e,r,t[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(t)):v(t).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(t,r))})}return e}function b(e,r,t){return r in e?Object.defineProperty(e,r,{value:t,enumerable:!0,configurable:!0,writable:!0}):e[r]=t,e}function m(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}var h={NOT_ERROR:-1,CLIENT_NOT_LOADED:0,VENDOR_ERROR:500,API_NOT_SUPPORTED:501,WRONG_CLIENT_ID:502,KEY_NOT_FOUND:503,INVALID_PARAMS:504,UNSUPPORTED_DRM_TYPE:505,INVALID_KEY_FORMAT:506,INVALID_TIME_INFO:507,UNKNOWN_ERROR:599},O={PLAYREADY:"playready",WIDEVINE:"widevine"},y={UNLOADED:0,LOADING:1,LOADED:2,UNLOADING:3},g=function(e){var r=e.method,t=e.parameters,n=e.onComplete;(new a).send({service:"luna://com.webos.service.drm",onComplete:n,method:r,parameters:t})},D=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:function(){},r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};setTimeout(function(){return e(r)},0)},w=function(e){return e.state===y.LOADED&&""!==e.getClientId()},P=function(e,r){var t=r.errorCode,n=void 0===t?h.UNKNOWN_ERROR:t,i=r.errorText,o={errorCode:n,errorText:void 0===i?"Unknown error.":i};return e.setError(o),o},E={errorCode:h.CLIENT_NOT_LOADED,errorText:"DRM client is not loaded."},S=function(){function e(r){!function(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}(this,e),this.clientId="",this.drmType=r,this.errorCode=h.NOT_ERROR,this.errorText="",this.state=y.UNLOADED}var r,t,n;return r=e,(t=[{key:"getClientId",value:function(){return this.clientId}},{key:"getDrmType",value:function(){return this.drmType}},{key:"getErrorCode",value:function(){return this.errorCode}},{key:"getErrorText",value:function(){return this.errorText}},{key:"setError",value:function(e){var r=e.errorCode,t=e.errorText;this.errorCode=r,this.errorText=t}},{key:"isLoaded",value:function(e){var r=this,t=e.onSuccess,n=void 0===t?function(){}:t,i=e.onFailure,o=void 0===i?function(){}:i;g({method:"isLoaded",parameters:{appId:f()},onComplete:function(e){if(!0===e.returnValue){if(r.clientId=e.clientId||"",r.state=e.loadStatus?y.LOADED:y.UNLOADED,!0===e.loadStatus&&e.drmType!==r.drmType){var t={errorCode:h.UNKNOWN_ERROR,errorText:"DRM types of set and loaded are not matched."};return o(P(r,t))}var i=p({},e);return delete i.returnValue,n(i)}return o(P(r,e))}})}},{key:"load",value:function(e){var r=this,t=e.onSuccess,n=void 0===t?function(){}:t,i=e.onFailure,o=void 0===i?function(){}:i;if(this.state!==y.LOADING&&this.state!==y.LOADED){var u={appId:f(),drmType:this.drmType};this.state=y.LOADING,g({method:"load",onComplete:function(e){return!0===e.returnValue?(r.clientId=e.clientId,r.state=y.LOADED,n({clientId:r.clientId})):o(P(r,e))},parameters:u})}else D(n,{isLoaded:!0,clientId:this.clientId})}},{key:"unload",value:function(e){var r=this,t=e.onSuccess,n=void 0===t?function(){}:t,i=e.onFailure,o=void 0===i?function(){}:i;if(w(this)){var u={clientId:this.clientId};this.state=y.UNLOADING,g({method:"unload",onComplete:function(e){return!0===e.returnValue?(r.clientId="",r.state=y.UNLOADED,n()):o(P(r,e))},parameters:u})}else D(o,P(this,E))}},{key:"getRightsError",value:function(e){var r=this,t=e.onSuccess,n=void 0===t?function(){}:t,i=e.onFailure,o=void 0===i?function(){}:i;w(this)?g({method:"getRightsError",parameters:{clientId:this.clientId,subscribe:!0},onComplete:function(e){if(!0===e.returnValue){var t=p({},e);return delete t.returnValue,n(t)}return o(P(r,e))}}):D(o,P(this,E))}},{key:"sendDrmMessage",value:function(e){var r=this,t=e.msg,n=void 0===t?"":t,i=e.onSuccess,o=void 0===i?function(){}:i,u=e.onFailure,c=void 0===u?function(){}:u;if(w(this)){var a=function(e){var r="",t="";switch(e){case O.PLAYREADY:r="application/vnd.ms-playready.initiator+xml",t="urn:dvb:casystemid:19219";break;case O.WIDEVINE:r="application/widevine+xml",t="urn:dvb:casystemid:19156"}return{msgType:r,drmSystemId:t}}(this.drmType),s=p({clientId:this.clientId,msg:n},a);g({method:"sendDrmMessage",onComplete:function(e){if(!0===e.returnValue){var t=p({},e);return delete t.returnValue,o(t)}return c(P(r,e))},parameters:s})}else D(c,P(this,E))}}])&&m(r.prototype,t),n&&m(r,n),e}(),I={Error:h,Type:O},T=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"";return""===e?null:new S(e)};function N(e,r){var t=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);r&&(n=n.filter(function(r){return Object.getOwnPropertyDescriptor(e,r).enumerable})),t.push.apply(t,n)}return t}function R(e,r,t){return r in e?Object.defineProperty(e,r,{value:t,enumerable:!0,configurable:!0,writable:!0}):e[r]=t,e}var j=function(e){var r=e.service,t=e.subscribe,n=e.onSuccess,i=e.onFailure;(new a).send({service:r,method:"getStatus",parameters:{subscribe:t},onComplete:function(e){var r=function(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{};r%2?N(t,!0).forEach(function(r){R(e,r,t[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(t)):N(t).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(t,r))})}return e}({},e);if(delete r.returnValue,!0===e.returnValue)return delete r.subscribe,void n(r);delete r.returnValue,i(r)}})},C={getStatus:function(e){var r=e.onSuccess,t=void 0===r?function(){}:r,n=e.onFailure,i=void 0===n?function(){}:n,o=e.subscribe,u=void 0!==o&&o,c="webos.service";navigator.userAgent.indexOf("537.41")>-1&&(c="palm"),j({service:"luna://com.".concat(c,".connectionmanager"),subscribe:u,onSuccess:t,onFailure:i})}},A=function(e){var r=e.onSuccess,t=void 0===r?function(){}:r,n=e.onFailure,i=void 0===n?function(){}:n;-1!==navigator.userAgent.indexOf("Chrome")?(new a).send({service:"luna://com.webos.service.sm",method:"deviceid/getIDs",parameters:{idType:["LGUDID"]},onComplete:function(e){if(!0!==e.returnValue)i({errorCode:e.errorCode,errorText:e.errorText});else{var r=e.idList.filter(function(e){return"LGUDID"===e.idType})[0].idValue;t({id:r})}}}):setTimeout(function(){return i({errorCode:"ERROR.000",errorText:"Not supported."})},0)};t.d(r,"APP",function(){return s}),t.d(r,"connection",function(){return C}),t.d(r,"DRM",function(){return I}),t.d(r,"drmAgent",function(){return T}),t.d(r,"launch",function(){return l}),t.d(r,"launchParams",function(){return d}),t.d(r,"LGUDID",function(){return A})}]);
+
+//Uses Both WebOS And WebOSDEV Javascript API
+var WebOSTV,
+    Not_WebOSTV,
+    WebOS_Info,
+    WebOS_Country,
+    WebOS_DeviceVersion,
+    WebOS_DeviceModel,
+    WebOS_DeviceScreenHeight,
+    WebOS_DeviceScreenWidth,
+    WebOS_DeviceUHD,
+    WebOS_Pass,
+    WebOS_UserID,
+    WebOS_Page,
+    WebOS_AppVersion,
+    WebOS_AppPath,
+    WebOS_DeviceWired,
+    WebOS_DeviceConnected,
+    WebOS_DeviceUsesWifi,
+    WebOS_DeviceMajorVersion,
+    WebOS_DeviceMinorVersion,
+    WebOS_DeviceDotVersion,
+    WebOS_DRMAgent,
+    WebOS_SmartServiceCountry,
+    WebOS_TimeZone,
+    WebOS_VirtualKeyboardVisible,
+    WebOS_LibrayBuildVersion;
+
+var WebOS_SUCCESS = () => console.info("COMMAND EXECUTED SUCCESSFULLY!!!");	
+var WebOS_FAILURE = () => console.error("ERROR: 000\nFAILED TO PATCH COMMAND EXECUTION!!!");
+
+var WebOS_CallServiceFromID = (app_package) =>
+{
+var appId = webOS.fetchAppId();
+ webOS.service.request(app_package, {
+        method: 'load',
+        parameters: {
+            appId: appId,
+            drmType: 'playready'
+        },
+		onSuccess: WebOS_SUCCESS,
+		onFailure: WebOS_FAILURE	
+});
+};
+
+var WebOS_CallService = (url,method_to_do) =>
+{
+ webOS.service.request(url,
+    {
+      method: method_to_do,
+      parameters: { subscribe: true },
+      onSuccess: WebOS_SUCCESS,
+      onFailure: WebOS_FAILURE	
+    });
+};
+
+var WebOS_CallSystemService = (method_to_do) =>
+{
+ webOS.service.request('luna://com.palm.systemservice',
+    {
+      method: method_to_do,
+      parameters: { 
+	  subscribe: true 
+	  },
+      onSuccess: WebOS_SUCCESS,
+      onFailure: WebOS_FAILURE
+    });	
+};
+
+var WebOS_InitializeWebOS = () =>
+{
+    WebOSTV = webOS.platform.tv;
+    Not_WebOSTV = !webOS.platform.tv;
+    WebOS_Info = webOS.systemInfo;
+    WebOS_Country = webOS.systemInfo.country;
+    WebOS_Pass = webOSDev.launchParams();
+    WebOS_UserID = WebOS_Pass.userId;
+    WebOS_Page = WebOS_Pass.page;
+    webOS.deviceInfo((device) => 
+    {
+        WebOS_DeviceModel = device.modelName;
+        WebOS_DeviceVersion = device.version.split('.');
+        WebOS_DeviceMajorVersion = Number(device.versionMajor);
+        WebOS_DeviceMinorVersion = Number(device.versionMinor);
+        WebOS_DeviceDotVersion = Number(device.versionDot);
+        WebOS_DeviceScreenHeight = device.screenHeight;
+        WebOS_DeviceScreenWidth = device.screenWidth;
+        WebOS_DeviceUHD = device.uhd;
+        WebOS_DRMAgent = webOSDev.drmAgent(webOSDev.DRM.Type.PLAYREADY);
+        WebOS_SmartServiceCountry = webOS.systemInfo.smartServiceCountry;
+        WebOS_TimeZone = webOS.systemInfo.timezone;
+        WebOS_VirtualKeyboardVisible = webOS.keyboard.isShowing();
+        WebOS_LibrayBuildVersion = Number(webOS.libVersion.split('.')[0]);
+    });
+};
+
+var WebOS_SimulateBackKeyPress = () => webOS.platformBack();
+var WebOS_GetAppID = () => webOS.fetchAppId();
+var WebOS_TrackWebOSDevice = () => console.info("Device Model: " + WebOS_DeviceModel + "\nDevice Version: " + WebOS_DeviceVersion + "\nMajor Version: " + WebOS_DeviceMajorVersion + "\nMinor Version: " + WebOS_DeviceMajorVersion + "\nMinor Version: " + WebOS_DeviceMajorVersion + "\nMedium Version: " + WebOS_DeviceDotVersion + "\nScreen Height: " + WebOS_DeviceScreenHeight + "\nScreen Width: " + WebOS_DeviceScreenWidth + "UHD: " + WebOS_DeviceUHD);
+var WebOS_GetAppPath = () => webOS.fetchAppRootPath();	
+var WebOS_GetAppInfo = () =>
+{
+var path = webOS.fetchAppRootPath();
+ webOS.fetchAppInfo(function (info) {
+  if (info) 
+  {
+  WebOS_AppVersion = Number(info.version.split('.'));   
+    }
+}, path + 'appinfo.json');
+};	
+
+//From Here,WebOSDev API Functions Start
+var WebOS_GetNetworkState = () =>
+{
+webOSDev.connection.getStatus({
+    onSuccess: function (res) {
+		WebOS_DeviceConnected = res.isInternetConnectionAvailable;
+        WebOS_DeviceWired = res.wired;
+        WebOS_DeviceUsesWifi = res.wifi;
+            },
+    onFailure: WebOS_FAILURE,
+    subscribe: true
+});
+};
+
+var WebOS_LaunchBrowserWithURL = (url) =>
+{
+webOSDev.launch({
+    id: webOSDev.APP.BROWSER,
+    params: { target: url },
+    onSuccess: WebOS_SUCCESS,
+    onFailure: WebOS_FAILURE
+});	
+};
+
+var WebOS_LaunchApp = (app_package) =>
+{
+webOSDev.launch({
+    id: app_package,
+    params: 
+	{
+        userId: 'user',
+        page: 'shown page'
+    },
+    onSuccess: WebOS_SUCCESS,
+    onFailure: WebOS_FAILURE
+});	
+}; 
+
+//Module: Tizen
+//Created By Rabia Alhaffar In 27/March/2020
+//For Tizen OS
+//See Here: https://developer.samsung.com/SmartTV/develop/api-references.html
+//Also: Don't Forget To Add Needed From API References (Prerequisites)
+
+//Emptied For Some Cases
+var Tizen_SUCCESS = () => {};
+var Tizen_FAILURE = () => {};
+
+//Video And Window
+var Tizen_SetWindowVideoInputSource = (source) => tizen.tvwindow.setSource(source,Tizen_SUCCESS,Tizen_FAILURE);
+var Tizen_WindowVideoInputSource = () => { return tizen.tvwindow.getSource(); };
+var Tizen_Resolution = () => { return tizen.tvwindow.getVideoResolution(); };
+
+//Input
+var Tizen_SupportedKeys = () => { return tizen.tvinputdevice.getSupportedKeys(); };
+var Tizen_RegisterKey = (key) => tizen.tvinputdevice.registerKey(key);
+var Tizen_UnregisterKey = (key) => tizen.tvinputdevice.unregisterKey(key);
+var Tizen_RegisterKeys = (keys) => tizen.tvinputdevice.registerKeyBatch(keys,Tizen_SUCCESS,Tizen_FAILURE);
+var Tizen_UnregisterKeys = (keys) => tizen.tvinputdevice.unregisterKeyBatch(keys,Tizen_SUCCESS,Tizen_FAILURE);
+var Tizen_KeyCode = (key) => { return tizen.tvinputdevice.getKey(key).code; };
+
+//Display Control
+var Tizen_3DEffectMode = () => { return tizen.tvdisplaycontrol.get3DEffectMode(); };
+var Tizen_3DModeEnabled = () => { return tizen.tvdisplaycontrol.is3DModeEnabled(); };
+
+//Audio Control
+var Tizen_Mute = () => tizen.tvaudiocontrol.setMute(true);
+var Tizen_Unmute = () => tizen.tvaudiocontrol.setMute(false);
+var Tizen_Muted = () => { return tizen.tvaudiocontrol.isMute(); };
+var Tizen_IncreaseVolume = () => tizen.tvaudiocontrol.setVolumeUp();
+var Tizen_DecreaseVolume = () => tizen.tvaudiocontrol.setVolumeDown();
+var Tizen_SetVolume = (v) => tizen.tvaudiocontrol.setVolume(v); //From 1 To 100
+var Tizen_GetVolume = () => tizen.tvaudiocontrol.getVolume();
+var Tizen_ListenVolumeChange = (l) => tizen.tvaudiocontrol.setVolumeChangeListener(l);
+var Tizen_UnlistenVolumeChange = () => tizen.tvaudiocontrol.unsetVolumeChangeListener();
+var Tizen_AudioOutputMode = () => { return tizen.tvaudiocontrol.getOutputMode(); };
+var Tizen_PlaySound = (beep) => tizen.tvaudiocontrol.playSound(beep);
+
+//Voice Control
+var Tizen_Client = () => { return tizen.voicecontrol.getVoiceControlClient(); };
+var Tizen_Language = () => { return tizen.voicecontrol.getVoiceControlClient().getCurrentLanguage(); };
+var Tizen_VoiceCommand = (c) => { return new tizen.VoiceControlCommand(c); };
+var Tizen_RegisterVoiceCommandsList = (list) => tizen.voicecontrol.getVoiceControlClient().setCommandList(list,"FOREGROUND"); //List Is JavaScript Array Consists Of Tizen_VoiceCommand() Voice Commands
+var Tizen_AddVoiceCommandListener = (l) => { return tizen.voicecontrol.getVoiceControlClient().addResultListener(l); };
+var Tizen_RemoveVoiceCommandListener = (l) => { return tizen.voicecontrol.getVoiceControlClient().removeResultListener(l); };
+var Tizen_AddLanguageChangeListener = (l) => { return tizen.voicecontrol.getVoiceControlClient().addLanguageChangeListener(l); };
+var Tizen_RemoveLanguageChangeListener = (l) => { tizen.voicecontrol.getVoiceControlClient().removeLanguageChangeListener(l); };
+var Tizen_DisableVoiceControls = () => { tizen.voicecontrol.getVoiceControlClient().release(); }; 
+
+//WebView Settings
+var Tizen_SetWebUserAgent = (useragent_string) => tizen.websetting.setUserAgentString(useragent_string,Tizen_SUCCESS,Tizen_FAILURE);
+var Tizen_RemoveWebCookies = () => tizen.websetting.removeAllCookies(Tizen_SUCCESS,Tizen_FAILURE);
+
+//Time
+var Tizen_CurrentTime = () => { return tizen.time.getCurrentDateTime().toLocaleString(); };
+var Tizen_LocalTimezone = () => { return tizen.time.getLocalTimezone(); };
+var Tizen_Timezone = (place) => { return new tizen.TZDate(new Date(),place).toString(); };
+var Tizen_AvailableTimezones = () => { return tizen.time.getAvailableTimezones(); };
+var Tizen_TimezoneExists = (place) => { return tizen.time.getAvailableTimezones().indexOf(place) > -1; };
+var Tizen_LongDateFormat = () => { return tizen.time.getDateFormat(); };
+var Tizen_ShortDateFormat = () => { return tizen.time.getDateFormat(true); };
+var Tizen_TimeFormat = () => { return tizen.time.getTimeFormat(); };
+var Tizen_LeapYear = () => { return tizen.time.isLeapYear(tizen.time.getCurrentDateTime().getFullYear()); };
+var Tizen_TimezoneDate = () => { return new tizen.TZDate(); };
+var Tizen_ListenDateTimeChange = (l) => { tizen.time.setDateTimeChangeListener(l); };
+var Tizen_UnlistenDateTimeChange = () => { tizen.time.unsetDateTimeChangeListener(); };
+var Tizen_ListenTimezoneChange = (l) => { tizen.time.setTimezoneChangeListener(l); };
+var Tizen_UnlistenTimezoneChange = () => { tizen.time.unsetTimezoneChangeListener(); };
+
+//System Info
+//For Properties And Capabilities,See Link Below!!!
+//https://developer.samsung.com/SmartTV/develop/api-references/tizen-web-device-api-references/systeminfo-api.html
+var Tizen_AvailableRAM = () => { return tizen.systeminfo.getAvailableMemory() * 1000 + "GB"; };
+var Tizen_DeviceCapabilities = () => { return tizen.systeminfo.getCapabilities(); };
+var Tizen_DeviceCapability = (c) => { return tizen.systeminfo.getCapability(c); };
+var Tizen_PropertyValue = (p) => { tizen.systeminfo.getPropertyValue(p,Tizen_SUCCESS,Tizen_FAILURE); };
+
+//Data Saving
+var Tizen_SaveData = (data_name,raw_data,password) => { tizen.keymanager.saveData(data_name,raw_data,password,Tizen_SUCCESS); }; //password Can Be Set To Null,password Is Password To Encrypt Saved Raw Data
+var Tizen_RemoveData = (data_name) => tizen.keymanager.removeData({ "name": data_name });
+var Tizen_Data = (data_name) => { return tizen.keymanager.getData({ "name": data_name }); };
+
+//Download
+var Tizen_DownloadAPISupported = () => { return tizen.systeminfo.getCapability("http://tizen.org/feature/download"); };
+var Tizen_DownloadRequest = (url,location,name,download_mode) => { return new tizen.DownloadRequest(url,location,name,download_mode); };
+/*
+1- Location Can Be "downloads","documents",etc...
+2- If You Set Parameter name Value To null,Tizen Will Download The File In His Original Name
+3- download_mode Can Be "WIFI","CELLUAR",Or "ALL",Which Means What Way User Wants To Download File
+*/
+var Tizen_DownloadFile = (url,location,name,download_mode,listener) => { return tizen.download.start(new tizen.DownloadRequest(url,location,name,download_mode),listener); };
+//NOTES: Tizen_DownloadFile() Downloads A File
+//But You Must Store It As Value In A Variable
+//Cause It Returns Himself As Download ID
+var Tizen_CancelDownload = (tizen_downloadfile_as_id) => tizen.download.cancel(tizen_downloadfile_as_id);
+var Tizen_PauseDownload = (tizen_downloadfile_as_id) => tizen.download.pause(tizen_downloadfile_as_id);
+var Tizen_ResumeDownload = (tizen_downloadfile_as_id) => tizen.download.resume(tizen_downloadfile_as_id);
+var Tizen_DownloadState = (tizen_downloadfile_as_id) => { return tizen.download.getState(tizen_downloadfile_as_id); };
+var Tizen_DownloadRequestInfo = (tizen_downloadfile_as_id) => { return tizen.download.getDownloadRequest(tizen_downloadfile_as_id); };
+
+//Packages
+var Tizen_InstallPackage = (file_package) => tizen.package.install(file_package.toURI(),Tizen_SUCCESS,Tizen_FAILURE);
+var Tizen_UninstallPackage = (package_id) => tizen.package.uninstall(package_id,Tizen_SUCCESS,Tizen_FAILURE);
+
+//Application
+//You Can Use Function Below This Comment To Get Info About The App(Assign It As Value To Variable)
+var Tizen_CurrentApp = () => { return tizen.application.getCurrentApplication(); };
+var Tizen_CurrentAppID = () => { return tizen.application.getCurrentApplication().appInfo.id; };
+var Tizen_KillApp = (app_target_id) => tizen.application.kill(app_target_id,Tizen_SUCCESS,Tizen_FAILURE);
+var Tizen_LaunchApp = (app_target_id) => tizen.application.launch(app_target_id,Tizen_SUCCESS);
+var Tizen_AppInfo = () => { return tizen.application.getAppInfo(null); };
+var Tizen_CloseApp = () => tizen.application.getCurrentApplication().exit();
+var Tizen_HideApp = () => tizen.application.getCurrentApplication().hide();
+
+//Archives
+var Tizen_ReadArchive = (directory) => tizen.archive.open(directory,"r",Tizen_SUCCESS);
+var Tizen_OpenArchive = (directory,mode) => tizen.archive.open(directory,mode,Tizen_SUCCESS);
+var Tizen_ExtractArchive = (directory,extract_directory) =>
+{
+    tizen.archive.open(directory,"rw",(archive) =>
+    {
+        var extra = archive.extractAll(extract_directory);
+        tizen.archive.abort(extra);
+        archive.close();
+    });
+};
+var Tizen_CreateArchive = (directory,files) =>
+{
+    tizen.archive.open(directory,"rw",(archive) =>
+    {
+        for(var arc = 0;arc < files.length;arc++) archive.add(giles[arc],null,null,null);
+        archive.close();
+    },null,null);
+};
+
+//Alarms
+//Tizen_Alarm() Assigned As Value To Variable,Cause Also Treated As Alarm ID
+//In Case User Wants To Control It
+var Tizen_Alarm = (date) => { return new tizen.AlarmAbsolute(date); };
+var Tizen_AddAlarm = (alarm,app_target_id) => tizen.alarm.add(alarm,app_target_id,null);
+var Tizen_RemoveAlarm = (alarm) => tizen.alarm.add(alarm);
+var Tizen_AllAlarms = () => { return tizen.alarm.getAll(); };
+var Tizen_RemoveAllAlarms = () => tizen.alarm.removeAll();
+var Tizen_GetAlarm = (alarm) => { return tizen.alarm.get(alarm); };
